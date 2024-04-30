@@ -532,8 +532,8 @@
       of being able to build a better and more sustainable future.
     </p>
   </div>
-  <div class="about-partner">
-    <img src="./assets/images/partner-bg.jpeg" alt="Hero background" class="about-partner-background" />
+  <div class="about-partner container-parallax-about-us">
+    <!--<img src="./assets/images/partner-bg.jpeg" alt="Hero background" class="about-partner-background" /> -->
     <div class="about-partner-content">
         <h2 class="about-partner-title">READY TO START ?</h2>
         <p class="about-partner-subtitle">PARTNER WITH US FOR A BETTER EXPERIENCE.</p>
