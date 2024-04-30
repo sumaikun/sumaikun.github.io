@@ -9,6 +9,7 @@
   font-size: 20px;
   font-weight: 600;
   text-align: center;
+  z-index: 1;
 }
 
 @media (max-width: 991px) {
@@ -84,8 +85,10 @@
   padding: 0 1px 0 47px;
   color: #fff;
   letter-spacing: 3px;
-}
 
+  position: relative;
+  z-index: 2;
+}
 @media (max-width: 991px) {
   .header-main-content {
     max-width: 100%;
@@ -93,6 +96,28 @@
     margin-top: 40px;
   }
 }
+
+
+.parallax-container {
+  height: 100vh; /* Asegúrate de que sea tan alto como la ventana del navegador */
+  overflow: hidden;
+  position: relative;
+  z-index: -1; /* Detrás del contenido */
+}
+
+.parallax-background {
+  background-image: url('./assets/images/building-bg.jpeg');
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transform: translateZ(0); /* Mejora el rendimiento en algunos navegadores */
+}
+
 
 .header-main-heading {
   align-self: stretch;
