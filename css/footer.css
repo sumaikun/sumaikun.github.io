@@ -186,11 +186,12 @@
 
 .footer-contact-address {
   color: #959595;
-  font-family: Sansation Light, sans-serif;
+  font-family: Raleway, sans-serif;
   margin-top: 12px;
   width: 264px;
-  flex-shrink: 0;
+  font-size: 18px;
 }
+
 
 .footer-contact-info-details {
   display: flex;
@@ -327,10 +328,20 @@
 }
 
 .footer-email-text {
-  color: #959595;
-  font-family: "Sansation Light";
   font-size: 18px;
   font-style: normal;
   font-weight: 300;
   line-height: normal;
 }
+
+
+/*FOOTER ICONS ANIMATION*/
+
+.footer-social-icon {
+  transition: filter 0.3s ease; /* Agrega una transición suave */
+}
+
+.footer-social-icon:hover {
+  filter: hue-rotate(180deg); /* Cambia el color de la imagen a azul */
+}
+
