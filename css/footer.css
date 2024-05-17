@@ -192,7 +192,6 @@
   font-size: 18px;
 }
 
-
 .footer-contact-info-details {
   display: flex;
   margin-top: 10px;
@@ -320,7 +319,7 @@
 
 .footer-phone-text {
   color: #959595;
-  font-family: "Sansation Light";
+  font-family: 'Sansation Light', sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 300;
@@ -328,20 +327,15 @@
 }
 
 .footer-email-text {
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 300;
-  line-height: normal;
+  
 }
-
 
 /*FOOTER ICONS ANIMATION*/
 
 .footer-social-icon {
-  transition: filter 0.3s ease; /* Agrega una transición suave */
+  transition: filter 0.3s ease; /* Suaviza la transición del filtro */
 }
 
 .footer-social-icon:hover {
-  filter: hue-rotate(180deg); /* Cambia el color de la imagen a azul */
+  filter: brightness(0) saturate(100%) invert(27%) sepia(93%) saturate(749%) hue-rotate(189deg) brightness(91%) contrast(97%);
 }
-
