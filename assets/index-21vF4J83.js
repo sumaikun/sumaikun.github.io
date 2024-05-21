@@ -1,20 +1,16 @@
-(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const a of document.querySelectorAll('link[rel="modulepreload"]'))i(a);new MutationObserver(a=>{for(const n of a)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&i(o)}).observe(document,{childList:!0,subtree:!0});function t(a){const n={};return a.integrity&&(n.integrity=a.integrity),a.referrerPolicy&&(n.referrerPolicy=a.referrerPolicy),a.crossOrigin==="use-credentials"?n.credentials="include":a.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function i(a){if(a.ep)return;a.ep=!0;const n=t(a);fetch(a.href,n)}})();var O=Array.isArray||function(e){return Object.prototype.toString.call(e)=="[object Array]"},A=V,z=N,q=J,j=P,K=H,Y=new RegExp(["(\\\\.)","([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^()])+)\\))?|\\(((?:\\\\.|[^()])+)\\))([+*?])?|(\\*))"].join("|"),"g");function N(e){for(var s=[],t=0,i=0,a="",n;(n=Y.exec(e))!=null;){var o=n[0],l=n[1],r=n.index;if(a+=e.slice(i,r),i=r+o.length,l){a+=l[1];continue}a&&(s.push(a),a="");var c=n[2],v=n[3],M=n[4],B=n[5],S=n[6],k=n[7],_=S==="+"||S==="*",G=S==="?"||S==="*",x=c||"/",W=M||B||(k?".*":"[^"+x+"]+?");s.push({name:v||t++,prefix:c||"",delimiter:x,optional:G,repeat:_,pattern:$(W)})}return i<e.length&&(a+=e.substr(i)),a&&s.push(a),s}function J(e){return P(N(e))}function P(e){for(var s=new Array(e.length),t=0;t<e.length;t++)typeof e[t]=="object"&&(s[t]=new RegExp("^"+e[t].pattern+"$"));return function(i){for(var a="",n=i||{},o=0;o<e.length;o++){var l=e[o];if(typeof l=="string"){a+=l;continue}var r=n[l.name],c;if(r==null){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to be defined')}if(O(r)){if(!l.repeat)throw new TypeError('Expected "'+l.name+'" to not repeat, but received "'+r+'"');if(r.length===0){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to not be empty')}for(var v=0;v<r.length;v++){if(c=encodeURIComponent(r[v]),!s[o].test(c))throw new TypeError('Expected all "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');a+=(v===0?l.prefix:l.delimiter)+c}continue}if(c=encodeURIComponent(r),!s[o].test(c))throw new TypeError('Expected "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');a+=l.prefix+c}return a}}function F(e){return e.replace(/([.+*?=^!:${}()[\]|\/])/g,"\\$1")}function $(e){return e.replace(/([=!:$\/()])/g,"\\$1")}function C(e,s){return e.keys=s,e}function D(e){return e.sensitive?"":"i"}function Q(e,s){var t=e.source.match(/\((?!\?)/g);if(t)for(var i=0;i<t.length;i++)s.push({name:i,prefix:null,delimiter:null,optional:!1,repeat:!1,pattern:null});return C(e,s)}function X(e,s,t){for(var i=[],a=0;a<e.length;a++)i.push(V(e[a],s,t).source);var n=new RegExp("(?:"+i.join("|")+")",D(t));return C(n,s)}function Z(e,s,t){for(var i=N(e),a=H(i,t),n=0;n<i.length;n++)typeof i[n]!="string"&&s.push(i[n]);return C(a,s)}function H(e,s){s=s||{};for(var t=s.strict,i=s.end!==!1,a="",n=e[e.length-1],o=typeof n=="string"&&/\/$/.test(n),l=0;l<e.length;l++){var r=e[l];if(typeof r=="string")a+=F(r);else{var c=F(r.prefix),v=r.pattern;r.repeat&&(v+="(?:"+c+v+")*"),r.optional?c?v="(?:"+c+"("+v+"))?":v="("+v+")?":v=c+"("+v+")",a+=v}}return t||(a=(o?a.slice(0,-2):a)+"(?:\\/(?=$))?"),i?a+="$":a+=t&&o?"":"(?=\\/|$)",new RegExp("^"+a,D(s))}function V(e,s,t){return s=s||[],O(s)?t||(t={}):(t=s,s=[]),e instanceof RegExp?Q(e,s):O(e)?X(e,s,t):Z(e,s,t)}A.parse=z;A.compile=q;A.tokensToFunction=j;A.tokensToRegExp=K;var b=typeof document<"u",g=typeof window<"u",T=typeof history<"u",ee=typeof process<"u",L=b&&document.ontouchstart?"touchstart":"click",f=g&&!!(window.history.location||window.location);function d(){this.callbacks=[],this.exits=[],this.current="",this.len=0,this._decodeURLComponents=!0,this._base="",this._strict=!1,this._running=!1,this._hashbang=!1,this.clickHandler=this.clickHandler.bind(this),this._onpopstate=this._onpopstate.bind(this)}d.prototype.configure=function(e){var s=e||{};this._window=s.window||g&&window,this._decodeURLComponents=s.decodeURLComponents!==!1,this._popstate=s.popstate!==!1&&g,this._click=s.click!==!1&&b,this._hashbang=!!s.hashbang;var t=this._window;this._popstate?t.addEventListener("popstate",this._onpopstate,!1):g&&t.removeEventListener("popstate",this._onpopstate,!1),this._click?t.document.addEventListener(L,this.clickHandler,!1):b&&t.document.removeEventListener(L,this.clickHandler,!1),this._hashbang&&g&&!T?t.addEventListener("hashchange",this._onpopstate,!1):g&&t.removeEventListener("hashchange",this._onpopstate,!1)};d.prototype.base=function(e){if(arguments.length===0)return this._base;this._base=e};d.prototype._getBase=function(){var e=this._base;if(e)return e;var s=g&&this._window&&this._window.location;return g&&this._hashbang&&s&&s.protocol==="file:"&&(e=s.pathname),e};d.prototype.strict=function(e){if(arguments.length===0)return this._strict;this._strict=e};d.prototype.start=function(e){var s=e||{};if(this.configure(s),s.dispatch!==!1){this._running=!0;var t;if(f){var i=this._window,a=i.location;this._hashbang&&~a.hash.indexOf("#!")?t=a.hash.substr(2)+a.search:this._hashbang?t=a.search+a.hash:t=a.pathname+a.search+a.hash}this.replace(t,null,!0,s.dispatch)}};d.prototype.stop=function(){if(this._running){this.current="",this.len=0,this._running=!1;var e=this._window;this._click&&e.document.removeEventListener(L,this.clickHandler,!1),g&&e.removeEventListener("popstate",this._onpopstate,!1),g&&e.removeEventListener("hashchange",this._onpopstate,!1)}};d.prototype.show=function(e,s,t,i){var a=new E(e,s,this),n=this.prevContext;return this.prevContext=a,this.current=a.path,t!==!1&&this.dispatch(a,n),a.handled!==!1&&i!==!1&&a.pushState(),a};d.prototype.back=function(e,s){var t=this;if(this.len>0){var i=this._window;T&&i.history.back(),this.len--}else setTimeout(e?function(){t.show(e,s)}:function(){t.show(t._getBase(),s)})};d.prototype.redirect=function(e,s){var t=this;typeof e=="string"&&typeof s=="string"&&I.call(this,e,function(i){setTimeout(function(){t.replace(s)},0)}),typeof e=="string"&&typeof s>"u"&&setTimeout(function(){t.replace(e)},0)};d.prototype.replace=function(e,s,t,i){var a=new E(e,s,this),n=this.prevContext;return this.prevContext=a,this.current=a.path,a.init=t,a.save(),i!==!1&&this.dispatch(a,n),a};d.prototype.dispatch=function(e,s){var t=0,i=0,a=this;function n(){var l=a.exits[i++];if(!l)return o();l(s,n)}function o(){var l=a.callbacks[t++];if(e.path!==a.current){e.handled=!1;return}if(!l)return se.call(a,e);l(e,o)}s?n():o()};d.prototype.exit=function(e,s){if(typeof e=="function")return this.exit("*",e);for(var t=new y(e,null,this),i=1;i<arguments.length;++i)this.exits.push(t.middleware(arguments[i]))};d.prototype.clickHandler=function(e){if(this._which(e)===1&&!(e.metaKey||e.ctrlKey||e.shiftKey)&&!e.defaultPrevented){var s=e.target,t=e.path||(e.composedPath?e.composedPath():null);if(t){for(var i=0;i<t.length;i++)if(t[i].nodeName&&t[i].nodeName.toUpperCase()==="A"&&t[i].href){s=t[i];break}}for(;s&&s.nodeName.toUpperCase()!=="A";)s=s.parentNode;if(!(!s||s.nodeName.toUpperCase()!=="A")){var a=typeof s.href=="object"&&s.href.constructor.name==="SVGAnimatedString";if(!(s.hasAttribute("download")||s.getAttribute("rel")==="external")){var n=s.getAttribute("href");if(!(!this._hashbang&&this._samePath(s)&&(s.hash||n==="#"))&&!(n&&n.indexOf("mailto:")>-1)&&!(a?s.target.baseVal:s.target)&&!(!a&&!this.sameOrigin(s.href))){var o=a?s.href.baseVal:s.pathname+s.search+(s.hash||"");o=o[0]!=="/"?"/"+o:o,ee&&o.match(/^\/[a-zA-Z]:\//)&&(o=o.replace(/^\/[a-zA-Z]:\//,"/"));var l=o,r=this._getBase();o.indexOf(r)===0&&(o=o.substr(r.length)),this._hashbang&&(o=o.replace("#!","")),!(r&&l===o&&(!f||this._window.location.protocol!=="file:"))&&(e.preventDefault(),this.show(l))}}}}};d.prototype._onpopstate=function(){var e=!1;return g?(b&&document.readyState==="complete"?e=!0:window.addEventListener("load",function(){setTimeout(function(){e=!0},0)}),function(t){if(e){var i=this;if(t.state){var a=t.state.path;i.replace(a,t.state)}else if(f){var n=i._window.location;i.show(n.pathname+n.search+n.hash,void 0,void 0,!1)}}}):function(){}}();d.prototype._which=function(e){return e=e||g&&this._window.event,e.which==null?e.button:e.which};d.prototype._toURL=function(e){var s=this._window;if(typeof URL=="function"&&f)return new URL(e,s.location.toString());if(b){var t=s.document.createElement("a");return t.href=e,t}};d.prototype.sameOrigin=function(e){if(!e||!f)return!1;var s=this._toURL(e),t=this._window,i=t.location;return i.protocol===s.protocol&&i.hostname===s.hostname&&(i.port===s.port||i.port===""&&(s.port==80||s.port==443))};d.prototype._samePath=function(e){if(!f)return!1;var s=this._window,t=s.location;return e.pathname===t.pathname&&e.search===t.search};d.prototype._decodeURLEncodedURIComponent=function(e){return typeof e!="string"?e:this._decodeURLComponents?decodeURIComponent(e.replace(/\+/g," ")):e};function U(){var e=new d;function s(){return I.apply(e,arguments)}return s.callbacks=e.callbacks,s.exits=e.exits,s.base=e.base.bind(e),s.strict=e.strict.bind(e),s.start=e.start.bind(e),s.stop=e.stop.bind(e),s.show=e.show.bind(e),s.back=e.back.bind(e),s.redirect=e.redirect.bind(e),s.replace=e.replace.bind(e),s.dispatch=e.dispatch.bind(e),s.exit=e.exit.bind(e),s.configure=e.configure.bind(e),s.sameOrigin=e.sameOrigin.bind(e),s.clickHandler=e.clickHandler.bind(e),s.create=U,Object.defineProperty(s,"len",{get:function(){return e.len},set:function(t){e.len=t}}),Object.defineProperty(s,"current",{get:function(){return e.current},set:function(t){e.current=t}}),s.Context=E,s.Route=y,s}function I(e,s){if(typeof e=="function")return I.call(this,"*",e);if(typeof s=="function")for(var t=new y(e,null,this),i=1;i<arguments.length;++i)this.callbacks.push(t.middleware(arguments[i]));else typeof e=="string"?this[typeof s=="string"?"redirect":"show"](e,s):this.start(e)}function se(e){if(!e.handled){var s,t=this,i=t._window;t._hashbang?s=f&&this._getBase()+i.location.hash.replace("#!",""):s=f&&i.location.pathname+i.location.search,s!==e.canonicalPath&&(t.stop(),e.handled=!1,f&&(i.location.href=e.canonicalPath))}}function te(e){return e.replace(/([.+*?=^!:${}()[\]|/\\])/g,"\\$1")}function E(e,s,t){var i=this.page=t||I,a=i._window,n=i._hashbang,o=i._getBase();e[0]==="/"&&e.indexOf(o)!==0&&(e=o+(n?"#!":"")+e);var l=e.indexOf("?");this.canonicalPath=e;var r=new RegExp("^"+te(o));if(this.path=e.replace(r,"")||"/",n&&(this.path=this.path.replace("#!","")||"/"),this.title=b&&a.document.title,this.state=s||{},this.state.path=e,this.querystring=~l?i._decodeURLEncodedURIComponent(e.slice(l+1)):"",this.pathname=i._decodeURLEncodedURIComponent(~l?e.slice(0,l):e),this.params={},this.hash="",!n){if(!~this.path.indexOf("#"))return;var c=this.path.split("#");this.path=this.pathname=c[0],this.hash=i._decodeURLEncodedURIComponent(c[1])||"",this.querystring=this.querystring.split("#")[0]}}E.prototype.pushState=function(){var e=this.page,s=e._window,t=e._hashbang;e.len++,T&&s.history.pushState(this.state,this.title,t&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};E.prototype.save=function(){var e=this.page;T&&e._window.history.replaceState(this.state,this.title,e._hashbang&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};function y(e,s,t){var i=this.page=t||R,a=s||{};a.strict=a.strict||i._strict,this.path=e==="*"?"(.*)":e,this.method="GET",this.regexp=A(this.path,this.keys=[],a)}y.prototype.middleware=function(e){var s=this;return function(t,i){if(s.match(t.path,t.params))return t.routePath=s.path,e(t,i);i()}};y.prototype.match=function(e,s){var t=this.keys,i=e.indexOf("?"),a=~i?e.slice(0,i):e,n=this.regexp.exec(decodeURIComponent(a));if(!n)return!1;delete s[0];for(var o=1,l=n.length;o<l;++o){var r=t[o-1],c=this.page._decodeURLEncodedURIComponent(n[o]);(c!==void 0||!hasOwnProperty.call(s,r.name))&&(s[r.name]=c)}return!0};var R=U(),p=R,ae=R;p.default=ae;const ie=`
+(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const a of document.querySelectorAll('link[rel="modulepreload"]'))i(a);new MutationObserver(a=>{for(const n of a)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&i(o)}).observe(document,{childList:!0,subtree:!0});function t(a){const n={};return a.integrity&&(n.integrity=a.integrity),a.referrerPolicy&&(n.referrerPolicy=a.referrerPolicy),a.crossOrigin==="use-credentials"?n.credentials="include":a.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function i(a){if(a.ep)return;a.ep=!0;const n=t(a);fetch(a.href,n)}})();var O=Array.isArray||function(e){return Object.prototype.toString.call(e)=="[object Array]"},A=V,z=N,j=J,q=P,K=k,Y=new RegExp(["(\\\\.)","([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^()])+)\\))?|\\(((?:\\\\.|[^()])+)\\))([+*?])?|(\\*))"].join("|"),"g");function N(e){for(var s=[],t=0,i=0,a="",n;(n=Y.exec(e))!=null;){var o=n[0],l=n[1],r=n.index;if(a+=e.slice(i,r),i=r+o.length,l){a+=l[1];continue}a&&(s.push(a),a="");var c=n[2],g=n[3],U=n[4],M=n[5],S=n[6],B=n[7],_=S==="+"||S==="*",G=S==="?"||S==="*",x=c||"/",W=U||M||(B?".*":"[^"+x+"]+?");s.push({name:g||t++,prefix:c||"",delimiter:x,optional:G,repeat:_,pattern:$(W)})}return i<e.length&&(a+=e.substr(i)),a&&s.push(a),s}function J(e){return P(N(e))}function P(e){for(var s=new Array(e.length),t=0;t<e.length;t++)typeof e[t]=="object"&&(s[t]=new RegExp("^"+e[t].pattern+"$"));return function(i){for(var a="",n=i||{},o=0;o<e.length;o++){var l=e[o];if(typeof l=="string"){a+=l;continue}var r=n[l.name],c;if(r==null){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to be defined')}if(O(r)){if(!l.repeat)throw new TypeError('Expected "'+l.name+'" to not repeat, but received "'+r+'"');if(r.length===0){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to not be empty')}for(var g=0;g<r.length;g++){if(c=encodeURIComponent(r[g]),!s[o].test(c))throw new TypeError('Expected all "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');a+=(g===0?l.prefix:l.delimiter)+c}continue}if(c=encodeURIComponent(r),!s[o].test(c))throw new TypeError('Expected "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');a+=l.prefix+c}return a}}function F(e){return e.replace(/([.+*?=^!:${}()[\]|\/])/g,"\\$1")}function $(e){return e.replace(/([=!:$\/()])/g,"\\$1")}function C(e,s){return e.keys=s,e}function D(e){return e.sensitive?"":"i"}function Q(e,s){var t=e.source.match(/\((?!\?)/g);if(t)for(var i=0;i<t.length;i++)s.push({name:i,prefix:null,delimiter:null,optional:!1,repeat:!1,pattern:null});return C(e,s)}function X(e,s,t){for(var i=[],a=0;a<e.length;a++)i.push(V(e[a],s,t).source);var n=new RegExp("(?:"+i.join("|")+")",D(t));return C(n,s)}function Z(e,s,t){for(var i=N(e),a=k(i,t),n=0;n<i.length;n++)typeof i[n]!="string"&&s.push(i[n]);return C(a,s)}function k(e,s){s=s||{};for(var t=s.strict,i=s.end!==!1,a="",n=e[e.length-1],o=typeof n=="string"&&/\/$/.test(n),l=0;l<e.length;l++){var r=e[l];if(typeof r=="string")a+=F(r);else{var c=F(r.prefix),g=r.pattern;r.repeat&&(g+="(?:"+c+g+")*"),r.optional?c?g="(?:"+c+"("+g+"))?":g="("+g+")?":g=c+"("+g+")",a+=g}}return t||(a=(o?a.slice(0,-2):a)+"(?:\\/(?=$))?"),i?a+="$":a+=t&&o?"":"(?=\\/|$)",new RegExp("^"+a,D(s))}function V(e,s,t){return s=s||[],O(s)?t||(t={}):(t=s,s=[]),e instanceof RegExp?Q(e,s):O(e)?X(e,s,t):Z(e,s,t)}A.parse=z;A.compile=j;A.tokensToFunction=q;A.tokensToRegExp=K;var b=typeof document<"u",v=typeof window<"u",w=typeof history<"u",ee=typeof process<"u",L=b&&document.ontouchstart?"touchstart":"click",f=v&&!!(window.history.location||window.location);function d(){this.callbacks=[],this.exits=[],this.current="",this.len=0,this._decodeURLComponents=!0,this._base="",this._strict=!1,this._running=!1,this._hashbang=!1,this.clickHandler=this.clickHandler.bind(this),this._onpopstate=this._onpopstate.bind(this)}d.prototype.configure=function(e){var s=e||{};this._window=s.window||v&&window,this._decodeURLComponents=s.decodeURLComponents!==!1,this._popstate=s.popstate!==!1&&v,this._click=s.click!==!1&&b,this._hashbang=!!s.hashbang;var t=this._window;this._popstate?t.addEventListener("popstate",this._onpopstate,!1):v&&t.removeEventListener("popstate",this._onpopstate,!1),this._click?t.document.addEventListener(L,this.clickHandler,!1):b&&t.document.removeEventListener(L,this.clickHandler,!1),this._hashbang&&v&&!w?t.addEventListener("hashchange",this._onpopstate,!1):v&&t.removeEventListener("hashchange",this._onpopstate,!1)};d.prototype.base=function(e){if(arguments.length===0)return this._base;this._base=e};d.prototype._getBase=function(){var e=this._base;if(e)return e;var s=v&&this._window&&this._window.location;return v&&this._hashbang&&s&&s.protocol==="file:"&&(e=s.pathname),e};d.prototype.strict=function(e){if(arguments.length===0)return this._strict;this._strict=e};d.prototype.start=function(e){var s=e||{};if(this.configure(s),s.dispatch!==!1){this._running=!0;var t;if(f){var i=this._window,a=i.location;this._hashbang&&~a.hash.indexOf("#!")?t=a.hash.substr(2)+a.search:this._hashbang?t=a.search+a.hash:t=a.pathname+a.search+a.hash}this.replace(t,null,!0,s.dispatch)}};d.prototype.stop=function(){if(this._running){this.current="",this.len=0,this._running=!1;var e=this._window;this._click&&e.document.removeEventListener(L,this.clickHandler,!1),v&&e.removeEventListener("popstate",this._onpopstate,!1),v&&e.removeEventListener("hashchange",this._onpopstate,!1)}};d.prototype.show=function(e,s,t,i){var a=new y(e,s,this),n=this.prevContext;return this.prevContext=a,this.current=a.path,t!==!1&&this.dispatch(a,n),a.handled!==!1&&i!==!1&&a.pushState(),a};d.prototype.back=function(e,s){var t=this;if(this.len>0){var i=this._window;w&&i.history.back(),this.len--}else setTimeout(e?function(){t.show(e,s)}:function(){t.show(t._getBase(),s)})};d.prototype.redirect=function(e,s){var t=this;typeof e=="string"&&typeof s=="string"&&I.call(this,e,function(i){setTimeout(function(){t.replace(s)},0)}),typeof e=="string"&&typeof s>"u"&&setTimeout(function(){t.replace(e)},0)};d.prototype.replace=function(e,s,t,i){var a=new y(e,s,this),n=this.prevContext;return this.prevContext=a,this.current=a.path,a.init=t,a.save(),i!==!1&&this.dispatch(a,n),a};d.prototype.dispatch=function(e,s){var t=0,i=0,a=this;function n(){var l=a.exits[i++];if(!l)return o();l(s,n)}function o(){var l=a.callbacks[t++];if(e.path!==a.current){e.handled=!1;return}if(!l)return se.call(a,e);l(e,o)}s?n():o()};d.prototype.exit=function(e,s){if(typeof e=="function")return this.exit("*",e);for(var t=new E(e,null,this),i=1;i<arguments.length;++i)this.exits.push(t.middleware(arguments[i]))};d.prototype.clickHandler=function(e){if(this._which(e)===1&&!(e.metaKey||e.ctrlKey||e.shiftKey)&&!e.defaultPrevented){var s=e.target,t=e.path||(e.composedPath?e.composedPath():null);if(t){for(var i=0;i<t.length;i++)if(t[i].nodeName&&t[i].nodeName.toUpperCase()==="A"&&t[i].href){s=t[i];break}}for(;s&&s.nodeName.toUpperCase()!=="A";)s=s.parentNode;if(!(!s||s.nodeName.toUpperCase()!=="A")){var a=typeof s.href=="object"&&s.href.constructor.name==="SVGAnimatedString";if(!(s.hasAttribute("download")||s.getAttribute("rel")==="external")){var n=s.getAttribute("href");if(!(!this._hashbang&&this._samePath(s)&&(s.hash||n==="#"))&&!(n&&n.indexOf("mailto:")>-1)&&!(a?s.target.baseVal:s.target)&&!(!a&&!this.sameOrigin(s.href))){var o=a?s.href.baseVal:s.pathname+s.search+(s.hash||"");o=o[0]!=="/"?"/"+o:o,ee&&o.match(/^\/[a-zA-Z]:\//)&&(o=o.replace(/^\/[a-zA-Z]:\//,"/"));var l=o,r=this._getBase();o.indexOf(r)===0&&(o=o.substr(r.length)),this._hashbang&&(o=o.replace("#!","")),!(r&&l===o&&(!f||this._window.location.protocol!=="file:"))&&(e.preventDefault(),this.show(l))}}}}};d.prototype._onpopstate=function(){var e=!1;return v?(b&&document.readyState==="complete"?e=!0:window.addEventListener("load",function(){setTimeout(function(){e=!0},0)}),function(t){if(e){var i=this;if(t.state){var a=t.state.path;i.replace(a,t.state)}else if(f){var n=i._window.location;i.show(n.pathname+n.search+n.hash,void 0,void 0,!1)}}}):function(){}}();d.prototype._which=function(e){return e=e||v&&this._window.event,e.which==null?e.button:e.which};d.prototype._toURL=function(e){var s=this._window;if(typeof URL=="function"&&f)return new URL(e,s.location.toString());if(b){var t=s.document.createElement("a");return t.href=e,t}};d.prototype.sameOrigin=function(e){if(!e||!f)return!1;var s=this._toURL(e),t=this._window,i=t.location;return i.protocol===s.protocol&&i.hostname===s.hostname&&(i.port===s.port||i.port===""&&(s.port==80||s.port==443))};d.prototype._samePath=function(e){if(!f)return!1;var s=this._window,t=s.location;return e.pathname===t.pathname&&e.search===t.search};d.prototype._decodeURLEncodedURIComponent=function(e){return typeof e!="string"?e:this._decodeURLComponents?decodeURIComponent(e.replace(/\+/g," ")):e};function H(){var e=new d;function s(){return I.apply(e,arguments)}return s.callbacks=e.callbacks,s.exits=e.exits,s.base=e.base.bind(e),s.strict=e.strict.bind(e),s.start=e.start.bind(e),s.stop=e.stop.bind(e),s.show=e.show.bind(e),s.back=e.back.bind(e),s.redirect=e.redirect.bind(e),s.replace=e.replace.bind(e),s.dispatch=e.dispatch.bind(e),s.exit=e.exit.bind(e),s.configure=e.configure.bind(e),s.sameOrigin=e.sameOrigin.bind(e),s.clickHandler=e.clickHandler.bind(e),s.create=H,Object.defineProperty(s,"len",{get:function(){return e.len},set:function(t){e.len=t}}),Object.defineProperty(s,"current",{get:function(){return e.current},set:function(t){e.current=t}}),s.Context=y,s.Route=E,s}function I(e,s){if(typeof e=="function")return I.call(this,"*",e);if(typeof s=="function")for(var t=new E(e,null,this),i=1;i<arguments.length;++i)this.callbacks.push(t.middleware(arguments[i]));else typeof e=="string"?this[typeof s=="string"?"redirect":"show"](e,s):this.start(e)}function se(e){if(!e.handled){var s,t=this,i=t._window;t._hashbang?s=f&&this._getBase()+i.location.hash.replace("#!",""):s=f&&i.location.pathname+i.location.search,s!==e.canonicalPath&&(t.stop(),e.handled=!1,f&&(i.location.href=e.canonicalPath))}}function te(e){return e.replace(/([.+*?=^!:${}()[\]|/\\])/g,"\\$1")}function y(e,s,t){var i=this.page=t||I,a=i._window,n=i._hashbang,o=i._getBase();e[0]==="/"&&e.indexOf(o)!==0&&(e=o+(n?"#!":"")+e);var l=e.indexOf("?");this.canonicalPath=e;var r=new RegExp("^"+te(o));if(this.path=e.replace(r,"")||"/",n&&(this.path=this.path.replace("#!","")||"/"),this.title=b&&a.document.title,this.state=s||{},this.state.path=e,this.querystring=~l?i._decodeURLEncodedURIComponent(e.slice(l+1)):"",this.pathname=i._decodeURLEncodedURIComponent(~l?e.slice(0,l):e),this.params={},this.hash="",!n){if(!~this.path.indexOf("#"))return;var c=this.path.split("#");this.path=this.pathname=c[0],this.hash=i._decodeURLEncodedURIComponent(c[1])||"",this.querystring=this.querystring.split("#")[0]}}y.prototype.pushState=function(){var e=this.page,s=e._window,t=e._hashbang;e.len++,w&&s.history.pushState(this.state,this.title,t&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};y.prototype.save=function(){var e=this.page;w&&e._window.history.replaceState(this.state,this.title,e._hashbang&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};function E(e,s,t){var i=this.page=t||R,a=s||{};a.strict=a.strict||i._strict,this.path=e==="*"?"(.*)":e,this.method="GET",this.regexp=A(this.path,this.keys=[],a)}E.prototype.middleware=function(e){var s=this;return function(t,i){if(s.match(t.path,t.params))return t.routePath=s.path,e(t,i);i()}};E.prototype.match=function(e,s){var t=this.keys,i=e.indexOf("?"),a=~i?e.slice(0,i):e,n=this.regexp.exec(decodeURIComponent(a));if(!n)return!1;delete s[0];for(var o=1,l=n.length;o<l;++o){var r=t[o-1],c=this.page._decodeURLEncodedURIComponent(n[o]);(c!==void 0||!hasOwnProperty.call(s,r.name))&&(s[r.name]=c)}return!0};var R=H(),p=R,ae=R;p.default=ae;const ie=`
 <section>
-  <img
-    src="./assets/images/home-bg1.png"
-    alt=""
-    class="home-header-background"
-  />
+  <img src="./assets/images/home-bg1.png" alt="" class="home-header-background" />
   <main class="header-container" style="min-height: unset">
     <div class="header-content-wrapper">
       <header class="header-header">
-      <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
+        <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
         <nav class="header-navigation">
           <a href="/gate-valves">GATE VALVES</a>
           <a href="/check-valves">CHECK VALVES</a>
           <a href="/globe-valves">GLOBE VALVES</a>
           <a href="/trunnion-valves">TRUNNION VALVES</a>
-          <!-- <a href="/floating-valves">FLOATING VALVES</a>-->
+          <a href="/floating-valves">FLOATING VALVES</a>
           <div class="dropdown">
             <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
             <ul class="dropdown-content">
@@ -31,26 +27,15 @@
   <section class="home-header-section">
     <div class="home-header-content">
       <h1 class="home-header-title">VALVES AND FLUID MANAGEMENT.</h1>
-      <span
-        class="home-header-subtitle typeJsText"
-        data-typetext="FULLY"
-      ></span>
-      <a
-        style="text-decoration: none; cursor: pointer"
-        href="mailto:contact@dervosamerica.com"
-        class="home-header-cta-button"
-        >CONTACT</a
-      >
+      <span class="home-header-subtitle typeJsText" data-typetext="FULLY"></span>
+      <a style="text-decoration: none; cursor: pointer" href="mailto:contact@dervosamerica.com"
+        class="home-header-cta-button">CONTACT</a>
       <p class="text-header-bajada">
         We provide a quick and reliable response for the supply of industrial
         valves. Our manufacturing process is certified by API International.
       </p>
     </div>
-    <img
-      src="./assets/images/home-valve.png"
-      alt=""
-      class="home-header-valve"
-    />
+    <img src="./assets/images/home-valve.png" alt="" class="home-header-valve" />
   </section>
 </section>
 
@@ -58,62 +43,35 @@
   <div class="home-valve-container">
     <section class="home-globe-valve-section">
       <div class="home-globe-valve-content">
-        <img
-          src="./assets/images/valve1.png"
-          alt="Valve diagram"
-          class="home-butterfly-valve-"
-          loading="lazy"
-        />
+        <img src="./assets/images/valve1.png" alt="Valve diagram" class="home-butterfly-valve-" loading="lazy" />
         <span class="home-globe-valve-text">GATE VALVE</span>
       </div>
     </section>
 
     <section class="home-globe-valve-section">
       <div class="home-globe-valve-content">
-        <img
-          src="./assets/images/valve2.png"
-          alt="Globe valve"
-          class="home-butterfly-valve-image"
-          loading="lazy"
-        />
-        <span style="margin-left: 25px" class="home-globe-valve-text"
-          >SWING VALVE</span
-        >
+        <img src="./assets/images/valve2.png" alt="Globe valve" class="home-butterfly-valve-image" loading="lazy" />
+        <span style="margin-left: 25px" class="home-globe-valve-text">SWING VALVE</span>
       </div>
     </section>
 
     <section class="home-ball-valve-section">
       <div class="home-globe-valve-content">
-        <img
-          src="./assets/images/valve3.png"
-          alt="Ball valve"
-          class="home-butterfly-valve-image"
-          loading="lazy"
-        />
+        <img src="./assets/images/valve3.png" alt="Ball valve" class="home-butterfly-valve-image" loading="lazy" />
         <span class="home-globe-valve-text">GLOBE VALVE</span>
       </div>
     </section>
 
     <section class="home-butterfly-valve-section">
       <div class="home-globe-valve-content">
-        <img
-          src="./assets/images/valve4.png"
-          alt="Butterfly valve"
-          class="home-butterfly-valve-image"
-          loading="lazy"
-        />
+        <img src="./assets/images/valve4.png" alt="Butterfly valve" class="home-butterfly-valve-image" loading="lazy" />
         <span class="home-globe-valve-text">BALL VALVE</span>
       </div>
     </section>
 
     <section class="home-butterfly-valve-section">
       <div class="home-globe-valve-content">
-        <img
-          src="./assets/images/valve5.png"
-          alt="Butterfly valve"
-          class="home-butterfly-valve-image"
-          loading="lazy"
-        />
+        <img src="./assets/images/valve5.png" alt="Butterfly valve" class="home-butterfly-valve-image" loading="lazy" />
         <span class="home-globe-valve-text">BUTTERFLY VALVE</span>
       </div>
     </section>
@@ -138,7 +96,7 @@
 </section>
 
 <section class="home-first-api-section">
- <!-- <video
+  <!-- <video
     autoplay
     loop
     muted
@@ -150,16 +108,9 @@
       type="video/webm"
     />
   </video> -->
-  <img
-    src="./assets/images/bg-valve-home1.jpeg"
-    alt=""
-    class="home-first-background-image"
-  />
-  <img
-    src="./assets/images/first-valve.png"
-    alt="API 6FD Fire Testing Standard for Valves"
-    class="home-first-api-image"
-  />
+  <img src="./assets/images/bg-valve-home1.jpeg" alt="" class="home-first-background-image" />
+  <img src="./assets/images/first-valve.png" alt="API 6FD Fire Testing Standard for Valves"
+    class="home-first-api-image" />
   <div class="home-first-text-content">
     <h1 class="home-first-api-title">
       <span class="home-first-api-code">API</span>
@@ -176,28 +127,12 @@
 </section>
 
 <section class="home-second-api-section">
-  <video
-    autoplay
-    loop
-    muted
-    playsinline
-    style="position: absolute; z-index: 3; left: 0"
-  >
-    <source
-      src="./assets/videos/WhiteLiquislashtranAlph_compressed.webm"
-      type="video/webm"
-    />
+  <video autoplay loop muted playsinline style="position: absolute; z-index: 3; left: 0">
+    <source src="./assets/videos/WhiteLiquislashtranAlph_compressed.webm" type="video/webm" />
   </video>
-  <img
-    src="./assets/images/bg-team.jpeg"
-    alt=""
-    class="home-first-background-image"
-  />
-  <img
-    src="./assets/images/second-valve.png"
-    alt="API 6FD Fire Testing Standard for Valves"
-    class="home-second-api-image"
-  />
+  <img src="./assets/images/bg-team.jpeg" alt="" class="home-first-background-image" />
+  <img src="./assets/images/second-valve.png" alt="API 6FD Fire Testing Standard for Valves"
+    class="home-second-api-image" />
   <div class="home-second-text-content">
     <h1 class="home-first-api-title">
       <span class="home-second-api-code">API</span>
@@ -209,17 +144,21 @@
   </div>
 </section>
 
-<section class="home-first-api-section">
-  <img
-    src="./assets/images/cilinders.jpeg"
-    alt=""
-    class="home-first-background-image"
-  />
-  <img
-    src="./assets/images/third-valve.png"
-    alt="API 6FD Fire Testing Standard for Valves"
-    class="home-third-api-image"
-  />
+<section class="valves-portfolio"></br>
+  <h2 class="valves-title-portfolio">Our Valves Portfolio</h2>
+  <div class="valve-card">
+    <img src="./assets/images/check_valve 1 (2).png" alt="Check Valve">
+    <p style="font-size: 32px; font-family: Raleway; margin-bottom: 5;"> Check <strong style="color: #00A39F;">Valve</strong></p>
+  </div>
+  <div class="valve-card middle-card">
+    <img src="./assets/images/gate_valve 1.png" alt="Gate Valve">
+    <p style="font-size: 32px; font-family: Raleway; margin-bottom: 5;">Gate <strong style="color: #00A39F;">Valve</strong></p>
+  </div>
+  <div class="valve-card">
+    <img src="./assets/images/valge-gloves-2 1 1.png" alt="Globe Valve">
+    <p style="font-size: 32px; font-family: Raleway; ;">Globe <strong style="color: #00A39F;">Valve</strong></p>
+  </div>
+</br>
 </section>
 
 <section class="home-info-certifications-section">
@@ -228,11 +167,8 @@
       <div class="home-info-certification-item">
         <div class="home-info-certification-content">
           <div class="home-info-certification-header">
-            <img
-              src="./assets/images/certificate-info1.png"
-              alt="Operational Certifications Icon"
-              class="home-info-certification-icon"
-            />
+            <img src="./assets/images/certificate-info1.png" alt="Operational Certifications Icon"
+              class="home-info-certification-icon" />
             <h3 class="home-info-certification-title">
               OPERATIONAL<br />
               CERTIFICATIONS
@@ -248,11 +184,8 @@
       <div class="home-info-certification-item">
         <div class="home-info-certification-content">
           <div class="home-info-certification-header">
-            <img
-              src="./assets/images/certificate-info2.png"
-              alt="Operational Certifications Icon"
-              class="home-info-certification-icon"
-            />
+            <img src="./assets/images/certificate-info2.png" alt="Operational Certifications Icon"
+              class="home-info-certification-icon" />
             <h3 class="home-info-certification-title">
               OPERATIONAL<br />
               CERTIFICATIONS
@@ -268,11 +201,8 @@
       <div class="home-info-certification-item">
         <div class="home-info-certification-content">
           <div class="home-info-certification-header">
-            <img
-              src="./assets/images/certificate-info3.png"
-              alt="Operational Certifications Icon"
-              class="home-info-certification-icon home-info-certificate-gears"
-            />
+            <img src="./assets/images/certificate-info3.png" alt="Operational Certifications Icon"
+              class="home-info-certification-icon home-info-certificate-gears" />
             <h3 class="home-info-certification-title">
               OPERATIONAL<br />
               CERTIFICATIONS
@@ -288,11 +218,7 @@
 </section>
 
 <section class="home-mission-section-container">
-  <img
-    src="./assets/images/usa-map.jpeg"
-    alt="Usa map"
-    class="home-info-certification-map"
-  />
+  <img src="./assets/images/usa-map.jpeg" alt="Usa map" class="home-info-certification-map" />
   <div class="home-mission-section">
     <h2 class="home-mission-label">OUR MISSION</h2>
     <h3 class="home-mission-title">
@@ -323,9 +249,7 @@
     <article class="home-blog-article-card">
       <img
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/cb9243c0f57cd87bdd022dd7d1af9d7efc229c16070f99b3f2edbd613a281dec?apiKey=360bf7e333734610b3ff691474e14d53&"
-        alt="Pipeline Expansion Projects"
-        class="home-blog-article-image"
-      />
+        alt="Pipeline Expansion Projects" class="home-blog-article-image" />
       <h3 class="home-blog-article-title">Pipeline Expansion Projects</h3>
       <p class="home-blog-article-description">
         Major pipeline expansion projects are underway across key regions,
@@ -335,9 +259,7 @@
     <article class="home-blog-article-card">
       <img
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/9d0ee07c2c5d9e3e6e6cad7be6d05d63651f0f488b8a22782845ebb08bb41764?apiKey=360bf7e333734610b3ff691474e14d53&"
-        alt="Digitalization Revolutionizes"
-        class="home-blog-article-image"
-      />
+        alt="Digitalization Revolutionizes" class="home-blog-article-image" />
       <h3 class="home-blog-article-title">Digitalization Revolutionizes</h3>
       <p class="home-blog-article-description">
         The integration of digital technologies, including AI-driven analytics
@@ -347,9 +269,7 @@
     <article class="home-blog-article-card">
       <img
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/599cc0b922d41ff04c249732c5524aefc5a49a30c50a3980a7b890ae3c454299?apiKey=360bf7e333734610b3ff691474e14d53&"
-        alt="Challenges Highlight Tensions"
-        class="home-blog-article-image"
-      />
+        alt="Challenges Highlight Tensions" class="home-blog-article-image" />
       <h3 class="home-blog-article-title">Challenges Highlight Tensions</h3>
       <p class="home-blog-article-description">
         Controversy surrounds several pipeline projects as communities voice
@@ -359,9 +279,7 @@
     <article class="home-blog-article-card">
       <img
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/599cc0b922d41ff04c249732c5524aefc5a49a30c50a3980a7b890ae3c454299?apiKey=360bf7e333734610b3ff691474e14d53&"
-        alt="Challenges Highlight Tensions"
-        class="home-blog-article-image"
-      />
+        alt="Challenges Highlight Tensions" class="home-blog-article-image" />
       <h3 class="home-blog-article-title">Challenges Highlight Tensions</h3>
       <p class="home-blog-article-description">
         Controversy surrounds several pipeline projects as communities voice
@@ -382,6 +300,7 @@
         <a href="/check-valves">CHECK VALVES</a>
         <a href="/globe-valves">GLOBE VALVES</a>
         <a href="/trunnion-valves">TRUNNION VALVES</a>
+        <a href="/floating-valves">FLOATING VALVES</a>
         <div class="dropdown">
           <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
           <ul class="dropdown-content">
@@ -614,6 +533,7 @@
                 <a href="/check-valves">CHECK VALVES</a>
                 <a href="/globe-valves">GLOBE VALVES</a>
                 <a href="/trunnion-valves">TRUNNION VALVES</a>
+                <a href="/floating-valves">FLOATING VALVES</a>
                 <div class="dropdown">
                     <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
                     <ul class="dropdown-content">
@@ -835,6 +755,7 @@
                 <a href="/check-valves">CHECK VALVES</a>
                 <a href="/globe-valves">GLOBE VALVES</a>
                 <a href="/trunnion-valves">TRUNNION VALVES</a>
+                <a href="/floating-valves">FLOATING VALVES</a>
                 <div class="dropdown">
                     <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
                     <ul class="dropdown-content">
@@ -864,7 +785,7 @@
         <div class="valves-content-column valves-first-column">
             <div class="valves-content-wrapper">
                 <div class="valves-section">
-                    <h1 class="valves-section-title">GATE<strong style="color: #00A39F;"> VALVE</strong> </h1>
+                    <h1 class="valves-section-title" style="font-size: 80px">GATE<strong style="color: #00A39F;"> VALVE</strong> </h1>
                     <p style="color:#959595; font-size:24px; font-family:Raleway">Designed And Manufactured Under
                         International Standards</p>
                 </div>
@@ -897,7 +818,7 @@
             </div>
         </div>
         <div class="valves-image-column">
-            <img src="./assets/images/valves-equipment-1.jpeg" alt="Product image" class="valves-product-image" />
+            <img src="./assets/images/valves-equipment-1.jpeg" alt="Product image" class="valves-product-image first-image-valve" />
         </div>
     </div>
     </br>
@@ -916,7 +837,7 @@
                 </div>
                 <div class="valves-section">
                     <h3 class="valves-section-title">A WORLD OF POSSIBILITIES</h3>
-                    <P class="valves-testing-list" style="font-size: 18px">Developing our moulds in advance, we can cast
+                    <p class="valves-testing-list" style="font-size: 18px">Developing our moulds in advance, we can cast
                         our valves in
                         virtually any <strong> ASTM code.</strong>
                         <br>
@@ -928,7 +849,7 @@
     </div>
     </br>
 
-    <div class="valves-container third-container">
+    <div class="valves-container valves-third-container">
         <div class="valves-content-column  valves-third-column">
             <div class="valves-content-wrapper" style="gap: 40px;">
                 <div class="valves-section">
@@ -984,7 +905,7 @@
 <div class="valves-content content-fourth">
     <div class="valves-container second-container" style="text-align: left;">
         <div class="valves-image-column">
-            <img src="./assets/images/valves-equipment-4.jpeg" alt="Product image" class="valves-product-image" />
+            <img src="./assets/images/valves-equipment-4.jpeg" alt="Product image" class="valves-product-image-fourth" />
         </div>
         <div class="valves-content-column">
             <div class="valves-content-wrapper valves-right">
@@ -994,7 +915,7 @@
                         Wedge Bolted Bonnet, Threaded or Welded Seat Ring Non-Rising Gate Valve.</h5>
                 </div>
                 <div class="valves-section">
-                    <h4 style="font-size: 24px; color: black; font-family:Raleway; font-weight: bold;">STANDARDS
+                    <h4 style="font-size: 24px; color: black; font-family:Raleway; font-weight: 800;">STANDARDS
                         COMPLIANCE:</h4>
                     <ul class="valves-testing-list">
 
@@ -1010,21 +931,21 @@
             </div>
         </div>
     </div>
-    <div class="centered-title">STANDARD MATERIALS <strong style="color: black;"> SPECIFICATIONS</strong></div>
+    <div class="centered-title">STANDARD MATERIALS <strong style="color: #00A39F;"> SPECIFICATIONS</strong></div></br>
     <img src="./assets/images/pdf-1.jpeg" alt="img-pdf" class="img-pdf-section-valve">
 
-    <div class="centered-title">TEST PRESSURE TO <strong style="color: black;">API598</strong></div>
+    <div class="centered-title">TEST PRESSURE TO <strong style="color: #00A39F;">API598</strong></div>
     <img src="./assets/images/pdf-2.jpeg" alt="img-pdf" class="img-pdf-section-valve">
     <img src="./assets/images/pdf-3.jpeg" alt="img-pdf" class="img-pdf-section-valve">
 </div>
 
 <div class="download-section">
-    <h4 class="section-text">A DEEP LOOK AT THE TECHNICAL SHEET</h4>
+    <h4 class="gate-section-text">A DEEP LOOK AT THE TECHNICAL SHEET</h4>
     <a href="https://drive.google.com/file/d/1F3BFhq_1TN5DpIUkTlbCGl0J9-A5FaFS/view" target="_blank" class="download-link" download >DOWNLOAD TECHNICAL FILE</a>
     <div class="background-image"></div>
 </div>
 `,re=`
-<main class="header-container container-parallax-gate-valves">
+<main class="header-container container-parallax-gate-check">
   <!-- <img src="./assets/images/valve-2.jpeg" alt="" class="header-background-image header-image-background" />-->
   <div class="header-content-wrapper">
     <header class="header-header">
@@ -1034,6 +955,7 @@
         <a href="/check-valves">CHECK VALVES</a>
         <a href="/globe-valves">GLOBE VALVES</a>
         <a href="/trunnion-valves">TRUNNION VALVES</a>
+        <a href="/floating-valves">FLOATING VALVES</a>
         <div class="dropdown">
           <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
           <ul class="dropdown-content">
@@ -1057,40 +979,40 @@
     </section>
   </div>
 </main>
-<div class="valves-content">
-  <img class="valves-bg-right valves-first-bg" />
-  <img src="./assets/images/bg-team.jpeg" class="valves-bg-right valves-middle-bg" />
-  <img src="./assets/images/bg-products.png" class="valves-bg-right valves-third-bg" />
-  <div class="valves-container">
-    <div class="valves-content-column valves-first-column">
-      <div class="valves-content-wrapper">
-        <div class="valves-section">
-          <h1 class="valves-section-title">SWING CHECK<strong style="color: #00A39F;"> VALVE</strong> </h1>
+<div class="check-content">
+  <img class="check-bg-right check-first-bg" />
+  <img src="./assets/images/bg-team.jpeg" class="check-bg-right check-middle-bg" />
+  <img src="./assets/images/bg-products.png" class="check-bg-right check-third-bg" />
+  <div class="check-container">
+    <div class="check-content-column check-first-column">
+      <div class="check-content-wrapper">
+        <div class="check-section">
+          <h1 class="check-section-title" style="font-size: 80px">SWING CHECK<strong style="color: #00A39F;"> VALVE</strong> </h1>
           <p style="color:#959595; font-size:24px; font-family:Raleway">Designed And Manufactured Under
             International Standards</p>
         </div>
-        <ul class="valves-testing-list">
+        <ul class="check-testing-list">
           <li>Steel valves <strong>API 600 / 6D </strong></li>
           <li>Face to face <strong>ASME B16.10</strong></li>
-          <li>Flanges <strong>ASME B16.5 / ASME B16.47 </strong> Serie A y B</li>
+          <li>Flanges <strong>ASME B16.5 / ASME B16.47 </strong> </br> Serie A y B</li>
           <li>Butt weld ends <strong>ASME B16.25</strong></li>
           <li>Inspection and Testing Standard <strong>API 598</strong></li>
-          <li>Quality standard of cast surface <strong>MSS- SP 112 / 55</strong></li>
+          <li>Quality standard of cast surface </br> <strong>MSS- SP 112 / 55</strong></li>
           <li>Marking Standard <strong>MSS-SP 25</strong></li>
         </ul>
-        <div class="valves-section">
-          <h3 class="valves-section-title">OUR WIDE <strong style="color: #00A39F;"> RANGE </strong> OF
+        <div class="check-section">
+          <h3 class="check-section-title">OUR WIDE <strong style="color: #00A39F;"> RANGE </strong> OF
             DIAMETER</h3>
           <p style="color:#959595; font-size:18px; font-family:Raleway">Our valves can be produced
             from <strong>2″</strong> up tost <strong> 60″.</strong> </p>
         </div>
         </br>
-        <div class="valves-section">
-          <h3 class="valves-section-title">HOW MUCH <strong style="color: #00A39F;"> PRESSURE </strong> DO YOU
+        <div class="check-section">
+          <h3 class="check-section-title">HOW MUCH <strong style="color: #00A39F;"> PRESSURE </strong> DO YOU
             WANT?</h3>
           <h5 style="color:#959595; font-size:18px; font-family:Raleway">We can elaborate our product from:
           </H5>
-          <div class="valves-testing-list" style="font-size: 18px">
+          <div class="check-testing-list  check-second-content">
             <ul>
               <li>ANSI 150</li>
               <li>ANSI 300</li>
@@ -1103,28 +1025,28 @@
         </div>
       </div>
     </div>
-    <div class="valves-image-column">
-      <img src="./assets/images/SwingCheck6.png" alt="Product image" class="valves-product-image" />
+    <div class="check-image-column">
+      <img src="./assets/images/SwingCheck6.png" alt="Product image" class="check-product-image-first" />
     </div>
   </div>
   </br>
-  <div class="valves-container second-container">
-    <div class="valves-image-column">
-      <img src="./assets/images/swingCheck02.png" alt="Product image" class="valves-product-image" />
+  <div class="check-container check-second-container">
+    <div class="check-image-column">
+      <img src="./assets/images/swingCheck02.png" alt="Product image" class="check-product-image image-check-second" />
     </div>
-    <div class="valves-content-column valves-second-column">
-      <div class="valves-content-wrapper valves-right">
-        <div class="valves-section">
-          <h3 class="valves-section-title" style="white-space: nowrap; text-overflow: ellipsis;">CONNECTION
+    <div class="check-content-column check-second-column">
+      <div class="check-content-wrapper check-right">
+        <div class="check-section">
+          <h3 class="check-section-title" style="white-space: nowrap; text-overflow: ellipsis;">CONNECTION
             <strong style="color: #00A39F;">FLANGES</strong>
           </h3>
           <h5 style="color:#959595; font-size:18px; font-family:Raleway">As should be, you can choose from:
           </h5>
-          <p class="valves-testing-list" style="margin-top: 15px;">RF / FF / RJ / BW </p>
+          <p class="check-testing-list" style="margin-top: 15px;">RF / FF / RJ / BW </p>
         </div>
-        <div class="valves-section">
-          <h3 class="valves-section-title">A WORLD OF POSSIBILITIES</h3>
-          <P class="valves-testing-list" style="font-size: 18px">Developing our moulds in advance, we can cast
+        <div class="check-section">
+          <h3 class="check-section-title">A WORLD OF POSSIBILITIES</h3>
+          <p class="check-testing-list" style="font-size: 18px">Developing our moulds in advance, we can cast
             our valves in
             virtually any <strong> ASTM code.</strong>
             <br>
@@ -1136,24 +1058,24 @@
   </div>
   </br>
 
-  <div class="valves-container third-container">
-    <div class="valves-content-column  valves-third-column">
-      <div class="valves-content-wrapper" style="gap: 40px;">
-        <div class="valves-section">
-          <h3 class="valves-section-title">LOOKING <strong style="color: #00A39F;">INSIDE </strong></h3>
+  <div class="check-container check-third-container">
+    <div class="check-content-column  check-third-column">
+      <div class="check-content-wrapper" style="gap: 40px;">
+        <div class="check-section">
+          <h3 class="check-section-title">LOOKING <strong style="color: #00A39F;">INSIDE </strong></h3>
           <h5 style="color:#959595; font-size:18px; font-family:Raleway">We’ve got you covered</h5>
-          <p class="valves-testing-list">All trims available in the latest <strong> API
+          <p class="check-testing-list">All trims available in the latest <strong> API
             </strong>specifications.
             <br><br>
             From our standard <strong>TRIM 8</strong> up to <strong> TRIM 24.</strong>
           </p>
         </div>
-        <div class="valves-section">
-          <div class="valves-section-title">THINGS THAT <strong style="color: #00A39F;"> FIT </strong> YOUR
+        <div class="check-section">
+          <div class="check-section-title">THINGS THAT<strong style="color: #00A39F;"> FIT </strong> YOUR
             NEEDS</div>
           <h5 style="color:#959595; font-size:18px; font-family:Raleway">Our valves can be delivered with:
           </h5>
-          <ul class="valves-testing-list">
+          <ul class="check-testing-list">
             <li>Handwheel operated</li>
             <li>Electric actuator operated</li>
             <li>Pneumatic actuator operated</li>
@@ -1161,14 +1083,15 @@
           </ul>
         </div>
         <a id="downloadLink" href="https://drive.google.com/file/d/1F3BFhq_1TN5DpIUkTlbCGl0J9-A5FaFS/view"
-          target="_blank" class="valves-contact-button"
+          target="_blank" class="check-contact-button"
           style="align-items: center; justify-content: center; display: inline-flex; text-decoration: none; color: white;">
           DOWNLOAD TECHNICAL FILE
         </a>
       </div>
     </div>
-    <div class="valves-image-column">
-      <img src="./assets/images/swingCheck03.png" alt="Product image" class="valves-product-image" />
+    <div class="check-image-column">
+      <img src="./assets/images/swingCheck03.png" alt="Product image" class="check-product-image third-image-check" style=" width: 778px;
+      height: 778px;"/>
     </div>
   </div>
 
@@ -1191,23 +1114,22 @@
     </div>
   </div>
 </section>
-<div class="valves-content content-fourth">
-  <div class="valves-container second-container" style="text-align: left;">
-    <div class="valves-image-column">
-      <img src="./assets/images/valves-equipment-4.jpeg" alt="Product image" class="valves-product-image" />
+<div class="check-content content-fourth">
+  <div class="check-container second-container" style="text-align: left;">
+    <div class="check-image-column">
+      <img src="./assets/images/valves-equipment-4.jpeg" alt="Product image" class="check-product-image" />
     </div>
-    <div class="valves-content-column">
-      <div class="valves-content-wrapper valves-right">
-        <div class="valves-section">
-          <div class="valves-section-title">SWING CHECK <strong style="color:#00A39F;"> VALVE</strong></div>
+    <div class="check-content-column">
+      <div class="check-content-wrapper check-right">
+        <div class="check-section">
+          <div class="check-section-title">SWING CHECK <strong style="color:#00A39F;"> VALVE</strong></div>
           <h5 style="color:#959595; font-size:18px; font-family:Raleway">Bolted, Cover, Swing Type Disc, Threaded or
             Welded Seat Ring.</h5>
         </div>
-        <div class="valves-section">
-          <h4 style="font-size: 24px; color: black; font-family:Raleway; font-weight: bold;">STANDARDS
+        <div class="check-section">
+          <h4 style="font-size: 24px; color: black; font-family:Raleway; font-weight: 800;">STANDARDS
             COMPLIANCE:</h4>
-          <ul class="valves-testing-list">
-
+          <ul class="check-testing-list">
             <li>Basic Design: <strong> AP1594</strong></li>
             <li> Face to Face Dimension: <strong>ANSI B16.10 </strong></li>
             <li> End to End Dimension: <strong>ANSI B16.10 </strong></li>
@@ -1222,16 +1144,16 @@
       </div>
     </div>
   </div>
-  <div class="centered-title">STANDARD MATERIALS <strong style="color: black;"> SPECIFICATIONS</strong></div>
-  <img src="./assets/images/Material_specificiations.png" alt="img-pdf" class="img-pdf-section-valve">
-  <img src="./assets/images/Material_specificiations2.png" alt="img-pdf" class="img-pdf-section-valve">
+  <div class="centered-title">STANDARD MATERIALS <strong style="color: #00A39F;"> SPECIFICATIONS</strong></div></br>
+  <img src="./assets/images/Material_specificiations.png" alt="img-pdf" class="img-pdf-section-check">
+  <img src="./assets/images/Material_specificiations2.png" alt="img-pdf" class="img-pdf-section-check">
 
-  <div class="centered-title">TEST PRESSURE TO <strong style="color: black;">API598</strong></div>
-  <img src="./assets/images/pdf-3.jpeg" alt="img-pdf" class="img-pdf-section-valve">
+  <div class="centered-title">TEST PRESSURE TO <strong style="color: #00A39F;">API598</strong></div></br>
+  <img src="./assets/images/pdf-3.jpeg" alt="img-pdf" class="img-pdf-section-check">
 </div>
 
 <div class="download-section">
-  <h4 class="section-text">A DEEP LOOK AT THE TECHNICAL SHEET</h4>
+  <h4 class="check-section-text">A DEEP LOOK AT THE TECHNICAL SHEET</h4>
   <a href="https://drive.google.com/file/d/1F3BFhq_1TN5DpIUkTlbCGl0J9-A5FaFS/view" target="_blank" class="download-link"
     download>DOWNLOAD TECHNICAL FILE</a>
   <div class="background-image"></div>
@@ -1246,6 +1168,7 @@
         <a href="/check-valves">CHECK VALVES</a>
         <a href="/globe-valves">GLOBE VALVES</a>
         <a href="/trunnion-valves">TRUNNION VALVES</a>
+        <a href="/floating-valves">FLOATING VALVES</a>
         <div class="dropdown">
             <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
             <ul class="dropdown-content">
@@ -1261,7 +1184,7 @@
     <section class="header-main-content">
       <h1 class="header-main-heading" style="font-size: 50px;">
         CERTIFICATIONS
-      </h1>
+      </h1> 
       <p class="header-main-description" style="font-size: 33px; margin-bottom: 25px">
         Our manufacturing process is certificated by API International. <br> <br>
         <span class="header-api-text">You can count on the quality of our valves.</span>
@@ -1287,7 +1210,7 @@
     valves for pressure ratings up to ASME class 2500.
   </p>
 
-  <img src="./assets/images/certificado.png" alt="img background" class="img-background-certifications">
+  <img src="./assets/images/certificado.png" alt="img background" class="img-background-certifications fadein-certification">
 
 </section>
 
@@ -1339,29 +1262,27 @@
 
   <div class="icon-row">
     <div class="icon-container">
-      <img src="./assets/images/checkout.png" alt="Icon 1">
+      <img src="./assets/images/checkout.png" alt="Icon 1" class="fade">
       <h3>STEM BACKSEAT TEST</h3>
-      <div class="line-divider-list-icons"></div> <!-- Línea divisora -->
+      <div class="line-divider-list-icons"></div>
       <p>Pressure at 1.1 times valve rating for 2 to 5 minutes depending on valve size</p>
     </div>
-
-    <!-- Contenedor del segundo ícono -->
+  
     <div class="icon-container">
-      <img src="./assets/images/checkout.png" alt="Icon 2">
-      <h3 >HYDROSTATIC SHELL TEST</h3>
-      <div class="line-divider-list-icons"></div> <!-- Línea divisora -->
+      <img src="./assets/images/checkout.png" alt="Icon 2" class="fade">
+      <h3>HYDROSTATIC SHELL TEST</h3>
+      <div class="line-divider-list-icons"></div>
       <p>Pressure at 1.5 times valve rating for 2 to 30 minutes depending on valve size</p>
     </div>
-
-    <!-- Contenedor del tercer ícono -->
+  
     <div class="icon-container">
-      <img  src="./assets/images/checkout.png" alt="Icon 3">
+      <img src="./assets/images/checkout.png" alt="Icon 3" class="fade">
       <h3>HYDROSTATIC SEAT TEST</h3>
-      <div class="line-divider-list-icons"></div> <!-- Línea divisora -->
+      <div class="line-divider-list-icons"></div>
       <p>Pressure at 1.1 times valve rating for 2 to 5 minutes depending on valve size</p>
     </div>
   </div>
-</div>
+  
 
 <!--  ABOUT US SECTION-->
 <section class="about-about-section">
@@ -1392,27 +1313,6 @@
     </div>
   </div>
 </section>
-
-<script>
-
-  var lastScrollTop = 0;
-
-  $(window).scroll(function () {
-    var scrollTop = $(this).scrollTop();
-    var scrollDirection = scrollTop > lastScrollTop ? 'down' : 'up';
-    lastScrollTop = scrollTop;
-
-    var elementOffset = $('.scroll-appear').offset().top;
-    var windowHeight = $(window).height();
-
-    if (scrollDirection === 'down' && scrollTop + windowHeight > elementOffset) {
-      $('.scroll-appear').addClass('active');
-    } else {
-      $('.scroll-appear').removeClass('active');
-    }
-  });
-
-<\/script>
 `,de=`
 <main class="header-container container-parallax-trunnion-valves">
   <!-- <img src="./assets/images/valve-2.jpeg" alt="" class="header-background-image header-image-background" />-->
@@ -1425,6 +1325,7 @@
         <a href="/check-valves">CHECK VALVES</a>
         <a href="/globe-valves">GLOBE VALVES</a>
         <a href="/trunnion-valves">TRUNNION VALVES</a>
+        <a href="/floating-valves">FLOATING VALVES</a>
         <div class="dropdown">
           <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
           <ul class="dropdown-content">
@@ -1439,7 +1340,7 @@
     <section class="header-main-content">
       <p class="valves-testing-list" style="margin-top: 10%; margin-bottom:1%;">WE DESIGN AND CARRY OUT ALL THE STEPS IN
         THE CREATION OF OUR PRODUCTS.</p>
-      <p class="header-scroll-text"
+      <p class="trunnion-header-scroll-text"
         style="font-weight: 900;  letter-spacing: 0.20em ;margin-top: 20px; font-size: 60px; color: #3F3F3F; font-family: Raleway; ">
         TRUNNION BALL VALVES</p>
         <img src="./assets/images/arrow.png" class="header-arrow flotation-container" style="height:50px; margin: 5%; filter: grayscale(100%) brightness(50%) contrast(50%);" />
@@ -1455,17 +1356,17 @@
     <div class="trunnion-content-column trunnion-first-column">
       <div class="trunnion-content-wrapper">
         <div class="trunnion-section">
-          <h1 class="trunnion-section-title">TRUNNION BALL<strong style="color: #00A39F;"> VALVE</strong> </h1>
+          <h1 class="trunnion-section-title" style="font-size: 80px;">TRUNNION BALL<strong style="color: #00A39F;"> VALVE</strong> </h1>
           <p style="color:#959595; font-size:24px; font-family:Raleway">Designed And Manufactured Under
             International Standards</p>
         </div>
         <ul class="trunnion-testing-list">
           <li>Steel valves <strong>API 600 / 6D </strong></li>
           <li>Face to face <strong>ASME B16.10</strong></li>
-          <li>Flanges <strong>ASME B16.5 / ASME B16.47 Serie A y B </strong></li>
+          <li>Flanges <strong>ASME B16.5 / ASME B16.47 </br>Serie A y B </strong></li>
           <li>Butt weld ends <strong>ASME B16.25</strong></li>
           <li>Inspection and Testing Standard <strong>API 598</strong></li>
-          <li>Quality standard of cast surface <strong>MSS- SP 112 / 55</strong></li>
+          <li>Quality standard of cast surface <strong></br>MSS- SP 112 / 55</strong></li>
           <li>Marking Standard <strong>MSS-SP 25</strong></li>
         </ul>
         <div class="trunnion-section">
@@ -1488,23 +1389,23 @@
       </div>
     </div>
     <div class="trunnion-image-column">
-      <img src="./assets/images/trunnion1.png" alt="Product image" class="trunnion-product-image" />
+      <img src="./assets/images/trunnion1.png" alt="Product image" class="trunnion-product-image-first" />
     </div>
   </div>
   </br>
  
-  <div class="valves-container second-container">
+  <div class="valves-container second-container container-trunnion">
     <div class="valves-image-column">
-        <img src="./assets/images/valves-equipment-2.png" alt="Product image" class="valves-product-image" />
+        <img src="./assets/images/trunnion2.png" alt="Product image" class="valves-product-image second-trunnion-img" />
     </div>
     <div class="valves-content-column trunnion-second-column">
         <div class="valves-content-wrapper valves-right">
             <div class="valves-section">
                 <h3 class="valves-section-title" style="white-space: nowrap; text-overflow: ellipsis;">HOW MUCH  
-                    <strong style="color: #00A39F;">PRESSURE </strong>DO <br> YOU WANT?</h3>
+                    <strong style="color: #00A39F;">PRESSURE </strong></br>DO YOU WANT?</h3>
                 <h5 style="color:#959595; font-size:18px; font-family:Raleway">As should be, you can choose from:
                 </h5>
-                <div class="trunnion-testing-list" style="margin-top: 5px;">
+                <div class="trunnion-testing-list trunning-second-content" style="margin-top: 5px;">
                   <p class="item">ANSI 150</p>
                   <p class="item">ANSI 300</p>
                   <p class="item">ANSI 600</p>
@@ -1515,7 +1416,7 @@
             </div>
             <div class="valves-section">
                 <h3 class="valves-section-title">A WORLD OF POSSIBILITIES</h3>
-                <P class="valves-testing-list" style="font-size: 18px">Developing our moulds in advance, we can <br> cast
+                <p class="valves-testing-list" style="font-size: 18px">Developing our moulds in advance, we can <br> cast
                     our valves in <br>
                     virtually any <strong> ASTM code.</strong>
                     <br><br>
@@ -1539,7 +1440,7 @@
             From our standard <strong>AISI 316</strong> ball and <br>
             steam with Teflon Seats.
           </p>
-        </div>
+        </div> 
         <div class="trunnion-section">
           <div class="trunnion-section-title">THINGS THAT <strong style="color: #00A39F;"> FIT </strong> YOUR
             NEEDS</div>
@@ -1622,13 +1523,13 @@
 </div>
 
 <div class="download-section">
-  <h4 class="section-text">A DEEP LOOK AT THE TECHNICAL SHEET</h4>
+  <h4 class="trunnion-section-text">A DEEP LOOK AT THE TECHNICAL SHEET</h4>
   <a href="https://drive.google.com/file/d/1F3BFhq_1TN5DpIUkTlbCGl0J9-A5FaFS/view" target="_blank" class="download-link"
     download>DOWNLOAD TECHNICAL FILE</a>
   <div class="background-image"></div>
 </div>
-`,ve=`
-<main class="header-container container-parallax-gate-valves">
+`,ge=`
+<main class="header-container container-parallax-gate-floating">
   <!-- <img src="./assets/images/valve-2.jpeg" alt="" class="header-background-image header-image-background" />-->
 
   <div class="header-content-wrapper">
@@ -1639,6 +1540,7 @@
         <a href="/check-valves">CHECK VALVES</a>
         <a href="/globe-valves">GLOBE VALVES</a>
         <a href="/trunnion-valves">TRUNNION VALVES</a>
+        <a href="/floating-valves">FLOATING VALVES</a>
         <div class="dropdown">
           <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
           <ul class="dropdown-content">
@@ -1662,117 +1564,126 @@
     </section>
   </div>
 </main>
-<div class="valves-content">
-  <img class="valves-bg-right valves-first-bg" />
-  <img src="./assets/images/bg-team.jpeg" class="valves-bg-right valves-middle-bg" />
-  <img src="./assets/images/bg-products.png" class="valves-bg-right valves-third-bg" />
-  <div class="valves-container">
-    <div class="valves-content-column valves-first-column">
-      <div class="valves-content-wrapper">
-        <div class="valves-section">
-          <h1 class="valves-section-title"> FLOATING BALL <strong style="color: #00A39F;"> VALVE</strong> </h1>
+
+
+<div class="trunnion-content">
+  <img class="trunnion-bg-right trunnion-first-bg" />
+  <img src="./assets/images/bg-team.jpeg" class="trunnion-bg-right trunnion-middle-bg" />
+  <img src="./assets/images/bg-products.png" class="trunnion-bg-right trunnion-third-bg" />
+  <div class="trunnion-container">
+    <div class="trunnion-content-column trunnion-first-column">
+      <div class="trunnion-content-wrapper">
+        <div class="trunnion-section">
+          <h1 class="trunnion-section-title" style="font-size: 80px;">FLOATING BALL<strong style="color: #00A39F;"> VALVE</strong> </h1>
           <p style="color:#959595; font-size:24px; font-family:Raleway">Designed And Manufactured Under
             International Standards</p>
         </div>
-        <ul class="valves-testing-list">
-          <li>Steel valves <strong>API 600 / 6D</strong> </li>
-          <li> Face to face <strong> ASME B16.10</strong> </li>
-          <li> Flanges <strong>ASME B16.5 / ASME
-            B16.47 </strong> <br>Serie A y B</li>
+        <ul class="trunnion-testing-list">
+          <li>Steel valves <strong>API 600 / 6D </strong></li>
+          <li>Face to face <strong>ASME B16.10</strong></li>
+          <li>Flanges <strong>ASME B16.5 / ASME B16.47 </br>Serie A y B </strong></li>
           <li>Butt weld ends <strong>ASME B16.25</strong></li>
-          <li> Inspection and Testing Standard <strong>API 598 </strong></li>
-          <li>Quality standard of
-            cast surface <br><strong>MSS- SP 112 / 55</strong></li>
-          <li> Marking Standard <strong>MSS-SP 25</strong></li>
+          <li>Inspection and Testing Standard <strong>API 598</strong></li>
+          <li>Quality standard of cast surface <strong></br>MSS- SP 112 / 55</strong></li>
+          <li>Marking Standard <strong>MSS-SP 25</strong></li>
         </ul>
-        <div class="valves-section">
-          <h3 class="valves-section-title">OUR WIDE <strong style="color: #00A39F;"> RANGE </strong> OF
+        <div class="trunnion-section">
+          <h3 class="trunnion-section-title">OUR WIDE <strong style="color: #00A39F;"> RANGE </strong> OF
             DIAMETER</h3>
           <p style="color:#959595; font-size:18px; font-family:Raleway">Our valves can be produced
-            from <strong>2″</strong> up to <strong> 10″.</strong> depending <br>on class selection. </p>
+            from <strong>2″</strong> up to <strong> 24″ </strong></br>depending on class selection. </p>
         </div>
         </br>
-        <div class="valves-section">
-          <h3 class="valves-section-title">HOW MUCH <strong style="color: #00A39F;"> PRESSURE </strong> DO YOU
-            WANT?</h3>
+        <div class="trunnion-section">
+          <h3 class="trunnion-section-title">CONNECTION <strong style="color: #00A39F;">FLANGES</strong>
+          </h3>
           <h5 style="color:#959595; font-size:18px; font-family:Raleway">As should be, you can choose from:
           </H5>
-          <div class="valves-testing-list" style="font-size: 18px">
-            <p>RF / FF / RJ / BW </p>
+          <div class="trunnion-testing-list" style="font-size: 18px">
+            <p class="trunnion-testing-list" style="margin-top: 15px;">RF / FF / RJ / BW </p>
+
           </div>
         </div>
       </div>
     </div>
-    <div class="valves-image-column">
-      <img src="./assets/images/valves-equipment-1.jpeg" alt="Product image" class="valves-product-image" />
+    <div class="trunnion-image-column ">
+      <img src="./assets/images/floating_valve011.png" alt="Product image" class="floating-product-image-first floating-valv" />
     </div>
   </div>
   </br>
-  <div class="valves-container second-container">
-    <div class="valves-image-column">
-      <img src="./assets/images/valves-equipment-2.png" alt="Product image" class="valves-product-image" />
+ 
+  <div class="valves-container second-container container-floating" style="margin-top: 45%; margin-right: 25%;">
+    <div class="floating-image-column">
+        <img src="./assets/images/floating_valve022.png" alt="Product image" class="valves-product-image second-floating-img" />
     </div>
-    <div class="valves-content-column valves-second-column">
-      <div class="valves-content-wrapper valves-right">
-        <div class="valves-section">
-          <h3 class="valves-section-title" style="white-space: nowrap; text-overflow: ellipsis;">CONNECTION
-            <strong style="color: #00A39F;">FLANGES</strong>
-          </h3>
-          <h5 style="color:#959595; font-size:18px; font-family:Raleway">As should be, you can choose from:
-          </h5>
-          <p class="valves-testing-list" style="margin-top: 15px;">RF / FF / RJ / BW </p>
+    <div class="valves-content-column trunnion-second-column">
+        <div class="valves-content-wrapper valves-right">
+            <div class="valves-section">
+                <h3 class="valves-section-title" style="white-space: nowrap; text-overflow: ellipsis;">HOW MUCH  
+                    <strong style="color: #00A39F;">PRESSURE </strong></br>DO YOU WANT?</h3>
+                <h5 style="color:#959595; font-size:18px; font-family:Raleway">As should be, you can choose from:
+                </h5>
+                <div class="trunnion-testing-list trunning-second-content" style="margin-top: 5px;">
+                  <p class="item">ANSI 150</p>
+                  <p class="item">ANSI 300</p>
+                  <p class="item">ANSI 600</p>
+                  <p class="item">ANSI 900</p>
+                  <p class="item">ANSI 1500</p>
+                  <p class="item">ANSI 2500</p>
+                </div>                               
+            </div>
+            <div class="valves-section">
+                <h3 class="valves-section-title">A WORLD OF POSSIBILITIES</h3>
+                <p class="valves-testing-list" style="font-size: 18px">Developing our moulds in advance, we can <br> cast
+                    our valves in <br>
+                    virtually any <strong> ASTM code.</strong>
+                    <br><br>
+                    From <strong>Carbon Steel</strong> to <strong> Stainless Steel </strong>and <br>all in between.
+                </p>
+            </div>
         </div>
-        <div class="valves-section">
-          <h3 class="valves-section-title">A WORLD OF POSSIBILITIES</h3>
-          <P class="valves-testing-list" style="font-size: 18px">Developing our moulds in advance, we can cast
-            our valves in
-            virtually any <strong> ASTM code.</strong>
-            <br>
-            From <strong>Carbon Steel</strong> to <strong> Stainless Steel </strong>and all in between.
-          </p>
-        </div>
-      </div>
     </div>
-  </div>
-  </br>
-
-  <div class="valves-container third-container">
-    <div class="valves-content-column  valves-third-column">
-      <div class="valves-content-wrapper" style="gap: 40px;">
-        <div class="valves-section">
-          <h3 class="valves-section-title">LOOKING <strong style="color: #00A39F;">INSIDE </strong></h3>
-          <h5 style="color:#959595; font-size:18px; font-family:Raleway">We’ve got you covered</h5>
-          <p class="valves-testing-list">All trims available in the latest <strong> API
-            </strong>specifications.
-            <br>
-            From our standard <strong>TRIM 8</strong> up to <strong> TRIM 24.</strong>
-          </p>
-        </div>
-        <div class="valves-section">
-          <div class="valves-section-title">THINGS THAT <strong style="color: #00A39F;"> FIT </strong> YOUR
-            NEEDS</div>
-          <h5 style="color:#959595; font-size:18px; font-family:Raleway">Our valves can be delivered with:
-          </h5>
-          <ul class="valves-testing-list">
-            <li>Handwheel operated</li>
-            <li>Electric actuator operated</li>
-            <li>Pneumatic actuator operated</li>
-
-          </ul>
-        </div>
-        <a id="downloadLink" href="https://drive.google.com/file/d/1F3BFhq_1TN5DpIUkTlbCGl0J9-A5FaFS/view"
-          target="_blank" class="valves-contact-button"
-          style="align-items: center; justify-content: center; display: inline-flex; text-decoration: none; color: white;">
-          DOWNLOAD TECHNICAL FILE
-        </a>
-      </div>
-    </div>
-    <div class="valves-image-column">
-      <img src="./assets/images/valves-equipment-3.png" alt="Product image" class="valves-product-image" />
-    </div>
-  </div>
-
 </div>
+  </br>
+
+  
+  <div class="valves-container valves-third-container">
+  <div class="valves-content-column  valves-third-column">
+      <div class="valves-content-wrapper" style="gap: 40px;">
+          <div class="valves-section">
+              <h3 class="valves-section-title">LOOKING <strong style="color: #00A39F;">INSIDE </strong></h3>
+              <h5 style="color:#959595; font-size:18px; font-family:Raleway">We’ve got you covered</h5>
+              <p class="valves-testing-list">All trims available in the latest <strong> API
+                  </strong>specifications.
+                  <br>
+                  From our standard <strong>TRIM 8</strong> up to <strong> TRIM 24.</strong>
+              </p>
+          </div>
+          <div class="valves-section">
+              <div class="valves-section-title">THINGS THAT <strong style="color: #00A39F;"> FIT </strong> YOUR
+                  NEEDS</div>
+              <h5 style="color:#959595; font-size:18px; font-family:Raleway">Our valves can be delivered with:
+              </h5>
+              <ul class="valves-testing-list">
+                  <li>Handwheel operated</li>
+                  <li>Electric actuator operated</li>
+                  <li>Pneumatic actuator operated</li>
+
+              </ul>
+          </div>
+          <a id="downloadLink" href="https://drive.google.com/file/d/1F3BFhq_1TN5DpIUkTlbCGl0J9-A5FaFS/view" target="_blank" class="valves-contact-button" style="align-items: center; justify-content: center; display: inline-flex; text-decoration: none; color: white;">
+               DOWNLOAD TECHNICAL FILE
+          </a>
+      </div>
+  </div>
+  <div class="valves-image-column">
+      <img src="./assets/images/floating_valve0333 1.png" alt="Product image" class="valves-product-image" style="margin-top: 125px"/>
+  </div>
+</div>
+  
+</div>
+
+
 <section class="about-about-section">
   <div class="about-about-container">
     <div class="about-about-content">
@@ -1791,73 +1702,86 @@
     </div>
   </div>
 </section>
-<div class="valves-content content-fourth">
-  <div class="valves-container second-container" style="text-align: left;">
-    <div class="valves-image-column">
-      <img src="./assets/images/valves-equipment-4.jpeg" alt="Product image" class="valves-product-image" />
+<div class="floating-content floating-content-fourth">
+  <div class="floating-container floating-second-container" style="text-align: left;">
+    <div class="floating-image-column">
+      <img src="./assets/images/ball_valve_resume.jpeg" alt="Product image" class="floating-product-image" />
     </div>
-    <div class="valves-content-column">
-      <div class="valves-content-wrapper valves-right">
-        <div class="valves-section">
-          <div class="valves-section-title">GATE <strong style="color:#00A39F;"> VALVE</strong></div>
-          <h5 style="color:#959595; font-size:18px; font-family:Raleway">OS & Y, Rising Stem, Flexible Solid
-            Wedge Bolted Bonnet, Threaded or Welded Seat Ring Non-Rising Gate Valve.</h5>
+    <div class="floating-content-column">
+      <div class="floating-content-wrapper floating-right">
+        <div class="floating-section">
+          <div class="floating-section-title">BALL <strong style="color:#00A39F;"> VALVE</strong></div>
         </div>
-        <div class="valves-section">
-          <h4 style="font-size: 24px; color: black; font-family:Raleway; font-weight: bold;">STANDARDS
-            COMPLIANCE:</h4>
-          <ul class="valves-testing-list">
+        <div class="floating-section">
+          <h4 style="font-size: 24px; color: black; font-family:Raleway; font-weight: bold;">STANDARDS</h4>
+          <ul class="floating-testing-list">
+            <li>Design and manufacture: API6D AP1608 or BS 5351</li>
+            <li>Face to Face Dimensions: ANSI B16.10</li>
+            <li>End Flange Dimensions: ANSI B16.5</li>
+            <li>Test: API 6D or API 598</li>
+          </ul>
+        </div>
 
-            <li>Basic Design: AP1600, BS1414</li>
-            <li> Face to Face Dimension: ANSI B16.10</li>
-            <li> End to End Dimension: ANSI B16.10</li>
-            <li> End Flange Dimension: 2"-24" to ANSI B16.5, 26"-60" to MSS</li>
-            <li> SP-44, to ANSI B16.47-A on request</li>
-            <li> B. W. Ends to ANSI B16.25</li>
-            <li> Manufacturing to NACE MR-01-75 on request</li>
+        <div class="floating-section">
+          <h4 style="font-size: 24px; color: black; font-family:Raleway; font-weight: bold;">TYPE OF CONNECTION</h4>
+          <ul class="floating-testing-list">
+            <li>RF and RTJ Flange Ends to ANSI B16.5 standard.</li>
+            <li>BW Flange Ends to ANSI B16.25 standard.</li>
+          </ul>
+        </div>
+
+        <div class="floating-section">
+          <h4 style="font-size: 24px; color: black; font-family:Raleway; font-weight: bold;">TYPE OF OPERATION</h4>
+          <ul class="floating-testing-list">
+            <li>Lever</li>
+            <li>Connection dimensions of Worm Gear actuator, Electric actuator,</li>
+            <li>Pneumatic actuator to ISO 5211 standard.</li>
+            <li>Anti-static electricity constructions "AS" and Fire-safe</li>
+            <li>constructions "FD</li>
           </ul>
         </div>
       </div>
     </div>
   </div>
-  <div class="centered-title">STANDARD MATERIALS <strong style="color: black;"> SPECIFICATIONS</strong></div>
-  <img src="./assets/images/pdf-1.jpeg" alt="img-pdf" class="img-pdf-section-valve">
-
-  <div class="centered-title">TEST PRESSURE TO <strong style="color: black;">API598</strong></div>
-  <img src="./assets/images/pdf-2.jpeg" alt="img-pdf" class="img-pdf-section-valve">
-  <img src="./assets/images/pdf-3.jpeg" alt="img-pdf" class="img-pdf-section-valve">
+  <div class="centered-title">STANDARD MATERIALS <strong style="color:#00A39F;"> SPECIFICATIONS</strong></div>
+  <img src="./assets/images/floating_valve_standar_specification.jpeg" alt="img-pdf" class="img-pdf-section-floating">
+  <div class="centered-title">DIMENSIONS AND <strong style="color: #00A39F;">WEIGHT</strong></div>
+  <img src="./assets/images/floating_valve001.jpeg" alt="img-pdf" class="img-pdf-section-floating-second">
+  <img src="./assets/images/floating_valve002.jpeg" alt="img-pdf" class="img-pdf-section-floating-second">
+  <img src="./assets/images/floating_valve003.jpeg" alt="img-pdf" class="img-pdf-section-floating-second">
 </div>
 
 <div class="download-section">
-  <h4 class="section-text">A DEEP LOOK AT THE TECHNICAL SHEET</h4>
+  <h4 class="floating-section-text">A DEEP LOOK AT THE TECHNICAL SHEET</h4>
   <a href="https://drive.google.com/file/d/1F3BFhq_1TN5DpIUkTlbCGl0J9-A5FaFS/view" target="_blank" class="download-link"
     download>DOWNLOAD TECHNICAL FILE</a>
   <div class="background-image"></div>
 </div>
-`,ge=()=>{console.log("I'm working");let e=document.querySelector(".typeJsText");console.log("typeJsText",e);let s=["FULLY.","SUCESS.","AUTOMATED.","VALVE PURCHASING.","PROCCESSES."],t=0,i=0,a=!1;function n(){e?a?i>=0?(e.innerHTML=e.innerHTML.substring(0,i),i--,setTimeout(n,100)):(a=!1,t=(t+1)%s.length,setTimeout(n,500)):i<s[t].length?(e.innerHTML+=s[t].charAt(i),i++,setTimeout(n,100)):setTimeout(()=>{a=!0,n()},1e3):console.log("Element .typeJsText not found")}n()},h=()=>{const e=document.querySelectorAll(".dropdown");if(console.log("Number of dropdowns found:",e.length),e.length===0){console.warn("No dropdown elements found!");return}e.forEach(s=>{const t=s,i=t.querySelector(".dropdown-content");if(!i){console.warn("No dropdown-content element found in a dropdown!");return}let a;const n=()=>{console.log("Showing dropdown content for",t),i.style.display="block",a&&window.clearTimeout(a)},o=()=>{a=window.setTimeout(()=>{console.log("Hiding dropdown content for",t),i.style.display="none"},1e3)};t.addEventListener("mouseover",n),i.addEventListener("mouseover",n),t.addEventListener("mouseleave",o),i.addEventListener("mouseleave",o)})},w=()=>{window.addEventListener("scroll",()=>{const e=document.querySelector(".parallax-background");if(e){const s=window.pageYOffset;e.style.backgroundPositionY=`${s*.2}px`}})},u=()=>{const e=window.scrollY||document.documentElement.scrollTop,s=document.querySelector(".sticky-header-container");e>75?window.hasOwnProperty("processActivated")||(console.log("do it here"),s&&!s.classList.contains("animate-sticky-header")&&(s.classList.add("animate-sticky-header"),console.log("Animation triggered"),setTimeout(()=>{},3e3))):s.classList.remove("animate-sticky-header")},pe=`
+`,ve=()=>{console.log("I'm working");let e=document.querySelector(".typeJsText");console.log("typeJsText",e);let s=["FULLY.","SUCESS.","AUTOMATED.","VALVE PURCHASING.","PROCCESSES."],t=0,i=0,a=!1;function n(){e?a?i>=0?(e.innerHTML=e.innerHTML.substring(0,i),i--,setTimeout(n,100)):(a=!1,t=(t+1)%s.length,setTimeout(n,500)):i<s[t].length?(e.innerHTML+=s[t].charAt(i),i++,setTimeout(n,100)):setTimeout(()=>{a=!0,n()},1e3):console.log("Element .typeJsText not found")}n()},h=()=>{const e=document.querySelectorAll(".dropdown");if(console.log("Number of dropdowns found:",e.length),e.length===0){console.warn("No dropdown elements found!");return}e.forEach(s=>{const t=s,i=t.querySelector(".dropdown-content");if(!i){console.warn("No dropdown-content element found in a dropdown!");return}let a;const n=()=>{console.log("Showing dropdown content for",t),i.style.display="block",a&&window.clearTimeout(a)},o=()=>{a=window.setTimeout(()=>{console.log("Hiding dropdown content for",t),i.style.display="none"},1e3)};t.addEventListener("mouseover",n),i.addEventListener("mouseover",n),t.addEventListener("mouseleave",o),i.addEventListener("mouseleave",o)})},T=()=>{window.addEventListener("scroll",()=>{const e=document.querySelector(".parallax-background");if(e){const s=window.pageYOffset;e.style.backgroundPositionY=`${s*.2}px`}})},u=()=>{const e=window.scrollY||document.documentElement.scrollTop,s=document.querySelector(".sticky-header-container");e>75?window.hasOwnProperty("processActivated")||(console.log("do it here"),s&&!s.classList.contains("animate-sticky-header")&&(s.classList.add("animate-sticky-header"),console.log("Animation triggered"),setTimeout(()=>{},3e3))):s.classList.remove("animate-sticky-header")},pe=`
 
 <main class="header-container container-parallax-globe-valves">
-<!-- <img src="./assets/images/valve-2.jpeg" alt="" class="header-background-image header-image-background" />  -->
+  <!-- <img src="./assets/images/valve-2.jpeg" alt="" class="header-background-image header-image-background" />  -->
 
   <div class="header-content-wrapper">
     <header class="header-header">
-    <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
+      <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
       <nav class="header-navigation">
-          <a href="/gate-valves">GATE VALVES</a>
-          <a href="/check-valves">CHECK VALVES</a>
-          <a href="/globe-valves">GLOBE VALVES</a>
-          <a href="/trunnion-valves">TRUNNION VALVES</a>
-          <div class="dropdown">
-            <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
-            <ul class="dropdown-content">
-              <li><a href="/">HOME</a></li>
-              <li><a href="/steps">STEPS</a></li>
-              <li><a href="/about-us">ABOUT US</a></li>
-              <li><a href="/certifications">CERTIFICATIONS</a></li>
-            </ul>
-          </div>
-        </nav>
-      </header>
+        <a href="/gate-valves">GATE VALVES</a>
+        <a href="/check-valves">CHECK VALVES</a>
+        <a href="/globe-valves">GLOBE VALVES</a>
+        <a href="/trunnion-valves">TRUNNION VALVES</a>
+        <a href="/floating-valves">FLOATING VALVES</a>
+        <div class="dropdown">
+          <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
+          <ul class="dropdown-content">
+            <li><a href="/">HOME</a></li>
+            <li><a href="/steps">STEPS</a></li>
+            <li><a href="/about-us">ABOUT US</a></li>
+            <li><a href="/certifications">CERTIFICATIONS</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
     <section class="header-main-content">
       <p class="valves-testing-list" style="margin-top: 10%; margin-bottom:1%;">WE DESIGN AND CARRY OUT ALL THE STEPS IN
         THE CREATION OF OUR PRODUCTS.</p>
@@ -1865,8 +1789,9 @@
         style="font-weight: 900;  letter-spacing: 0.20em ;margin-top: 20px; font-size: 60px; color: #3F3F3F; font-family: Raleway; ">
         GLOBE
         VALVES</p>
-        <img src="./assets/images/arrow.png" class="header-arrow flotation-container" style="height:50px; margin: 5%; filter: grayscale(100%) brightness(50%) contrast(50%);" />
-          <p class="header-scroll-text" style="margin-top: 20px; color:#3F3F3F">SCROLL BELOW</p>
+      <img src="./assets/images/arrow.png" class="header-arrow flotation-container"
+        style="height:50px; margin: 5%; filter: grayscale(100%) brightness(50%) contrast(50%);" />
+      <p class="header-scroll-text" style="margin-top: 20px; color:#3F3F3F">SCROLL BELOW</p>
     </section>
   </div>
 </main>
@@ -1878,17 +1803,18 @@
     <div class="gloves-valves-content-column gloves-valves-first-column">
       <div class="gloves-valves-content-wrapper">
         <div class="gloves-valves-section">
-          <h1 class="gloves-valves-section-title">GLOVE<strong style="color: #00A39F;"> GATE</strong> </h1>
+          <h1 class="gloves-valves-section-title" style="font-size: 80px">GLOVE<strong style="color: #00A39F;">
+              GATE</strong> </h1>
           <p style="color:#959595; font-size:24px; font-family:Raleway">Designed And Manufactured Under
             International Standards</p>
         </div>
         <ul class="gloves-valves-testing-list">
           <li>Steel valves <strong>API 623</strong></li>
           <li>Face to face <strong>ASME B16.10</strong></li>
-          <li>Flanges <strong>ASME B16.5 / ASME B16.47 / Serie A y B</strong></li>
+          <li>Flanges <strong>ASME B16.5 / ASME B16.47 </br>/ Serie A y B</strong></li>
           <li>Butt weld ends <strong>ASME B16.25</strong></li>
           <li>Inspection and Testing Standard <strong> API 598</strong></li>
-          <li>Quality standard of cast surface <strong>MSS- SP 112 / 55</strong></li>
+          <li>Quality standard of cast surface <strong></br>MSS- SP 112 / 55</strong></li>
           <li>Marking Standard <strong>MSS-SP 25</strong></li>
         </ul>
         <div class="gloves-valves-section">
@@ -1937,7 +1863,7 @@
         </div>
         <div class="gloves-valves-section">
           <h3 class="gloves-valves-section-title">A WORLD OF POSSIBILITIES</h3>
-          <P class="gloves-valves-testing-list" style="font-size: 18px">Developing our moulds in advance, we can cast
+          <p class="gloves-valves-testing-list" style="font-size: 18px">Developing our moulds in advance, we can cast
             our valves in
             virtually any <strong> ASTM code.</strong>
             <br>
@@ -1973,14 +1899,17 @@
 
           </ul>
         </div>
-        <a id="downloadLink" href="https://drive.google.com/file/d/1F3BFhq_1TN5DpIUkTlbCGl0J9-A5FaFS/view" target="_blank" class="gloves-valves-contact-button" style="align-items: center; justify-content: center; display: inline-flex; text-decoration: none; color: white;">
-             DOWNLOAD TECHNICAL FILE
+        <a id="downloadLink" href="https://drive.google.com/file/d/1F3BFhq_1TN5DpIUkTlbCGl0J9-A5FaFS/view"
+          target="_blank" class="gloves-valves-contact-button"
+          style="align-items: center; justify-content: center; display: inline-flex; text-decoration: none; color: white;">
+          DOWNLOAD TECHNICAL FILE
         </a>
 
       </div>
     </div>
     <div class="gloves-valves-image-column third-img-gloves">
-      <img src="./assets/images/valge-gloves-2.png" alt="Product image" class="gloves-valves-product-image"/>
+      <img src="./assets/images/valge-gloves-2.png" alt="Product image"
+        class="gloves-valves-product-image img-gloves-second" />
     </div>
   </div>
 </div>
@@ -2002,44 +1931,44 @@
     </div>
   </div>
 </section>
-<div class="gloves-valves-content content-fourth">
-  <img src="./assets/images/Globe1_ 1.png" alt="img-pdf" class="gloves-valves-img-pdf-section">
 
-  <div class="gloves-valves-centered-title">TEST PRESSURE TO <strong style="color: #00A39F;">API598</strong></div>
-  <img src="./assets/images/Globe2_ 1.png" alt="img-pdf" class="gloves-valves-img-pdf-section">
-
-  <div class="gloves-valves-container">
-    <div class="gloves-valves-content-column gloves-valves-first-column">
-      <div class="gloves-valves-content-wrapper">
-        <div class="gloves-valves-section">
-          <h1 class="gloves-valves-section-title">MAIN EXTERNAL CONNECTING <strong style="color: #00A39F;">
-              DIMENSIONS</strong> </h1>
-        </div>
+<img src="./assets/images/pdf-2.jpeg" alt="img-pdf" class="img-pdf-section-gloves">
+<div class="centered-title">TEST PRESSURE TO <strong style="color: #00A39F;">API598</strong></div>
+<img src="./assets/images/pdf-3.jpeg" alt="img-pdf" class="img-pdf-section-gloves">
+</div>
+<div class="gloves-valves-container gloves-valves-third-container">
+  <div class="gloves-valves-content-column  gloves-valves-third-column">
+    <div class="gloves-valves-content-wrapper" style="gap: 40px;">
+      <div class="gloves-valves-section">
+        <div class="gloves-valves-section-title">MAIN EXTERNAL CONNECTING <strong style="color: #00A39F;"> DIMENSIONS
+          </strong> </div>
+        </h5>
         <ul class="gloves-valves-testing-list">
-          <li>API 623</li>
           <li>From 2′ up to 60′</li>
           <li>Up to class 2500</li>
           <li>All Trims available</li>
           <li>High quality standart and materials</li>
-          <li>Available in any carbon, stainless or alloys steel (ASTM series)</li>
+          <li> Available in any carbon, stainless or alloys steel (ASTM series) API 623</li>
         </ul>
-        <div class="gloves-valves-section">
-        </div>
-        </br>
       </div>
     </div>
-    <div class="gloves-valves-image-column ">
-      <img src="./assets/images/Globe5_ 1.png" alt="Product image" class="gloves-valves-product-image" />
-    </div>
   </div>
-
-  <br> <br>
-  <img src="./assets/images/Globe3_ 1.png" alt="img-pdf" class="gloves-valves-img-pdf-section">
+  <div class="gloves-valves-image-column third-img-gloves">
+    <img src="./assets/images/Globe5_ 1.png" alt="Product image"
+      class="gloves-valves-product-image img-gloves-fourth" />
+  </div>
 </div>
+<img src="./assets/images/Globe3_ 1.png" alt="img-pdf" class="img-pdf-section-gloves">
+
+</br> </br>
+</div>
+
+<!-- <img src="./assets/images/Globe3_ 1.png" alt="img-pdf" class="gloves-second-img">-->
 
 <div class="gloves-valves-download-section">
   <h4 class="gloves-valves-section-text">A DEEP LOOK AT THE TECHNICAL SHEET</h4>
-  <a href="https://drive.google.com/file/d/1F3BFhq_1TN5DpIUkTlbCGl0J9-A5FaFS/view" class="gloves-valves-download-link" target="_blank">DOWNLOAD TECHNICAL FILE</a>
+  <a href="https://drive.google.com/file/d/1F3BFhq_1TN5DpIUkTlbCGl0J9-A5FaFS/view" class="gloves-valves-download-link"
+    target="_blank">DOWNLOAD TECHNICAL FILE</a>
   <div class="gloves-valves-background-image"></div>
 </div>
-`,m=document.getElementById("app"),he=()=>{p("/",()=>{m.innerHTML=ie,ge(),h(),window.addEventListener("scroll",u)}),p("/about-us",()=>{m.innerHTML=ne,h(),window.addEventListener("scroll",u)}),p("/steps",()=>{m.innerHTML=oe,w(),h(),window.addEventListener("scroll",u)}),p("/gate-valves",()=>{m.innerHTML=le,h(),window.addEventListener("scroll",u)}),p("/globe-valves",()=>{m.innerHTML=pe,h(),window.addEventListener("scroll",u)}),p("/check-valves",()=>{m.innerHTML=re,h(),window.addEventListener("scroll",u)}),p("/certifications",()=>{m.innerHTML=ce,w(),h(),window.addEventListener("scroll",u)}),p("/trunnion-valves",()=>{m.innerHTML=de,w(),h(),window.addEventListener("scroll",u)}),p("/floating-valves",()=>{m.innerHTML=ve,w(),h(),window.addEventListener("scroll",u)}),p()};document.addEventListener("DOMContentLoaded",()=>{he()});
+`,m=document.getElementById("app"),he=()=>{p("/",()=>{m.innerHTML=ie,ve(),h(),window.addEventListener("scroll",u)}),p("/about-us",()=>{m.innerHTML=ne,h(),window.addEventListener("scroll",u)}),p("/steps",()=>{m.innerHTML=oe,T(),h(),window.addEventListener("scroll",u)}),p("/gate-valves",()=>{m.innerHTML=le,h(),window.addEventListener("scroll",u)}),p("/globe-valves",()=>{m.innerHTML=pe,h(),window.addEventListener("scroll",u)}),p("/check-valves",()=>{m.innerHTML=re,h(),window.addEventListener("scroll",u)}),p("/certifications",()=>{m.innerHTML=ce,T(),h(),window.addEventListener("scroll",u)}),p("/trunnion-valves",()=>{m.innerHTML=de,T(),h(),window.addEventListener("scroll",u)}),p("/floating-valves",()=>{m.innerHTML=ge,T(),h(),window.addEventListener("scroll",u)}),p()};document.addEventListener("DOMContentLoaded",()=>{he()});
