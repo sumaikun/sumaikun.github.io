@@ -32,7 +32,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 1248px;
+  max-width: 80%;
 }
 
 @media (max-width: 991px) {
@@ -310,4 +310,11 @@
 
 .animate-sticky-header .dropdown-content{
   right: 0px;
+}
+
+/** especific styles */
+
+
+.dropdown {
+  margin-top: -3px;
 }

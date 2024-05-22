@@ -1,4 +1,4 @@
-(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const a of document.querySelectorAll('link[rel="modulepreload"]'))i(a);new MutationObserver(a=>{for(const n of a)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&i(o)}).observe(document,{childList:!0,subtree:!0});function t(a){const n={};return a.integrity&&(n.integrity=a.integrity),a.referrerPolicy&&(n.referrerPolicy=a.referrerPolicy),a.crossOrigin==="use-credentials"?n.credentials="include":a.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function i(a){if(a.ep)return;a.ep=!0;const n=t(a);fetch(a.href,n)}})();var O=Array.isArray||function(e){return Object.prototype.toString.call(e)=="[object Array]"},A=V,z=N,j=J,q=P,K=k,Y=new RegExp(["(\\\\.)","([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^()])+)\\))?|\\(((?:\\\\.|[^()])+)\\))([+*?])?|(\\*))"].join("|"),"g");function N(e){for(var s=[],t=0,i=0,a="",n;(n=Y.exec(e))!=null;){var o=n[0],l=n[1],r=n.index;if(a+=e.slice(i,r),i=r+o.length,l){a+=l[1];continue}a&&(s.push(a),a="");var c=n[2],g=n[3],U=n[4],M=n[5],S=n[6],B=n[7],_=S==="+"||S==="*",G=S==="?"||S==="*",x=c||"/",W=U||M||(B?".*":"[^"+x+"]+?");s.push({name:g||t++,prefix:c||"",delimiter:x,optional:G,repeat:_,pattern:$(W)})}return i<e.length&&(a+=e.substr(i)),a&&s.push(a),s}function J(e){return P(N(e))}function P(e){for(var s=new Array(e.length),t=0;t<e.length;t++)typeof e[t]=="object"&&(s[t]=new RegExp("^"+e[t].pattern+"$"));return function(i){for(var a="",n=i||{},o=0;o<e.length;o++){var l=e[o];if(typeof l=="string"){a+=l;continue}var r=n[l.name],c;if(r==null){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to be defined')}if(O(r)){if(!l.repeat)throw new TypeError('Expected "'+l.name+'" to not repeat, but received "'+r+'"');if(r.length===0){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to not be empty')}for(var g=0;g<r.length;g++){if(c=encodeURIComponent(r[g]),!s[o].test(c))throw new TypeError('Expected all "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');a+=(g===0?l.prefix:l.delimiter)+c}continue}if(c=encodeURIComponent(r),!s[o].test(c))throw new TypeError('Expected "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');a+=l.prefix+c}return a}}function F(e){return e.replace(/([.+*?=^!:${}()[\]|\/])/g,"\\$1")}function $(e){return e.replace(/([=!:$\/()])/g,"\\$1")}function C(e,s){return e.keys=s,e}function D(e){return e.sensitive?"":"i"}function Q(e,s){var t=e.source.match(/\((?!\?)/g);if(t)for(var i=0;i<t.length;i++)s.push({name:i,prefix:null,delimiter:null,optional:!1,repeat:!1,pattern:null});return C(e,s)}function X(e,s,t){for(var i=[],a=0;a<e.length;a++)i.push(V(e[a],s,t).source);var n=new RegExp("(?:"+i.join("|")+")",D(t));return C(n,s)}function Z(e,s,t){for(var i=N(e),a=k(i,t),n=0;n<i.length;n++)typeof i[n]!="string"&&s.push(i[n]);return C(a,s)}function k(e,s){s=s||{};for(var t=s.strict,i=s.end!==!1,a="",n=e[e.length-1],o=typeof n=="string"&&/\/$/.test(n),l=0;l<e.length;l++){var r=e[l];if(typeof r=="string")a+=F(r);else{var c=F(r.prefix),g=r.pattern;r.repeat&&(g+="(?:"+c+g+")*"),r.optional?c?g="(?:"+c+"("+g+"))?":g="("+g+")?":g=c+"("+g+")",a+=g}}return t||(a=(o?a.slice(0,-2):a)+"(?:\\/(?=$))?"),i?a+="$":a+=t&&o?"":"(?=\\/|$)",new RegExp("^"+a,D(s))}function V(e,s,t){return s=s||[],O(s)?t||(t={}):(t=s,s=[]),e instanceof RegExp?Q(e,s):O(e)?X(e,s,t):Z(e,s,t)}A.parse=z;A.compile=j;A.tokensToFunction=q;A.tokensToRegExp=K;var b=typeof document<"u",v=typeof window<"u",w=typeof history<"u",ee=typeof process<"u",L=b&&document.ontouchstart?"touchstart":"click",f=v&&!!(window.history.location||window.location);function d(){this.callbacks=[],this.exits=[],this.current="",this.len=0,this._decodeURLComponents=!0,this._base="",this._strict=!1,this._running=!1,this._hashbang=!1,this.clickHandler=this.clickHandler.bind(this),this._onpopstate=this._onpopstate.bind(this)}d.prototype.configure=function(e){var s=e||{};this._window=s.window||v&&window,this._decodeURLComponents=s.decodeURLComponents!==!1,this._popstate=s.popstate!==!1&&v,this._click=s.click!==!1&&b,this._hashbang=!!s.hashbang;var t=this._window;this._popstate?t.addEventListener("popstate",this._onpopstate,!1):v&&t.removeEventListener("popstate",this._onpopstate,!1),this._click?t.document.addEventListener(L,this.clickHandler,!1):b&&t.document.removeEventListener(L,this.clickHandler,!1),this._hashbang&&v&&!w?t.addEventListener("hashchange",this._onpopstate,!1):v&&t.removeEventListener("hashchange",this._onpopstate,!1)};d.prototype.base=function(e){if(arguments.length===0)return this._base;this._base=e};d.prototype._getBase=function(){var e=this._base;if(e)return e;var s=v&&this._window&&this._window.location;return v&&this._hashbang&&s&&s.protocol==="file:"&&(e=s.pathname),e};d.prototype.strict=function(e){if(arguments.length===0)return this._strict;this._strict=e};d.prototype.start=function(e){var s=e||{};if(this.configure(s),s.dispatch!==!1){this._running=!0;var t;if(f){var i=this._window,a=i.location;this._hashbang&&~a.hash.indexOf("#!")?t=a.hash.substr(2)+a.search:this._hashbang?t=a.search+a.hash:t=a.pathname+a.search+a.hash}this.replace(t,null,!0,s.dispatch)}};d.prototype.stop=function(){if(this._running){this.current="",this.len=0,this._running=!1;var e=this._window;this._click&&e.document.removeEventListener(L,this.clickHandler,!1),v&&e.removeEventListener("popstate",this._onpopstate,!1),v&&e.removeEventListener("hashchange",this._onpopstate,!1)}};d.prototype.show=function(e,s,t,i){var a=new y(e,s,this),n=this.prevContext;return this.prevContext=a,this.current=a.path,t!==!1&&this.dispatch(a,n),a.handled!==!1&&i!==!1&&a.pushState(),a};d.prototype.back=function(e,s){var t=this;if(this.len>0){var i=this._window;w&&i.history.back(),this.len--}else setTimeout(e?function(){t.show(e,s)}:function(){t.show(t._getBase(),s)})};d.prototype.redirect=function(e,s){var t=this;typeof e=="string"&&typeof s=="string"&&I.call(this,e,function(i){setTimeout(function(){t.replace(s)},0)}),typeof e=="string"&&typeof s>"u"&&setTimeout(function(){t.replace(e)},0)};d.prototype.replace=function(e,s,t,i){var a=new y(e,s,this),n=this.prevContext;return this.prevContext=a,this.current=a.path,a.init=t,a.save(),i!==!1&&this.dispatch(a,n),a};d.prototype.dispatch=function(e,s){var t=0,i=0,a=this;function n(){var l=a.exits[i++];if(!l)return o();l(s,n)}function o(){var l=a.callbacks[t++];if(e.path!==a.current){e.handled=!1;return}if(!l)return se.call(a,e);l(e,o)}s?n():o()};d.prototype.exit=function(e,s){if(typeof e=="function")return this.exit("*",e);for(var t=new E(e,null,this),i=1;i<arguments.length;++i)this.exits.push(t.middleware(arguments[i]))};d.prototype.clickHandler=function(e){if(this._which(e)===1&&!(e.metaKey||e.ctrlKey||e.shiftKey)&&!e.defaultPrevented){var s=e.target,t=e.path||(e.composedPath?e.composedPath():null);if(t){for(var i=0;i<t.length;i++)if(t[i].nodeName&&t[i].nodeName.toUpperCase()==="A"&&t[i].href){s=t[i];break}}for(;s&&s.nodeName.toUpperCase()!=="A";)s=s.parentNode;if(!(!s||s.nodeName.toUpperCase()!=="A")){var a=typeof s.href=="object"&&s.href.constructor.name==="SVGAnimatedString";if(!(s.hasAttribute("download")||s.getAttribute("rel")==="external")){var n=s.getAttribute("href");if(!(!this._hashbang&&this._samePath(s)&&(s.hash||n==="#"))&&!(n&&n.indexOf("mailto:")>-1)&&!(a?s.target.baseVal:s.target)&&!(!a&&!this.sameOrigin(s.href))){var o=a?s.href.baseVal:s.pathname+s.search+(s.hash||"");o=o[0]!=="/"?"/"+o:o,ee&&o.match(/^\/[a-zA-Z]:\//)&&(o=o.replace(/^\/[a-zA-Z]:\//,"/"));var l=o,r=this._getBase();o.indexOf(r)===0&&(o=o.substr(r.length)),this._hashbang&&(o=o.replace("#!","")),!(r&&l===o&&(!f||this._window.location.protocol!=="file:"))&&(e.preventDefault(),this.show(l))}}}}};d.prototype._onpopstate=function(){var e=!1;return v?(b&&document.readyState==="complete"?e=!0:window.addEventListener("load",function(){setTimeout(function(){e=!0},0)}),function(t){if(e){var i=this;if(t.state){var a=t.state.path;i.replace(a,t.state)}else if(f){var n=i._window.location;i.show(n.pathname+n.search+n.hash,void 0,void 0,!1)}}}):function(){}}();d.prototype._which=function(e){return e=e||v&&this._window.event,e.which==null?e.button:e.which};d.prototype._toURL=function(e){var s=this._window;if(typeof URL=="function"&&f)return new URL(e,s.location.toString());if(b){var t=s.document.createElement("a");return t.href=e,t}};d.prototype.sameOrigin=function(e){if(!e||!f)return!1;var s=this._toURL(e),t=this._window,i=t.location;return i.protocol===s.protocol&&i.hostname===s.hostname&&(i.port===s.port||i.port===""&&(s.port==80||s.port==443))};d.prototype._samePath=function(e){if(!f)return!1;var s=this._window,t=s.location;return e.pathname===t.pathname&&e.search===t.search};d.prototype._decodeURLEncodedURIComponent=function(e){return typeof e!="string"?e:this._decodeURLComponents?decodeURIComponent(e.replace(/\+/g," ")):e};function H(){var e=new d;function s(){return I.apply(e,arguments)}return s.callbacks=e.callbacks,s.exits=e.exits,s.base=e.base.bind(e),s.strict=e.strict.bind(e),s.start=e.start.bind(e),s.stop=e.stop.bind(e),s.show=e.show.bind(e),s.back=e.back.bind(e),s.redirect=e.redirect.bind(e),s.replace=e.replace.bind(e),s.dispatch=e.dispatch.bind(e),s.exit=e.exit.bind(e),s.configure=e.configure.bind(e),s.sameOrigin=e.sameOrigin.bind(e),s.clickHandler=e.clickHandler.bind(e),s.create=H,Object.defineProperty(s,"len",{get:function(){return e.len},set:function(t){e.len=t}}),Object.defineProperty(s,"current",{get:function(){return e.current},set:function(t){e.current=t}}),s.Context=y,s.Route=E,s}function I(e,s){if(typeof e=="function")return I.call(this,"*",e);if(typeof s=="function")for(var t=new E(e,null,this),i=1;i<arguments.length;++i)this.callbacks.push(t.middleware(arguments[i]));else typeof e=="string"?this[typeof s=="string"?"redirect":"show"](e,s):this.start(e)}function se(e){if(!e.handled){var s,t=this,i=t._window;t._hashbang?s=f&&this._getBase()+i.location.hash.replace("#!",""):s=f&&i.location.pathname+i.location.search,s!==e.canonicalPath&&(t.stop(),e.handled=!1,f&&(i.location.href=e.canonicalPath))}}function te(e){return e.replace(/([.+*?=^!:${}()[\]|/\\])/g,"\\$1")}function y(e,s,t){var i=this.page=t||I,a=i._window,n=i._hashbang,o=i._getBase();e[0]==="/"&&e.indexOf(o)!==0&&(e=o+(n?"#!":"")+e);var l=e.indexOf("?");this.canonicalPath=e;var r=new RegExp("^"+te(o));if(this.path=e.replace(r,"")||"/",n&&(this.path=this.path.replace("#!","")||"/"),this.title=b&&a.document.title,this.state=s||{},this.state.path=e,this.querystring=~l?i._decodeURLEncodedURIComponent(e.slice(l+1)):"",this.pathname=i._decodeURLEncodedURIComponent(~l?e.slice(0,l):e),this.params={},this.hash="",!n){if(!~this.path.indexOf("#"))return;var c=this.path.split("#");this.path=this.pathname=c[0],this.hash=i._decodeURLEncodedURIComponent(c[1])||"",this.querystring=this.querystring.split("#")[0]}}y.prototype.pushState=function(){var e=this.page,s=e._window,t=e._hashbang;e.len++,w&&s.history.pushState(this.state,this.title,t&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};y.prototype.save=function(){var e=this.page;w&&e._window.history.replaceState(this.state,this.title,e._hashbang&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};function E(e,s,t){var i=this.page=t||R,a=s||{};a.strict=a.strict||i._strict,this.path=e==="*"?"(.*)":e,this.method="GET",this.regexp=A(this.path,this.keys=[],a)}E.prototype.middleware=function(e){var s=this;return function(t,i){if(s.match(t.path,t.params))return t.routePath=s.path,e(t,i);i()}};E.prototype.match=function(e,s){var t=this.keys,i=e.indexOf("?"),a=~i?e.slice(0,i):e,n=this.regexp.exec(decodeURIComponent(a));if(!n)return!1;delete s[0];for(var o=1,l=n.length;o<l;++o){var r=t[o-1],c=this.page._decodeURLEncodedURIComponent(n[o]);(c!==void 0||!hasOwnProperty.call(s,r.name))&&(s[r.name]=c)}return!0};var R=H(),p=R,ae=R;p.default=ae;const ie=`
+(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const a of document.querySelectorAll('link[rel="modulepreload"]'))i(a);new MutationObserver(a=>{for(const n of a)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&i(o)}).observe(document,{childList:!0,subtree:!0});function t(a){const n={};return a.integrity&&(n.integrity=a.integrity),a.referrerPolicy&&(n.referrerPolicy=a.referrerPolicy),a.crossOrigin==="use-credentials"?n.credentials="include":a.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function i(a){if(a.ep)return;a.ep=!0;const n=t(a);fetch(a.href,n)}})();var O=Array.isArray||function(e){return Object.prototype.toString.call(e)=="[object Array]"},A=V,z=N,j=J,q=k,K=D,Y=new RegExp(["(\\\\.)","([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^()])+)\\))?|\\(((?:\\\\.|[^()])+)\\))([+*?])?|(\\*))"].join("|"),"g");function N(e){for(var s=[],t=0,i=0,a="",n;(n=Y.exec(e))!=null;){var o=n[0],l=n[1],r=n.index;if(a+=e.slice(i,r),i=r+o.length,l){a+=l[1];continue}a&&(s.push(a),a="");var c=n[2],g=n[3],U=n[4],M=n[5],S=n[6],B=n[7],_=S==="+"||S==="*",G=S==="?"||S==="*",x=c||"/",W=U||M||(B?".*":"[^"+x+"]+?");s.push({name:g||t++,prefix:c||"",delimiter:x,optional:G,repeat:_,pattern:$(W)})}return i<e.length&&(a+=e.substr(i)),a&&s.push(a),s}function J(e){return k(N(e))}function k(e){for(var s=new Array(e.length),t=0;t<e.length;t++)typeof e[t]=="object"&&(s[t]=new RegExp("^"+e[t].pattern+"$"));return function(i){for(var a="",n=i||{},o=0;o<e.length;o++){var l=e[o];if(typeof l=="string"){a+=l;continue}var r=n[l.name],c;if(r==null){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to be defined')}if(O(r)){if(!l.repeat)throw new TypeError('Expected "'+l.name+'" to not repeat, but received "'+r+'"');if(r.length===0){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to not be empty')}for(var g=0;g<r.length;g++){if(c=encodeURIComponent(r[g]),!s[o].test(c))throw new TypeError('Expected all "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');a+=(g===0?l.prefix:l.delimiter)+c}continue}if(c=encodeURIComponent(r),!s[o].test(c))throw new TypeError('Expected "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');a+=l.prefix+c}return a}}function F(e){return e.replace(/([.+*?=^!:${}()[\]|\/])/g,"\\$1")}function $(e){return e.replace(/([=!:$\/()])/g,"\\$1")}function R(e,s){return e.keys=s,e}function P(e){return e.sensitive?"":"i"}function Q(e,s){var t=e.source.match(/\((?!\?)/g);if(t)for(var i=0;i<t.length;i++)s.push({name:i,prefix:null,delimiter:null,optional:!1,repeat:!1,pattern:null});return R(e,s)}function X(e,s,t){for(var i=[],a=0;a<e.length;a++)i.push(V(e[a],s,t).source);var n=new RegExp("(?:"+i.join("|")+")",P(t));return R(n,s)}function Z(e,s,t){for(var i=N(e),a=D(i,t),n=0;n<i.length;n++)typeof i[n]!="string"&&s.push(i[n]);return R(a,s)}function D(e,s){s=s||{};for(var t=s.strict,i=s.end!==!1,a="",n=e[e.length-1],o=typeof n=="string"&&/\/$/.test(n),l=0;l<e.length;l++){var r=e[l];if(typeof r=="string")a+=F(r);else{var c=F(r.prefix),g=r.pattern;r.repeat&&(g+="(?:"+c+g+")*"),r.optional?c?g="(?:"+c+"("+g+"))?":g="("+g+")?":g=c+"("+g+")",a+=g}}return t||(a=(o?a.slice(0,-2):a)+"(?:\\/(?=$))?"),i?a+="$":a+=t&&o?"":"(?=\\/|$)",new RegExp("^"+a,P(s))}function V(e,s,t){return s=s||[],O(s)?t||(t={}):(t=s,s=[]),e instanceof RegExp?Q(e,s):O(e)?X(e,s,t):Z(e,s,t)}A.parse=z;A.compile=j;A.tokensToFunction=q;A.tokensToRegExp=K;var b=typeof document<"u",v=typeof window<"u",w=typeof history<"u",ee=typeof process<"u",L=b&&document.ontouchstart?"touchstart":"click",f=v&&!!(window.history.location||window.location);function d(){this.callbacks=[],this.exits=[],this.current="",this.len=0,this._decodeURLComponents=!0,this._base="",this._strict=!1,this._running=!1,this._hashbang=!1,this.clickHandler=this.clickHandler.bind(this),this._onpopstate=this._onpopstate.bind(this)}d.prototype.configure=function(e){var s=e||{};this._window=s.window||v&&window,this._decodeURLComponents=s.decodeURLComponents!==!1,this._popstate=s.popstate!==!1&&v,this._click=s.click!==!1&&b,this._hashbang=!!s.hashbang;var t=this._window;this._popstate?t.addEventListener("popstate",this._onpopstate,!1):v&&t.removeEventListener("popstate",this._onpopstate,!1),this._click?t.document.addEventListener(L,this.clickHandler,!1):b&&t.document.removeEventListener(L,this.clickHandler,!1),this._hashbang&&v&&!w?t.addEventListener("hashchange",this._onpopstate,!1):v&&t.removeEventListener("hashchange",this._onpopstate,!1)};d.prototype.base=function(e){if(arguments.length===0)return this._base;this._base=e};d.prototype._getBase=function(){var e=this._base;if(e)return e;var s=v&&this._window&&this._window.location;return v&&this._hashbang&&s&&s.protocol==="file:"&&(e=s.pathname),e};d.prototype.strict=function(e){if(arguments.length===0)return this._strict;this._strict=e};d.prototype.start=function(e){var s=e||{};if(this.configure(s),s.dispatch!==!1){this._running=!0;var t;if(f){var i=this._window,a=i.location;this._hashbang&&~a.hash.indexOf("#!")?t=a.hash.substr(2)+a.search:this._hashbang?t=a.search+a.hash:t=a.pathname+a.search+a.hash}this.replace(t,null,!0,s.dispatch)}};d.prototype.stop=function(){if(this._running){this.current="",this.len=0,this._running=!1;var e=this._window;this._click&&e.document.removeEventListener(L,this.clickHandler,!1),v&&e.removeEventListener("popstate",this._onpopstate,!1),v&&e.removeEventListener("hashchange",this._onpopstate,!1)}};d.prototype.show=function(e,s,t,i){var a=new y(e,s,this),n=this.prevContext;return this.prevContext=a,this.current=a.path,t!==!1&&this.dispatch(a,n),a.handled!==!1&&i!==!1&&a.pushState(),a};d.prototype.back=function(e,s){var t=this;if(this.len>0){var i=this._window;w&&i.history.back(),this.len--}else setTimeout(e?function(){t.show(e,s)}:function(){t.show(t._getBase(),s)})};d.prototype.redirect=function(e,s){var t=this;typeof e=="string"&&typeof s=="string"&&I.call(this,e,function(i){setTimeout(function(){t.replace(s)},0)}),typeof e=="string"&&typeof s>"u"&&setTimeout(function(){t.replace(e)},0)};d.prototype.replace=function(e,s,t,i){var a=new y(e,s,this),n=this.prevContext;return this.prevContext=a,this.current=a.path,a.init=t,a.save(),i!==!1&&this.dispatch(a,n),a};d.prototype.dispatch=function(e,s){var t=0,i=0,a=this;function n(){var l=a.exits[i++];if(!l)return o();l(s,n)}function o(){var l=a.callbacks[t++];if(e.path!==a.current){e.handled=!1;return}if(!l)return se.call(a,e);l(e,o)}s?n():o()};d.prototype.exit=function(e,s){if(typeof e=="function")return this.exit("*",e);for(var t=new E(e,null,this),i=1;i<arguments.length;++i)this.exits.push(t.middleware(arguments[i]))};d.prototype.clickHandler=function(e){if(this._which(e)===1&&!(e.metaKey||e.ctrlKey||e.shiftKey)&&!e.defaultPrevented){var s=e.target,t=e.path||(e.composedPath?e.composedPath():null);if(t){for(var i=0;i<t.length;i++)if(t[i].nodeName&&t[i].nodeName.toUpperCase()==="A"&&t[i].href){s=t[i];break}}for(;s&&s.nodeName.toUpperCase()!=="A";)s=s.parentNode;if(!(!s||s.nodeName.toUpperCase()!=="A")){var a=typeof s.href=="object"&&s.href.constructor.name==="SVGAnimatedString";if(!(s.hasAttribute("download")||s.getAttribute("rel")==="external")){var n=s.getAttribute("href");if(!(!this._hashbang&&this._samePath(s)&&(s.hash||n==="#"))&&!(n&&n.indexOf("mailto:")>-1)&&!(a?s.target.baseVal:s.target)&&!(!a&&!this.sameOrigin(s.href))){var o=a?s.href.baseVal:s.pathname+s.search+(s.hash||"");o=o[0]!=="/"?"/"+o:o,ee&&o.match(/^\/[a-zA-Z]:\//)&&(o=o.replace(/^\/[a-zA-Z]:\//,"/"));var l=o,r=this._getBase();o.indexOf(r)===0&&(o=o.substr(r.length)),this._hashbang&&(o=o.replace("#!","")),!(r&&l===o&&(!f||this._window.location.protocol!=="file:"))&&(e.preventDefault(),this.show(l))}}}}};d.prototype._onpopstate=function(){var e=!1;return v?(b&&document.readyState==="complete"?e=!0:window.addEventListener("load",function(){setTimeout(function(){e=!0},0)}),function(t){if(e){var i=this;if(t.state){var a=t.state.path;i.replace(a,t.state)}else if(f){var n=i._window.location;i.show(n.pathname+n.search+n.hash,void 0,void 0,!1)}}}):function(){}}();d.prototype._which=function(e){return e=e||v&&this._window.event,e.which==null?e.button:e.which};d.prototype._toURL=function(e){var s=this._window;if(typeof URL=="function"&&f)return new URL(e,s.location.toString());if(b){var t=s.document.createElement("a");return t.href=e,t}};d.prototype.sameOrigin=function(e){if(!e||!f)return!1;var s=this._toURL(e),t=this._window,i=t.location;return i.protocol===s.protocol&&i.hostname===s.hostname&&(i.port===s.port||i.port===""&&(s.port==80||s.port==443))};d.prototype._samePath=function(e){if(!f)return!1;var s=this._window,t=s.location;return e.pathname===t.pathname&&e.search===t.search};d.prototype._decodeURLEncodedURIComponent=function(e){return typeof e!="string"?e:this._decodeURLComponents?decodeURIComponent(e.replace(/\+/g," ")):e};function H(){var e=new d;function s(){return I.apply(e,arguments)}return s.callbacks=e.callbacks,s.exits=e.exits,s.base=e.base.bind(e),s.strict=e.strict.bind(e),s.start=e.start.bind(e),s.stop=e.stop.bind(e),s.show=e.show.bind(e),s.back=e.back.bind(e),s.redirect=e.redirect.bind(e),s.replace=e.replace.bind(e),s.dispatch=e.dispatch.bind(e),s.exit=e.exit.bind(e),s.configure=e.configure.bind(e),s.sameOrigin=e.sameOrigin.bind(e),s.clickHandler=e.clickHandler.bind(e),s.create=H,Object.defineProperty(s,"len",{get:function(){return e.len},set:function(t){e.len=t}}),Object.defineProperty(s,"current",{get:function(){return e.current},set:function(t){e.current=t}}),s.Context=y,s.Route=E,s}function I(e,s){if(typeof e=="function")return I.call(this,"*",e);if(typeof s=="function")for(var t=new E(e,null,this),i=1;i<arguments.length;++i)this.callbacks.push(t.middleware(arguments[i]));else typeof e=="string"?this[typeof s=="string"?"redirect":"show"](e,s):this.start(e)}function se(e){if(!e.handled){var s,t=this,i=t._window;t._hashbang?s=f&&this._getBase()+i.location.hash.replace("#!",""):s=f&&i.location.pathname+i.location.search,s!==e.canonicalPath&&(t.stop(),e.handled=!1,f&&(i.location.href=e.canonicalPath))}}function te(e){return e.replace(/([.+*?=^!:${}()[\]|/\\])/g,"\\$1")}function y(e,s,t){var i=this.page=t||I,a=i._window,n=i._hashbang,o=i._getBase();e[0]==="/"&&e.indexOf(o)!==0&&(e=o+(n?"#!":"")+e);var l=e.indexOf("?");this.canonicalPath=e;var r=new RegExp("^"+te(o));if(this.path=e.replace(r,"")||"/",n&&(this.path=this.path.replace("#!","")||"/"),this.title=b&&a.document.title,this.state=s||{},this.state.path=e,this.querystring=~l?i._decodeURLEncodedURIComponent(e.slice(l+1)):"",this.pathname=i._decodeURLEncodedURIComponent(~l?e.slice(0,l):e),this.params={},this.hash="",!n){if(!~this.path.indexOf("#"))return;var c=this.path.split("#");this.path=this.pathname=c[0],this.hash=i._decodeURLEncodedURIComponent(c[1])||"",this.querystring=this.querystring.split("#")[0]}}y.prototype.pushState=function(){var e=this.page,s=e._window,t=e._hashbang;e.len++,w&&s.history.pushState(this.state,this.title,t&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};y.prototype.save=function(){var e=this.page;w&&e._window.history.replaceState(this.state,this.title,e._hashbang&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};function E(e,s,t){var i=this.page=t||C,a=s||{};a.strict=a.strict||i._strict,this.path=e==="*"?"(.*)":e,this.method="GET",this.regexp=A(this.path,this.keys=[],a)}E.prototype.middleware=function(e){var s=this;return function(t,i){if(s.match(t.path,t.params))return t.routePath=s.path,e(t,i);i()}};E.prototype.match=function(e,s){var t=this.keys,i=e.indexOf("?"),a=~i?e.slice(0,i):e,n=this.regexp.exec(decodeURIComponent(a));if(!n)return!1;delete s[0];for(var o=1,l=n.length;o<l;++o){var r=t[o-1],c=this.page._decodeURLEncodedURIComponent(n[o]);(c!==void 0||!hasOwnProperty.call(s,r.name))&&(s[r.name]=c)}return!0};var C=H(),p=C,ae=C;p.default=ae;const ie=`
 <section>
   <img src="./assets/images/home-bg1.png" alt="" class="home-header-background" />
   <main class="header-container" style="min-height: unset">
@@ -6,11 +6,11 @@
       <header class="header-header">
         <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
         <nav class="header-navigation">
-          <a href="/gate-valves">GATE VALVES</a>
-          <a href="/check-valves">CHECK VALVES</a>
-          <a href="/globe-valves">GLOBE VALVES</a>
-          <a href="/trunnion-valves">TRUNNION VALVES</a>
-          <a href="/floating-valves">FLOATING VALVES</a>
+          <a href="/gate-valves" class="link">GATE VALVES</a>
+          <a href="/check-valves" class="link">CHECK VALVES</a>
+          <a href="/globe-valves" class="link">GLOBE VALVES</a>
+          <a href="/trunnion-valves" class="link">TRUNNION VALVES</a>
+          <a href="/floating-valves" class="link">FLOATING VALVES</a>
           <div class="dropdown">
             <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
             <ul class="dropdown-content">
@@ -44,35 +44,35 @@
     <section class="home-globe-valve-section">
       <div class="home-globe-valve-content">
         <img src="./assets/images/valve1.png" alt="Valve diagram" class="home-butterfly-valve-" loading="lazy" />
-        <span class="home-globe-valve-text">GATE VALVE</span>
+        <span class="home-globe-valve-text link">GATE VALVE</span>
       </div>
     </section>
 
     <section class="home-globe-valve-section">
       <div class="home-globe-valve-content">
         <img src="./assets/images/valve2.png" alt="Globe valve" class="home-butterfly-valve-image" loading="lazy" />
-        <span style="margin-left: 25px" class="home-globe-valve-text">SWING VALVE</span>
+        <span class="home-globe-valve-text link">SWING VALVE</span>
       </div>
     </section>
 
     <section class="home-ball-valve-section">
       <div class="home-globe-valve-content">
         <img src="./assets/images/valve3.png" alt="Ball valve" class="home-butterfly-valve-image" loading="lazy" />
-        <span class="home-globe-valve-text">GLOBE VALVE</span>
+        <span class="home-globe-valve-text link">GLOBE VALVE</span>
       </div>
     </section>
 
     <section class="home-butterfly-valve-section">
       <div class="home-globe-valve-content">
         <img src="./assets/images/valve4.png" alt="Butterfly valve" class="home-butterfly-valve-image" loading="lazy" />
-        <span class="home-globe-valve-text">BALL VALVE</span>
+        <span class="home-globe-valve-text link">BALL VALVE</span>
       </div>
     </section>
 
     <section class="home-butterfly-valve-section">
       <div class="home-globe-valve-content">
         <img src="./assets/images/valve5.png" alt="Butterfly valve" class="home-butterfly-valve-image" loading="lazy" />
-        <span class="home-globe-valve-text">BUTTERFLY VALVE</span>
+        <span class="home-globe-valve-text link">BUTTERFLY VALVE</span>
       </div>
     </section>
   </div>
@@ -96,18 +96,18 @@
 </section>
 
 <section class="home-first-api-section">
-  <!-- <video
+   <video
+    id="fire-video"
     autoplay
     loop
     muted
     playsinline
-    style="position: absolute; z-index: 3; left: 0"
   >
     <source
       src="./assets/videos/40_sss_loop_compressed.webm"
       type="video/webm"
     />
-  </video> -->
+  </video> 
   <img src="./assets/images/bg-valve-home1.jpeg" alt="" class="home-first-background-image" />
   <img src="./assets/images/first-valve.png" alt="API 6FD Fire Testing Standard for Valves"
     class="home-first-api-image" />
@@ -127,7 +127,7 @@
 </section>
 
 <section class="home-second-api-section">
-  <video autoplay loop muted playsinline style="position: absolute; z-index: 3; left: 0">
+  <video autoplay loop muted playsinline  id="water-video">
     <source src="./assets/videos/WhiteLiquislashtranAlph_compressed.webm" type="video/webm" />
   </video>
   <img src="./assets/images/bg-team.jpeg" alt="" class="home-first-background-image" />
@@ -145,7 +145,7 @@
 </section>
 
 <section class="valves-portfolio"></br>
-  <h2 class="valves-title-portfolio">Our Valves Portfolio</h2>
+  <h2 class="valves-title-portfolio">OUR VALVES PORTFOLIO</h2>
   <div class="valve-card">
     <img src="./assets/images/check_valve 1 (2).png" alt="Check Valve">
     <p style="font-size: 32px; font-family: Raleway; margin-bottom: 5;"> Check <strong style="color: #00A39F;">Valve</strong></p>
@@ -296,11 +296,11 @@
     <header class="header-header">
       <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
       <nav class="header-navigation">
-        <a href="/gate-valves">GATE VALVES</a>
-        <a href="/check-valves">CHECK VALVES</a>
-        <a href="/globe-valves">GLOBE VALVES</a>
-        <a href="/trunnion-valves">TRUNNION VALVES</a>
-        <a href="/floating-valves">FLOATING VALVES</a>
+        <a href="/gate-valves" class="link">GATE VALVES</a>
+        <a href="/check-valves" class="link">CHECK VALVES</a>
+        <a href="/globe-valves" class="link">GLOBE VALVES</a>
+        <a href="/trunnion-valves" class="link">TRUNNION VALVES</a>
+        <a href="/floating-valves" class="link">FLOATING VALVES</a>
         <div class="dropdown">
           <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
           <ul class="dropdown-content">
@@ -374,7 +374,7 @@
 </section>
 
 <section class="about-about-section">
-  <div class="about-about-container">
+  <div class="about-about-container main-about">
     <div class="about-about-content">
       <div class="about-about-title-column">
         <div class="about-about-title-wrapper">
@@ -529,11 +529,11 @@
         <header class="header-header">
         <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
             <nav class="header-navigation">
-                <a href="/gate-valves">GATE VALVES</a>
-                <a href="/check-valves">CHECK VALVES</a>
-                <a href="/globe-valves">GLOBE VALVES</a>
-                <a href="/trunnion-valves">TRUNNION VALVES</a>
-                <a href="/floating-valves">FLOATING VALVES</a>
+                <a href="/gate-valves" class="link">GATE VALVES</a>
+                <a href="/check-valves" class="link">CHECK VALVES</a>
+                <a href="/globe-valves" class="link">GLOBE VALVES</a>
+                <a href="/trunnion-valves" class="link">TRUNNION VALVES</a>
+                <a href="/floating-valves" class="link">FLOATING VALVES</a>
                 <div class="dropdown">
                     <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
                     <ul class="dropdown-content">
@@ -556,11 +556,11 @@
         </section>
     </div>
 </main>
-<div class="steps-content">
+<div class="steps-content ">
     <img src="./assets/images/bg-products.png" class="steps-bg-right steps-first-bg" />
     <img src="./assets/images/bg-products.png" class="steps-bg-right steps-middle-bg" />
     <img src="./assets/images/bg-team.jpeg" class="steps-bg-right steps-third-bg" />
-    <div class="steps-container">
+    <div class="steps-container steps-content-first">
         <div class="steps-content-column">
             <div class="steps-content-wrapper">
                 <h2 class="steps-section-title">START</h2>
@@ -590,45 +590,52 @@
         </div>
     </div>
 
-    <div class="steps-container">
-        <div class="steps-image-column">
-            <img src="./assets/images/steps2.jpeg" alt="Product image" class="steps-product-image" />
-        </div>
-        <div class="steps-content-column">
-            <div class="steps-content-wrapper steps-right">
-                <h2 class="steps-section-title">TAKING SHAPE</h2>
-                <div class="steps-section-divider"></div>
-                <p class="steps-intro-text">
-                    The engineering process, CAD-CAM and machining are critical to ensure
-                    a reliable product. In short, a valve is always more than the sum of
-                    its parts.
-                </p>
-                <p class="steps-quality-text" style="margin-top: 0">
-                    All our designs are carried out using CAD-CAM technology. Ensuring
-                    that all applicable design standards are met and being able to assess
-                    performance before arriving at the finished product.
-                </p>
-                <p class="steps-testing-text" style="color: black; margin: 5px">
-                    <b>FROM A SINGLE VALVE TO ELABORATED SOLUTIONS</b>
-                </p>
-                <p class="steps-manufacturing-text">
-                    The requirement is working together with our clients.
-                </p>
-                <p class="steps-manufacturing-text" style="margin-top: 0">
-                    We work with your specifications, your engineering and we adapt to
-                    your schedule.
-                </p>
-                <p class="steps-manufacturing-text" style="margin-top: 0">
-                    Machining is the heart of the development of our products.
-                </p>
-                <p class="steps-testing-text">
-                    <b>For DERVOS efficiency and reproducibility are essential.</b>
-                </p>
-            </div>
+    <div class="steps-container steps-content-first step-content-second">
+    <!-- Imagen para escritorio -->
+    <div class="steps-image-column steps-product-image-second desktop-image">
+        <img src="./assets/images/steps2.jpeg" alt="Product image" class="steps-product-image" />
+    </div>
+    
+    <div class="steps-content-column">
+        <div class="steps-content-wrapper steps-right">
+            <h2 class="steps-section-title">TAKING SHAPE</h2>
+            <div class="steps-section-divider"></div>
+            <p class="steps-intro-text">
+                The engineering process, CAD-CAM and machining are critical to ensure
+                a reliable product. In short, a valve is always more than the sum of
+                its parts.
+            </p>
+            <p class="steps-quality-text" style="margin-top: 0">
+                All our designs are carried out using CAD-CAM technology. Ensuring
+                that all applicable design standards are met and being able to assess
+                performance before arriving at the finished product.
+            </p>
+            <p class="steps-testing-text" style="color: black; margin: 5px">
+                <b>FROM A SINGLE VALVE TO ELABORATED SOLUTIONS</b>
+            </p>
+            <p class="steps-manufacturing-text">
+                The requirement is working together with our clients.
+            </p>
+            <p class="steps-manufacturing-text" style="margin-top: 0">
+                We work with your specifications, your engineering and we adapt to
+                your schedule.
+            </p>
+            <p class="steps-manufacturing-text" style="margin-top: 0">
+                Machining is the heart of the development of our products.
+            </p>
+            <p class="steps-testing-text">
+                <b>For DERVOS efficiency and reproducibility are essential.</b>
+            </p>
         </div>
     </div>
+    <!-- Imagen para móviles -->
+    <div class="steps-image-column steps-product-image-second mobile-image">
+        <img src="./assets/images/steps2.jpeg" alt="Product image" class="steps-product-image" />
+    </div>
+</div>
 
-    <div class="steps-container">
+
+    <div class="steps-container steps-content-first step-content-third">
         <div class="steps-content-column">
             <div class="steps-content-wrapper">
                 <h2 class="steps-section-title">ASSEMBLY</h2>
@@ -648,17 +655,17 @@
             </div>
         </div>
         <div class="steps-image-column">
-            <img src="./assets/images/steps3.jpeg" alt="Product image" class="steps-product-image" />
+            <img src="./assets/images/steps3.jpeg" alt="Product image" class="steps-product-image " />
         </div>
     </div>
 
-    <div class="steps-container">
-        <div class="steps-image-column">
-            <img src="./assets/images/steps4.jpeg" alt="Product image" class="steps-product-image" />
+    <div class="steps-container steps-content-first">
+        <div class="steps-image-column ">
+            <img src="./assets/images/steps4.jpeg" alt="Product image" class="steps-product-image steps-forth" />
         </div>
-        <div class="steps-content-column">
+        <div class="steps-content-column test-steps-container">
             <div class="steps-content-wrapper steps-right">
-                <h2 class="steps-section-title">TEST AND CERTIFICATIONS</h2>
+                <h2 class="steps-section-title test-certifications">TEST AND CERTIFICATIONS</h2>
                 <div class="steps-section-divider"></div>
                 <p class="steps-manufacturing-text">
                     Our state-of-the-art automatic banks ensure that each valvecomplies
@@ -692,7 +699,7 @@
         </div>
     </div>
 
-    <div class="steps-container">
+    <div class="steps-container steps-content-first">
         <div class="steps-content-column">
             <div class="steps-content-wrapper">
                 <h2 class="steps-section-title">LOGISTICS</h2>
@@ -708,14 +715,14 @@
                 <a style="text-decoration: none;  cursor: pointer;" href="mailto:contact@dervosamerica.com" class="home-header-cta-button">CONTACT</a> 
             </div>
         </div>
-        <div class="steps-image-column">
+        <div class="steps-image-column steps-fifth">
             <img src="./assets/images/steps5.jpeg" alt="Product image" class="steps-product-image" />
         </div>
     </div>
 
 </div>
 <section class="about-about-section">
-  <div class="about-about-container">
+  <div class="about-about-container main-about">
     <div class="about-about-content">
       <div class="about-about-title-column">
         <div class="about-about-title-wrapper">
@@ -751,11 +758,11 @@
         <header class="header-header">
         <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
             <nav class="header-navigation">
-                <a href="/gate-valves">GATE VALVES</a>
-                <a href="/check-valves">CHECK VALVES</a>
-                <a href="/globe-valves">GLOBE VALVES</a>
-                <a href="/trunnion-valves">TRUNNION VALVES</a>
-                <a href="/floating-valves">FLOATING VALVES</a>
+                <a href="/gate-valves" class="link">GATE VALVES</a>
+                <a href="/check-valves" class="link">CHECK VALVES</a>
+                <a href="/globe-valves" class="link">GLOBE VALVES</a>
+                <a href="/trunnion-valves" class="link">TRUNNION VALVES</a>
+                <a href="/floating-valves" class="link">FLOATING VALVES</a>
                 <div class="dropdown">
                     <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
                     <ul class="dropdown-content">
@@ -951,11 +958,11 @@
     <header class="header-header">
       <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
       <nav class="header-navigation">
-        <a href="/gate-valves">GATE VALVES</a>
-        <a href="/check-valves">CHECK VALVES</a>
-        <a href="/globe-valves">GLOBE VALVES</a>
-        <a href="/trunnion-valves">TRUNNION VALVES</a>
-        <a href="/floating-valves">FLOATING VALVES</a>
+        <a href="/gate-valves" class="link">GATE VALVES</a>
+        <a href="/check-valves" class="link">CHECK VALVES</a>
+        <a href="/globe-valves" class="link">GLOBE VALVES</a>
+        <a href="/trunnion-valves" class="link">TRUNNION VALVES</a>
+        <a href="/floating-valves" class="link">FLOATING VALVES</a>
         <div class="dropdown">
           <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
           <ul class="dropdown-content">
@@ -1135,7 +1142,7 @@
             <li> End to End Dimension: <strong>ANSI B16.10 </strong></li>
             <li> End Flange Dimension: <strong>2"-24" to ANSI B16.5</strong>
               <br> > 24: to MSS SP-44
-              to ANSI B16.34 on\u2028 request
+              to ANSI B16.34 on request
             </li>
             <li> B. W. Ends to <strong>ANSI B16.25</strong></li>
             <li> Manufacturing to <strong> NACE MR-01-75 on request </strong></li>
@@ -1189,7 +1196,7 @@
         Our manufacturing process is certificated by API International. <br> <br>
         <span class="header-api-text">You can count on the quality of our valves.</span>
       </p>
-      <!--<h6 style="color: white; font-size: 38px; margin-bottom:15%; font-family: Raleway; " >Our manufacturing process is certificated by API International.\u2028You can count on the quality of our valves.</h6>-->
+      <!--<h6 style="color: white; font-size: 38px; margin-bottom:15%; font-family: Raleway; " >Our manufacturing process is certificated by API International.You can count on the quality of our valves.</h6>-->
       <img class="flotation-container" src="./assets/images/arrow.png" class="header-arrow"
         style="height:50px; margin: 5%" />
       <p class="header-scroll-text" style="margin-top: 0;">SCROLL BELOW</p>
@@ -1286,7 +1293,7 @@
 
 <!--  ABOUT US SECTION-->
 <section class="about-about-section">
-  <div class="about-about-container">
+  <div class="about-about-container main-about">
     <div class="about-about-content">
       <div class="about-about-title-column">
         <div class="about-about-title-wrapper">
@@ -1321,11 +1328,11 @@
     <header class="header-header">
       <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
       <nav class="header-navigation">
-        <a href="/gate-valves">GATE VALVES</a>
-        <a href="/check-valves">CHECK VALVES</a>
-        <a href="/globe-valves">GLOBE VALVES</a>
-        <a href="/trunnion-valves">TRUNNION VALVES</a>
-        <a href="/floating-valves">FLOATING VALVES</a>
+        <a href="/gate-valves" class="link">GATE VALVES</a>
+        <a href="/check-valves" class="link">CHECK VALVES</a>
+        <a href="/globe-valves" class="link">GLOBE VALVES</a>
+        <a href="/trunnion-valves" class="link">TRUNNION VALVES</a>
+        <a href="/floating-valves" class="link">FLOATING VALVES</a>
         <div class="dropdown">
           <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
           <ul class="dropdown-content">
@@ -1513,7 +1520,7 @@
       </div>
     </div>
   </div>
-  <img src="./assets/images/Trunnion_upscaled 1.png" alt="img-pdf" class="img-pdf-section-trunnion" style="margin-top: -48%;
+  <img src="./assets/images/Trunnion_upscaled 1.png" alt="img-pdf" class="img-pdf-section-trunnion" style="margin-top: -23%;
   margin-right: 5px;">
   <div class="centered-title">DIMENSIONS AND <strong style="color:#00A39F;"> WEIGHT</strong></div>
   <img src="./assets/images/Trunnion_2 1.png" alt="img-pdf" class="img-pdf-section-trunnion-last">
@@ -1766,11 +1773,11 @@
     <header class="header-header">
       <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
       <nav class="header-navigation">
-        <a href="/gate-valves">GATE VALVES</a>
-        <a href="/check-valves">CHECK VALVES</a>
-        <a href="/globe-valves">GLOBE VALVES</a>
-        <a href="/trunnion-valves">TRUNNION VALVES</a>
-        <a href="/floating-valves">FLOATING VALVES</a>
+        <a href="/gate-valves" class="link">GATE VALVES</a>
+        <a href="/check-valves" class="link">CHECK VALVES</a>
+        <a href="/globe-valves" class="link">GLOBE VALVES</a>
+        <a href="/trunnion-valves" class="link">TRUNNION VALVES</a>
+        <a href="/floating-valves" class="link">FLOATING VALVES</a>
         <div class="dropdown">
           <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
           <ul class="dropdown-content">
@@ -1931,10 +1938,13 @@
     </div>
   </div>
 </section>
-
-<img src="./assets/images/pdf-2.jpeg" alt="img-pdf" class="img-pdf-section-gloves">
+<div class="just-image-container">
+  <img src="./assets/images/pdf-2.jpeg" alt="img-pdf" class="img-pdf-section-gloves">
+</div>
 <div class="centered-title">TEST PRESSURE TO <strong style="color: #00A39F;">API598</strong></div>
-<img src="./assets/images/pdf-3.jpeg" alt="img-pdf" class="img-pdf-section-gloves">
+<div class="just-image-container">
+  <img src="./assets/images/pdf-3.jpeg" alt="img-pdf" class="img-pdf-section-gloves">
+</div>
 </div>
 <div class="gloves-valves-container gloves-valves-third-container">
   <div class="gloves-valves-content-column  gloves-valves-third-column">
@@ -1958,7 +1968,10 @@
       class="gloves-valves-product-image img-gloves-fourth" />
   </div>
 </div>
-<img src="./assets/images/Globe3_ 1.png" alt="img-pdf" class="img-pdf-section-gloves">
+
+<div class="just-image-container">
+  <img src="./assets/images/Globe3_ 1.png" alt="img-pdf" class="img-pdf-section-gloves">
+</div>
 
 </br> </br>
 </div>
@@ -1971,4 +1984,4 @@
     target="_blank">DOWNLOAD TECHNICAL FILE</a>
   <div class="gloves-valves-background-image"></div>
 </div>
-`,m=document.getElementById("app"),he=()=>{p("/",()=>{m.innerHTML=ie,ve(),h(),window.addEventListener("scroll",u)}),p("/about-us",()=>{m.innerHTML=ne,h(),window.addEventListener("scroll",u)}),p("/steps",()=>{m.innerHTML=oe,T(),h(),window.addEventListener("scroll",u)}),p("/gate-valves",()=>{m.innerHTML=le,h(),window.addEventListener("scroll",u)}),p("/globe-valves",()=>{m.innerHTML=pe,h(),window.addEventListener("scroll",u)}),p("/check-valves",()=>{m.innerHTML=re,h(),window.addEventListener("scroll",u)}),p("/certifications",()=>{m.innerHTML=ce,T(),h(),window.addEventListener("scroll",u)}),p("/trunnion-valves",()=>{m.innerHTML=de,T(),h(),window.addEventListener("scroll",u)}),p("/floating-valves",()=>{m.innerHTML=ge,T(),h(),window.addEventListener("scroll",u)}),p()};document.addEventListener("DOMContentLoaded",()=>{he()});
+`,m=document.getElementById("app"),he=()=>{p("/",()=>{m.innerHTML=ie,ve(),h(),window.addEventListener("scroll",u);const e=document.getElementById("fire-video");e&&(e.playbackRate=.45)}),p("/about-us",()=>{m.innerHTML=ne,h(),window.addEventListener("scroll",u)}),p("/steps",()=>{m.innerHTML=oe,T(),h(),window.addEventListener("scroll",u)}),p("/gate-valves",()=>{m.innerHTML=le,h(),window.addEventListener("scroll",u)}),p("/globe-valves",()=>{m.innerHTML=pe,h(),window.addEventListener("scroll",u)}),p("/check-valves",()=>{m.innerHTML=re,h(),window.addEventListener("scroll",u)}),p("/certifications",()=>{m.innerHTML=ce,T(),h(),window.addEventListener("scroll",u)}),p("/trunnion-valves",()=>{m.innerHTML=de,T(),h(),window.addEventListener("scroll",u)}),p("/floating-valves",()=>{m.innerHTML=ge,T(),h(),window.addEventListener("scroll",u)}),p()};document.addEventListener("DOMContentLoaded",()=>{he()});
