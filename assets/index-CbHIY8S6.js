@@ -1,4 +1,4 @@
-(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const a of document.querySelectorAll('link[rel="modulepreload"]'))i(a);new MutationObserver(a=>{for(const n of a)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&i(o)}).observe(document,{childList:!0,subtree:!0});function t(a){const n={};return a.integrity&&(n.integrity=a.integrity),a.referrerPolicy&&(n.referrerPolicy=a.referrerPolicy),a.crossOrigin==="use-credentials"?n.credentials="include":a.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function i(a){if(a.ep)return;a.ep=!0;const n=t(a);fetch(a.href,n)}})();var O=Array.isArray||function(e){return Object.prototype.toString.call(e)=="[object Array]"},A=V,z=N,j=J,q=k,K=D,Y=new RegExp(["(\\\\.)","([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^()])+)\\))?|\\(((?:\\\\.|[^()])+)\\))([+*?])?|(\\*))"].join("|"),"g");function N(e){for(var s=[],t=0,i=0,a="",n;(n=Y.exec(e))!=null;){var o=n[0],l=n[1],r=n.index;if(a+=e.slice(i,r),i=r+o.length,l){a+=l[1];continue}a&&(s.push(a),a="");var c=n[2],g=n[3],U=n[4],M=n[5],S=n[6],B=n[7],_=S==="+"||S==="*",G=S==="?"||S==="*",x=c||"/",W=U||M||(B?".*":"[^"+x+"]+?");s.push({name:g||t++,prefix:c||"",delimiter:x,optional:G,repeat:_,pattern:$(W)})}return i<e.length&&(a+=e.substr(i)),a&&s.push(a),s}function J(e){return k(N(e))}function k(e){for(var s=new Array(e.length),t=0;t<e.length;t++)typeof e[t]=="object"&&(s[t]=new RegExp("^"+e[t].pattern+"$"));return function(i){for(var a="",n=i||{},o=0;o<e.length;o++){var l=e[o];if(typeof l=="string"){a+=l;continue}var r=n[l.name],c;if(r==null){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to be defined')}if(O(r)){if(!l.repeat)throw new TypeError('Expected "'+l.name+'" to not repeat, but received "'+r+'"');if(r.length===0){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to not be empty')}for(var g=0;g<r.length;g++){if(c=encodeURIComponent(r[g]),!s[o].test(c))throw new TypeError('Expected all "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');a+=(g===0?l.prefix:l.delimiter)+c}continue}if(c=encodeURIComponent(r),!s[o].test(c))throw new TypeError('Expected "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');a+=l.prefix+c}return a}}function F(e){return e.replace(/([.+*?=^!:${}()[\]|\/])/g,"\\$1")}function $(e){return e.replace(/([=!:$\/()])/g,"\\$1")}function R(e,s){return e.keys=s,e}function P(e){return e.sensitive?"":"i"}function Q(e,s){var t=e.source.match(/\((?!\?)/g);if(t)for(var i=0;i<t.length;i++)s.push({name:i,prefix:null,delimiter:null,optional:!1,repeat:!1,pattern:null});return R(e,s)}function X(e,s,t){for(var i=[],a=0;a<e.length;a++)i.push(V(e[a],s,t).source);var n=new RegExp("(?:"+i.join("|")+")",P(t));return R(n,s)}function Z(e,s,t){for(var i=N(e),a=D(i,t),n=0;n<i.length;n++)typeof i[n]!="string"&&s.push(i[n]);return R(a,s)}function D(e,s){s=s||{};for(var t=s.strict,i=s.end!==!1,a="",n=e[e.length-1],o=typeof n=="string"&&/\/$/.test(n),l=0;l<e.length;l++){var r=e[l];if(typeof r=="string")a+=F(r);else{var c=F(r.prefix),g=r.pattern;r.repeat&&(g+="(?:"+c+g+")*"),r.optional?c?g="(?:"+c+"("+g+"))?":g="("+g+")?":g=c+"("+g+")",a+=g}}return t||(a=(o?a.slice(0,-2):a)+"(?:\\/(?=$))?"),i?a+="$":a+=t&&o?"":"(?=\\/|$)",new RegExp("^"+a,P(s))}function V(e,s,t){return s=s||[],O(s)?t||(t={}):(t=s,s=[]),e instanceof RegExp?Q(e,s):O(e)?X(e,s,t):Z(e,s,t)}A.parse=z;A.compile=j;A.tokensToFunction=q;A.tokensToRegExp=K;var b=typeof document<"u",v=typeof window<"u",w=typeof history<"u",ee=typeof process<"u",L=b&&document.ontouchstart?"touchstart":"click",f=v&&!!(window.history.location||window.location);function d(){this.callbacks=[],this.exits=[],this.current="",this.len=0,this._decodeURLComponents=!0,this._base="",this._strict=!1,this._running=!1,this._hashbang=!1,this.clickHandler=this.clickHandler.bind(this),this._onpopstate=this._onpopstate.bind(this)}d.prototype.configure=function(e){var s=e||{};this._window=s.window||v&&window,this._decodeURLComponents=s.decodeURLComponents!==!1,this._popstate=s.popstate!==!1&&v,this._click=s.click!==!1&&b,this._hashbang=!!s.hashbang;var t=this._window;this._popstate?t.addEventListener("popstate",this._onpopstate,!1):v&&t.removeEventListener("popstate",this._onpopstate,!1),this._click?t.document.addEventListener(L,this.clickHandler,!1):b&&t.document.removeEventListener(L,this.clickHandler,!1),this._hashbang&&v&&!w?t.addEventListener("hashchange",this._onpopstate,!1):v&&t.removeEventListener("hashchange",this._onpopstate,!1)};d.prototype.base=function(e){if(arguments.length===0)return this._base;this._base=e};d.prototype._getBase=function(){var e=this._base;if(e)return e;var s=v&&this._window&&this._window.location;return v&&this._hashbang&&s&&s.protocol==="file:"&&(e=s.pathname),e};d.prototype.strict=function(e){if(arguments.length===0)return this._strict;this._strict=e};d.prototype.start=function(e){var s=e||{};if(this.configure(s),s.dispatch!==!1){this._running=!0;var t;if(f){var i=this._window,a=i.location;this._hashbang&&~a.hash.indexOf("#!")?t=a.hash.substr(2)+a.search:this._hashbang?t=a.search+a.hash:t=a.pathname+a.search+a.hash}this.replace(t,null,!0,s.dispatch)}};d.prototype.stop=function(){if(this._running){this.current="",this.len=0,this._running=!1;var e=this._window;this._click&&e.document.removeEventListener(L,this.clickHandler,!1),v&&e.removeEventListener("popstate",this._onpopstate,!1),v&&e.removeEventListener("hashchange",this._onpopstate,!1)}};d.prototype.show=function(e,s,t,i){var a=new y(e,s,this),n=this.prevContext;return this.prevContext=a,this.current=a.path,t!==!1&&this.dispatch(a,n),a.handled!==!1&&i!==!1&&a.pushState(),a};d.prototype.back=function(e,s){var t=this;if(this.len>0){var i=this._window;w&&i.history.back(),this.len--}else setTimeout(e?function(){t.show(e,s)}:function(){t.show(t._getBase(),s)})};d.prototype.redirect=function(e,s){var t=this;typeof e=="string"&&typeof s=="string"&&I.call(this,e,function(i){setTimeout(function(){t.replace(s)},0)}),typeof e=="string"&&typeof s>"u"&&setTimeout(function(){t.replace(e)},0)};d.prototype.replace=function(e,s,t,i){var a=new y(e,s,this),n=this.prevContext;return this.prevContext=a,this.current=a.path,a.init=t,a.save(),i!==!1&&this.dispatch(a,n),a};d.prototype.dispatch=function(e,s){var t=0,i=0,a=this;function n(){var l=a.exits[i++];if(!l)return o();l(s,n)}function o(){var l=a.callbacks[t++];if(e.path!==a.current){e.handled=!1;return}if(!l)return se.call(a,e);l(e,o)}s?n():o()};d.prototype.exit=function(e,s){if(typeof e=="function")return this.exit("*",e);for(var t=new E(e,null,this),i=1;i<arguments.length;++i)this.exits.push(t.middleware(arguments[i]))};d.prototype.clickHandler=function(e){if(this._which(e)===1&&!(e.metaKey||e.ctrlKey||e.shiftKey)&&!e.defaultPrevented){var s=e.target,t=e.path||(e.composedPath?e.composedPath():null);if(t){for(var i=0;i<t.length;i++)if(t[i].nodeName&&t[i].nodeName.toUpperCase()==="A"&&t[i].href){s=t[i];break}}for(;s&&s.nodeName.toUpperCase()!=="A";)s=s.parentNode;if(!(!s||s.nodeName.toUpperCase()!=="A")){var a=typeof s.href=="object"&&s.href.constructor.name==="SVGAnimatedString";if(!(s.hasAttribute("download")||s.getAttribute("rel")==="external")){var n=s.getAttribute("href");if(!(!this._hashbang&&this._samePath(s)&&(s.hash||n==="#"))&&!(n&&n.indexOf("mailto:")>-1)&&!(a?s.target.baseVal:s.target)&&!(!a&&!this.sameOrigin(s.href))){var o=a?s.href.baseVal:s.pathname+s.search+(s.hash||"");o=o[0]!=="/"?"/"+o:o,ee&&o.match(/^\/[a-zA-Z]:\//)&&(o=o.replace(/^\/[a-zA-Z]:\//,"/"));var l=o,r=this._getBase();o.indexOf(r)===0&&(o=o.substr(r.length)),this._hashbang&&(o=o.replace("#!","")),!(r&&l===o&&(!f||this._window.location.protocol!=="file:"))&&(e.preventDefault(),this.show(l))}}}}};d.prototype._onpopstate=function(){var e=!1;return v?(b&&document.readyState==="complete"?e=!0:window.addEventListener("load",function(){setTimeout(function(){e=!0},0)}),function(t){if(e){var i=this;if(t.state){var a=t.state.path;i.replace(a,t.state)}else if(f){var n=i._window.location;i.show(n.pathname+n.search+n.hash,void 0,void 0,!1)}}}):function(){}}();d.prototype._which=function(e){return e=e||v&&this._window.event,e.which==null?e.button:e.which};d.prototype._toURL=function(e){var s=this._window;if(typeof URL=="function"&&f)return new URL(e,s.location.toString());if(b){var t=s.document.createElement("a");return t.href=e,t}};d.prototype.sameOrigin=function(e){if(!e||!f)return!1;var s=this._toURL(e),t=this._window,i=t.location;return i.protocol===s.protocol&&i.hostname===s.hostname&&(i.port===s.port||i.port===""&&(s.port==80||s.port==443))};d.prototype._samePath=function(e){if(!f)return!1;var s=this._window,t=s.location;return e.pathname===t.pathname&&e.search===t.search};d.prototype._decodeURLEncodedURIComponent=function(e){return typeof e!="string"?e:this._decodeURLComponents?decodeURIComponent(e.replace(/\+/g," ")):e};function H(){var e=new d;function s(){return I.apply(e,arguments)}return s.callbacks=e.callbacks,s.exits=e.exits,s.base=e.base.bind(e),s.strict=e.strict.bind(e),s.start=e.start.bind(e),s.stop=e.stop.bind(e),s.show=e.show.bind(e),s.back=e.back.bind(e),s.redirect=e.redirect.bind(e),s.replace=e.replace.bind(e),s.dispatch=e.dispatch.bind(e),s.exit=e.exit.bind(e),s.configure=e.configure.bind(e),s.sameOrigin=e.sameOrigin.bind(e),s.clickHandler=e.clickHandler.bind(e),s.create=H,Object.defineProperty(s,"len",{get:function(){return e.len},set:function(t){e.len=t}}),Object.defineProperty(s,"current",{get:function(){return e.current},set:function(t){e.current=t}}),s.Context=y,s.Route=E,s}function I(e,s){if(typeof e=="function")return I.call(this,"*",e);if(typeof s=="function")for(var t=new E(e,null,this),i=1;i<arguments.length;++i)this.callbacks.push(t.middleware(arguments[i]));else typeof e=="string"?this[typeof s=="string"?"redirect":"show"](e,s):this.start(e)}function se(e){if(!e.handled){var s,t=this,i=t._window;t._hashbang?s=f&&this._getBase()+i.location.hash.replace("#!",""):s=f&&i.location.pathname+i.location.search,s!==e.canonicalPath&&(t.stop(),e.handled=!1,f&&(i.location.href=e.canonicalPath))}}function te(e){return e.replace(/([.+*?=^!:${}()[\]|/\\])/g,"\\$1")}function y(e,s,t){var i=this.page=t||I,a=i._window,n=i._hashbang,o=i._getBase();e[0]==="/"&&e.indexOf(o)!==0&&(e=o+(n?"#!":"")+e);var l=e.indexOf("?");this.canonicalPath=e;var r=new RegExp("^"+te(o));if(this.path=e.replace(r,"")||"/",n&&(this.path=this.path.replace("#!","")||"/"),this.title=b&&a.document.title,this.state=s||{},this.state.path=e,this.querystring=~l?i._decodeURLEncodedURIComponent(e.slice(l+1)):"",this.pathname=i._decodeURLEncodedURIComponent(~l?e.slice(0,l):e),this.params={},this.hash="",!n){if(!~this.path.indexOf("#"))return;var c=this.path.split("#");this.path=this.pathname=c[0],this.hash=i._decodeURLEncodedURIComponent(c[1])||"",this.querystring=this.querystring.split("#")[0]}}y.prototype.pushState=function(){var e=this.page,s=e._window,t=e._hashbang;e.len++,w&&s.history.pushState(this.state,this.title,t&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};y.prototype.save=function(){var e=this.page;w&&e._window.history.replaceState(this.state,this.title,e._hashbang&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};function E(e,s,t){var i=this.page=t||C,a=s||{};a.strict=a.strict||i._strict,this.path=e==="*"?"(.*)":e,this.method="GET",this.regexp=A(this.path,this.keys=[],a)}E.prototype.middleware=function(e){var s=this;return function(t,i){if(s.match(t.path,t.params))return t.routePath=s.path,e(t,i);i()}};E.prototype.match=function(e,s){var t=this.keys,i=e.indexOf("?"),a=~i?e.slice(0,i):e,n=this.regexp.exec(decodeURIComponent(a));if(!n)return!1;delete s[0];for(var o=1,l=n.length;o<l;++o){var r=t[o-1],c=this.page._decodeURLEncodedURIComponent(n[o]);(c!==void 0||!hasOwnProperty.call(s,r.name))&&(s[r.name]=c)}return!0};var C=H(),p=C,ae=C;p.default=ae;const ie=`
+(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const a of document.querySelectorAll('link[rel="modulepreload"]'))i(a);new MutationObserver(a=>{for(const n of a)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&i(o)}).observe(document,{childList:!0,subtree:!0});function t(a){const n={};return a.integrity&&(n.integrity=a.integrity),a.referrerPolicy&&(n.referrerPolicy=a.referrerPolicy),a.crossOrigin==="use-credentials"?n.credentials="include":a.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function i(a){if(a.ep)return;a.ep=!0;const n=t(a);fetch(a.href,n)}})();var O=Array.isArray||function(e){return Object.prototype.toString.call(e)=="[object Array]"},A=V,z=N,j=J,q=k,K=D,Y=new RegExp(["(\\\\.)","([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^()])+)\\))?|\\(((?:\\\\.|[^()])+)\\))([+*?])?|(\\*))"].join("|"),"g");function N(e){for(var s=[],t=0,i=0,a="",n;(n=Y.exec(e))!=null;){var o=n[0],l=n[1],r=n.index;if(a+=e.slice(i,r),i=r+o.length,l){a+=l[1];continue}a&&(s.push(a),a="");var c=n[2],g=n[3],U=n[4],M=n[5],S=n[6],B=n[7],_=S==="+"||S==="*",G=S==="?"||S==="*",x=c||"/",W=U||M||(B?".*":"[^"+x+"]+?");s.push({name:g||t++,prefix:c||"",delimiter:x,optional:G,repeat:_,pattern:$(W)})}return i<e.length&&(a+=e.substr(i)),a&&s.push(a),s}function J(e){return k(N(e))}function k(e){for(var s=new Array(e.length),t=0;t<e.length;t++)typeof e[t]=="object"&&(s[t]=new RegExp("^"+e[t].pattern+"$"));return function(i){for(var a="",n=i||{},o=0;o<e.length;o++){var l=e[o];if(typeof l=="string"){a+=l;continue}var r=n[l.name],c;if(r==null){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to be defined')}if(O(r)){if(!l.repeat)throw new TypeError('Expected "'+l.name+'" to not repeat, but received "'+r+'"');if(r.length===0){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to not be empty')}for(var g=0;g<r.length;g++){if(c=encodeURIComponent(r[g]),!s[o].test(c))throw new TypeError('Expected all "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');a+=(g===0?l.prefix:l.delimiter)+c}continue}if(c=encodeURIComponent(r),!s[o].test(c))throw new TypeError('Expected "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');a+=l.prefix+c}return a}}function F(e){return e.replace(/([.+*?=^!:${}()[\]|\/])/g,"\\$1")}function $(e){return e.replace(/([=!:$\/()])/g,"\\$1")}function R(e,s){return e.keys=s,e}function P(e){return e.sensitive?"":"i"}function Q(e,s){var t=e.source.match(/\((?!\?)/g);if(t)for(var i=0;i<t.length;i++)s.push({name:i,prefix:null,delimiter:null,optional:!1,repeat:!1,pattern:null});return R(e,s)}function X(e,s,t){for(var i=[],a=0;a<e.length;a++)i.push(V(e[a],s,t).source);var n=new RegExp("(?:"+i.join("|")+")",P(t));return R(n,s)}function Z(e,s,t){for(var i=N(e),a=D(i,t),n=0;n<i.length;n++)typeof i[n]!="string"&&s.push(i[n]);return R(a,s)}function D(e,s){s=s||{};for(var t=s.strict,i=s.end!==!1,a="",n=e[e.length-1],o=typeof n=="string"&&/\/$/.test(n),l=0;l<e.length;l++){var r=e[l];if(typeof r=="string")a+=F(r);else{var c=F(r.prefix),g=r.pattern;r.repeat&&(g+="(?:"+c+g+")*"),r.optional?c?g="(?:"+c+"("+g+"))?":g="("+g+")?":g=c+"("+g+")",a+=g}}return t||(a=(o?a.slice(0,-2):a)+"(?:\\/(?=$))?"),i?a+="$":a+=t&&o?"":"(?=\\/|$)",new RegExp("^"+a,P(s))}function V(e,s,t){return s=s||[],O(s)?t||(t={}):(t=s,s=[]),e instanceof RegExp?Q(e,s):O(e)?X(e,s,t):Z(e,s,t)}A.parse=z;A.compile=j;A.tokensToFunction=q;A.tokensToRegExp=K;var b=typeof document<"u",v=typeof window<"u",T=typeof history<"u",ee=typeof process<"u",L=b&&document.ontouchstart?"touchstart":"click",f=v&&!!(window.history.location||window.location);function d(){this.callbacks=[],this.exits=[],this.current="",this.len=0,this._decodeURLComponents=!0,this._base="",this._strict=!1,this._running=!1,this._hashbang=!1,this.clickHandler=this.clickHandler.bind(this),this._onpopstate=this._onpopstate.bind(this)}d.prototype.configure=function(e){var s=e||{};this._window=s.window||v&&window,this._decodeURLComponents=s.decodeURLComponents!==!1,this._popstate=s.popstate!==!1&&v,this._click=s.click!==!1&&b,this._hashbang=!!s.hashbang;var t=this._window;this._popstate?t.addEventListener("popstate",this._onpopstate,!1):v&&t.removeEventListener("popstate",this._onpopstate,!1),this._click?t.document.addEventListener(L,this.clickHandler,!1):b&&t.document.removeEventListener(L,this.clickHandler,!1),this._hashbang&&v&&!T?t.addEventListener("hashchange",this._onpopstate,!1):v&&t.removeEventListener("hashchange",this._onpopstate,!1)};d.prototype.base=function(e){if(arguments.length===0)return this._base;this._base=e};d.prototype._getBase=function(){var e=this._base;if(e)return e;var s=v&&this._window&&this._window.location;return v&&this._hashbang&&s&&s.protocol==="file:"&&(e=s.pathname),e};d.prototype.strict=function(e){if(arguments.length===0)return this._strict;this._strict=e};d.prototype.start=function(e){var s=e||{};if(this.configure(s),s.dispatch!==!1){this._running=!0;var t;if(f){var i=this._window,a=i.location;this._hashbang&&~a.hash.indexOf("#!")?t=a.hash.substr(2)+a.search:this._hashbang?t=a.search+a.hash:t=a.pathname+a.search+a.hash}this.replace(t,null,!0,s.dispatch)}};d.prototype.stop=function(){if(this._running){this.current="",this.len=0,this._running=!1;var e=this._window;this._click&&e.document.removeEventListener(L,this.clickHandler,!1),v&&e.removeEventListener("popstate",this._onpopstate,!1),v&&e.removeEventListener("hashchange",this._onpopstate,!1)}};d.prototype.show=function(e,s,t,i){var a=new y(e,s,this),n=this.prevContext;return this.prevContext=a,this.current=a.path,t!==!1&&this.dispatch(a,n),a.handled!==!1&&i!==!1&&a.pushState(),a};d.prototype.back=function(e,s){var t=this;if(this.len>0){var i=this._window;T&&i.history.back(),this.len--}else setTimeout(e?function(){t.show(e,s)}:function(){t.show(t._getBase(),s)})};d.prototype.redirect=function(e,s){var t=this;typeof e=="string"&&typeof s=="string"&&I.call(this,e,function(i){setTimeout(function(){t.replace(s)},0)}),typeof e=="string"&&typeof s>"u"&&setTimeout(function(){t.replace(e)},0)};d.prototype.replace=function(e,s,t,i){var a=new y(e,s,this),n=this.prevContext;return this.prevContext=a,this.current=a.path,a.init=t,a.save(),i!==!1&&this.dispatch(a,n),a};d.prototype.dispatch=function(e,s){var t=0,i=0,a=this;function n(){var l=a.exits[i++];if(!l)return o();l(s,n)}function o(){var l=a.callbacks[t++];if(e.path!==a.current){e.handled=!1;return}if(!l)return se.call(a,e);l(e,o)}s?n():o()};d.prototype.exit=function(e,s){if(typeof e=="function")return this.exit("*",e);for(var t=new E(e,null,this),i=1;i<arguments.length;++i)this.exits.push(t.middleware(arguments[i]))};d.prototype.clickHandler=function(e){if(this._which(e)===1&&!(e.metaKey||e.ctrlKey||e.shiftKey)&&!e.defaultPrevented){var s=e.target,t=e.path||(e.composedPath?e.composedPath():null);if(t){for(var i=0;i<t.length;i++)if(t[i].nodeName&&t[i].nodeName.toUpperCase()==="A"&&t[i].href){s=t[i];break}}for(;s&&s.nodeName.toUpperCase()!=="A";)s=s.parentNode;if(!(!s||s.nodeName.toUpperCase()!=="A")){var a=typeof s.href=="object"&&s.href.constructor.name==="SVGAnimatedString";if(!(s.hasAttribute("download")||s.getAttribute("rel")==="external")){var n=s.getAttribute("href");if(!(!this._hashbang&&this._samePath(s)&&(s.hash||n==="#"))&&!(n&&n.indexOf("mailto:")>-1)&&!(a?s.target.baseVal:s.target)&&!(!a&&!this.sameOrigin(s.href))){var o=a?s.href.baseVal:s.pathname+s.search+(s.hash||"");o=o[0]!=="/"?"/"+o:o,ee&&o.match(/^\/[a-zA-Z]:\//)&&(o=o.replace(/^\/[a-zA-Z]:\//,"/"));var l=o,r=this._getBase();o.indexOf(r)===0&&(o=o.substr(r.length)),this._hashbang&&(o=o.replace("#!","")),!(r&&l===o&&(!f||this._window.location.protocol!=="file:"))&&(e.preventDefault(),this.show(l))}}}}};d.prototype._onpopstate=function(){var e=!1;return v?(b&&document.readyState==="complete"?e=!0:window.addEventListener("load",function(){setTimeout(function(){e=!0},0)}),function(t){if(e){var i=this;if(t.state){var a=t.state.path;i.replace(a,t.state)}else if(f){var n=i._window.location;i.show(n.pathname+n.search+n.hash,void 0,void 0,!1)}}}):function(){}}();d.prototype._which=function(e){return e=e||v&&this._window.event,e.which==null?e.button:e.which};d.prototype._toURL=function(e){var s=this._window;if(typeof URL=="function"&&f)return new URL(e,s.location.toString());if(b){var t=s.document.createElement("a");return t.href=e,t}};d.prototype.sameOrigin=function(e){if(!e||!f)return!1;var s=this._toURL(e),t=this._window,i=t.location;return i.protocol===s.protocol&&i.hostname===s.hostname&&(i.port===s.port||i.port===""&&(s.port==80||s.port==443))};d.prototype._samePath=function(e){if(!f)return!1;var s=this._window,t=s.location;return e.pathname===t.pathname&&e.search===t.search};d.prototype._decodeURLEncodedURIComponent=function(e){return typeof e!="string"?e:this._decodeURLComponents?decodeURIComponent(e.replace(/\+/g," ")):e};function H(){var e=new d;function s(){return I.apply(e,arguments)}return s.callbacks=e.callbacks,s.exits=e.exits,s.base=e.base.bind(e),s.strict=e.strict.bind(e),s.start=e.start.bind(e),s.stop=e.stop.bind(e),s.show=e.show.bind(e),s.back=e.back.bind(e),s.redirect=e.redirect.bind(e),s.replace=e.replace.bind(e),s.dispatch=e.dispatch.bind(e),s.exit=e.exit.bind(e),s.configure=e.configure.bind(e),s.sameOrigin=e.sameOrigin.bind(e),s.clickHandler=e.clickHandler.bind(e),s.create=H,Object.defineProperty(s,"len",{get:function(){return e.len},set:function(t){e.len=t}}),Object.defineProperty(s,"current",{get:function(){return e.current},set:function(t){e.current=t}}),s.Context=y,s.Route=E,s}function I(e,s){if(typeof e=="function")return I.call(this,"*",e);if(typeof s=="function")for(var t=new E(e,null,this),i=1;i<arguments.length;++i)this.callbacks.push(t.middleware(arguments[i]));else typeof e=="string"?this[typeof s=="string"?"redirect":"show"](e,s):this.start(e)}function se(e){if(!e.handled){var s,t=this,i=t._window;t._hashbang?s=f&&this._getBase()+i.location.hash.replace("#!",""):s=f&&i.location.pathname+i.location.search,s!==e.canonicalPath&&(t.stop(),e.handled=!1,f&&(i.location.href=e.canonicalPath))}}function te(e){return e.replace(/([.+*?=^!:${}()[\]|/\\])/g,"\\$1")}function y(e,s,t){var i=this.page=t||I,a=i._window,n=i._hashbang,o=i._getBase();e[0]==="/"&&e.indexOf(o)!==0&&(e=o+(n?"#!":"")+e);var l=e.indexOf("?");this.canonicalPath=e;var r=new RegExp("^"+te(o));if(this.path=e.replace(r,"")||"/",n&&(this.path=this.path.replace("#!","")||"/"),this.title=b&&a.document.title,this.state=s||{},this.state.path=e,this.querystring=~l?i._decodeURLEncodedURIComponent(e.slice(l+1)):"",this.pathname=i._decodeURLEncodedURIComponent(~l?e.slice(0,l):e),this.params={},this.hash="",!n){if(!~this.path.indexOf("#"))return;var c=this.path.split("#");this.path=this.pathname=c[0],this.hash=i._decodeURLEncodedURIComponent(c[1])||"",this.querystring=this.querystring.split("#")[0]}}y.prototype.pushState=function(){var e=this.page,s=e._window,t=e._hashbang;e.len++,T&&s.history.pushState(this.state,this.title,t&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};y.prototype.save=function(){var e=this.page;T&&e._window.history.replaceState(this.state,this.title,e._hashbang&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};function E(e,s,t){var i=this.page=t||C,a=s||{};a.strict=a.strict||i._strict,this.path=e==="*"?"(.*)":e,this.method="GET",this.regexp=A(this.path,this.keys=[],a)}E.prototype.middleware=function(e){var s=this;return function(t,i){if(s.match(t.path,t.params))return t.routePath=s.path,e(t,i);i()}};E.prototype.match=function(e,s){var t=this.keys,i=e.indexOf("?"),a=~i?e.slice(0,i):e,n=this.regexp.exec(decodeURIComponent(a));if(!n)return!1;delete s[0];for(var o=1,l=n.length;o<l;++o){var r=t[o-1],c=this.page._decodeURLEncodedURIComponent(n[o]);(c!==void 0||!hasOwnProperty.call(s,r.name))&&(s[r.name]=c)}return!0};var C=H(),p=C,ae=C;p.default=ae;const ie=`
 <section>
   <img src="./assets/images/home-bg1.png" alt="" class="home-header-background" />
   <main class="header-container" style="min-height: unset">
@@ -43,35 +43,35 @@
   <div class="home-valve-container">
     <section class="home-globe-valve-section">
       <div class="home-globe-valve-content">
-        <img src="./assets/images/valve1.png" alt="Valve diagram" class="home-butterfly-valve-" loading="lazy" />
-        <span class="home-globe-valve-text link">GATE VALVE</span>
+       <a href="/gate-valves"><img src="./assets/images/valve1.png" alt="Valve diagram" class="home-butterfly-valve-" loading="lazy" /></a> 
+        <span class="home-globe-valve-text link gate-link">GATE VALVE</span>
       </div>
     </section>
 
     <section class="home-globe-valve-section">
       <div class="home-globe-valve-content">
-        <img src="./assets/images/valve2.png" alt="Globe valve" class="home-butterfly-valve-image" loading="lazy" />
+        <a href="/check-valves"><img src="./assets/images/valve2.png" alt="Globe valve" class="home-butterfly-valve-image" loading="lazy" /></a>
         <span class="home-globe-valve-text link">SWING VALVE</span>
       </div>
     </section>
 
     <section class="home-ball-valve-section">
       <div class="home-globe-valve-content">
-        <img src="./assets/images/valve3.png" alt="Ball valve" class="home-butterfly-valve-image" loading="lazy" />
+       <a href="/globe-valves"> <img src="./assets/images/valve3.png" alt="Ball valve" class="home-butterfly-valve-image" loading="lazy" /></a>
         <span class="home-globe-valve-text link">GLOBE VALVE</span>
       </div>
     </section>
 
     <section class="home-butterfly-valve-section">
       <div class="home-globe-valve-content">
-        <img src="./assets/images/valve4.png" alt="Butterfly valve" class="home-butterfly-valve-image" loading="lazy" />
+        <a href="/trunnion-valves"><img src="./assets/images/valve4.png" alt="Butterfly valve" class="home-butterfly-valve-image" loading="lazy" /></a>
         <span class="home-globe-valve-text link">BALL VALVE</span>
       </div>
     </section>
 
     <section class="home-butterfly-valve-section">
       <div class="home-globe-valve-content">
-        <img src="./assets/images/valve5.png" alt="Butterfly valve" class="home-butterfly-valve-image" loading="lazy" />
+        <a href="/floating-valves"><img src="./assets/images/valve5.png" alt="Butterfly valve" class="home-butterfly-valve-image" loading="lazy" /></a>
         <span class="home-globe-valve-text link">BUTTERFLY VALVE</span>
       </div>
     </section>
@@ -158,6 +158,14 @@
     <img src="./assets/images/valge-gloves-2 1 1.png" alt="Globe Valve">
     <p style="font-size: 32px; font-family: Raleway; ;">Globe <strong style="color: #00A39F;">Valve</strong></p>
   </div>
+  <div class="valve-card middle-card">
+    <img src="./assets/images/trunnion2 (1).png" alt="Gate Valve">
+    <p style="font-size: 32px; font-family: Raleway; margin-bottom: 5;">Ball <strong style="color: #00A39F;">Valve</strong></p>
+  </div>
+  <!--<div class="valve-card">
+    <img src="./assets/images/floating_valve0333 1 (1) 1 (1).png" alt="Check Valve">
+    <p style="font-size: 32px; font-family: Raleway; margin-bottom: 5;"> Butterfly<strong style="color: #00A39F;">Valve</strong></p>
+  </div>-->
 </br>
 </section>
 
@@ -240,6 +248,7 @@
   </div>
 </section>
 
+<!--
 <section class="home-blog-articles-section">
   <h2 class="home-blog-section-title">
     SOME <span style="color: rgba(0, 163, 159, 1)">ARTICLES</span> MIGHT
@@ -288,6 +297,8 @@
     </article>
   </div>
 </section>
+
+-->
 `,ne=`
 <main class="header-container container-parallax-about">
   <!-- <img src="./assets/images/header_bg.jpeg" alt="" class="header-background-image" /> -->
@@ -369,7 +380,7 @@
         <strong class="about-highlight">class 2500.</strong>
       </p>
     </div>
-    <img src="./assets/images/globe_valves.png" alt="" class="about-product-blode-valve-image" />
+    <img src="./assets/images/globe_valves.png" alt="" class="about-product-blode-valve-image img-valve-about" />
   </div>
 </section>
 
@@ -408,24 +419,24 @@
   </p>
   <div class="about-profile-container">
     <section class="about-profile-image-column">
-      <img src="./assets/images/Eric Wong - Ceo Dervos.png" alt="Profile picture of Nestor Morales"
+      <img src="./assets/images/Santiago Giron - Ceo Dervos America.png"  alt="Profile picture of Nestor Morales"
         class="about-profile-image" />
     </section>
     <section class="about-profile-details-column">
       <div class="about-profile-details-wrapper">
         <h1 class="about-profile-name">
-          <span class="about-profile-name-accent">ERIC</span> WANG
+          <span class="about-profile-name-accent">SANTIAGO</span> GIRON
         </h1>
         <p class="about-profile-title">
-          CEO - Dervos
+            FOUNDER - CEO
         </p>
         <!-- <ul class="about-profile-qualifications">
           <li><strong>Mechanical engineer</strong></li>
           <li>Project Management <strong>Master's Degree.</strong></li>
           <li><strong>PhD,</strong> Economics, Management and Politics</li>
           <li><strong>Master</strong> of Business Administration</li>
-        </ul> -->
-        <img src="./assets/images/blue-linkedin.png" alt="" class="about-profile-logo" />
+        </ul> 
+        <img src="./assets/images/blue-linkedin.png" alt="" class="about-profile-logo" />-->
       </div>
     </section>
   </div>
@@ -434,22 +445,22 @@
     <section class="about-profile-details-column">
       <div class="about-profile-details-wrapper">
         <h1 class="about-profile-name">
-          <span class="about-profile-name-accent">SANTIAGO</span> GIRON
+          <span class="about-profile-name-accent">ERIC</span> WONG
         </h1>
         <p class="about-profile-title">
-          CEO - Dervos America
+          FOUNDER
         </p>
         <!--<ul class="about-profile-qualifications">
           <li><strong>Mechanical engineer</strong></li>
           <li>Project Management <strong>Master's Degree.</strong></li>
           <li><strong>PhD,</strong> Economics, Management and Politics</li>
           <li><strong>Master</strong> of Business Administration</li>
-        </ul>-->
-        <img src="./assets/images/blue-linkedin.png" alt="" class="about-profile-logo" />
+        </ul>
+        <img src="./assets/images/blue-linkedin.png" alt="" class="about-profile-logo" />-->
       </div>
     </section>
     <section class="about-profile-image-column">
-      <img src="./assets/images/Santiago Giron - Ceo Dervos America.png" />
+      <img src="./assets/images/Eric Wong - Ceo Dervos.png" />
     </section>
   </div>
 
@@ -488,7 +499,7 @@
         <div class="about-column-with-image">
           <div class="about-text-with-image">
             <p class="about-text-content-image">
-              At <strong>DERVOS AMERICA</strong> our Quality Control Team oversees each valve manufactured, meets the standards and
+              At <strong>DERVOS AMERICA</strong> our fQuality Control Team oversees each valve manufactured, meets the standards and
               criteria set, and complies with the oil and gas industry concerning material traceability, quality
               control, testing, and traceability. That includes (NIST) which provides a policy on metrological
               traceability. ISO 9001:2015 outlines requirements for quality management systems, and (API) includes <strong>API
@@ -1350,8 +1361,9 @@
       <p class="trunnion-header-scroll-text"
         style="font-weight: 900;  letter-spacing: 0.20em ;margin-top: 20px; font-size: 60px; color: #3F3F3F; font-family: Raleway; ">
         TRUNNION BALL VALVES</p>
-        <img src="./assets/images/arrow.png" class="header-arrow flotation-container" style="height:50px; margin: 5%; filter: grayscale(100%) brightness(50%) contrast(50%);" />
-          <p class="header-scroll-text" style="margin-top: 20px; color:#3F3F3F">SCROLL BELOW</p>
+      <img src="./assets/images/arrow.png" class="header-arrow flotation-container"
+        style="height:50px; margin: 5%; filter: grayscale(100%) brightness(50%) contrast(50%);" />
+      <p class="header-scroll-text" style="margin-top: 20px; color:#3F3F3F">SCROLL BELOW</p>
     </section>
   </div>
 </main>
@@ -1363,7 +1375,8 @@
     <div class="trunnion-content-column trunnion-first-column">
       <div class="trunnion-content-wrapper">
         <div class="trunnion-section">
-          <h1 class="trunnion-section-title" style="font-size: 80px;">TRUNNION BALL<strong style="color: #00A39F;"> VALVE</strong> </h1>
+          <h1 class="trunnion-section-title" style="font-size: 80px;">TRUNNION BALL<strong style="color: #00A39F;">
+              VALVE</strong> </h1>
           <p style="color:#959595; font-size:24px; font-family:Raleway">Designed And Manufactured Under
             International Standards</p>
         </div>
@@ -1400,39 +1413,40 @@
     </div>
   </div>
   </br>
- 
+
   <div class="valves-container second-container container-trunnion">
     <div class="valves-image-column">
-        <img src="./assets/images/trunnion2.png" alt="Product image" class="valves-product-image second-trunnion-img" />
+      <img src="./assets/images/trunnion2.png" alt="Product image" class="valves-product-image second-trunnion-img" />
     </div>
     <div class="valves-content-column trunnion-second-column">
-        <div class="valves-content-wrapper valves-right">
-            <div class="valves-section">
-                <h3 class="valves-section-title" style="white-space: nowrap; text-overflow: ellipsis;">HOW MUCH  
-                    <strong style="color: #00A39F;">PRESSURE </strong></br>DO YOU WANT?</h3>
-                <h5 style="color:#959595; font-size:18px; font-family:Raleway">As should be, you can choose from:
-                </h5>
-                <div class="trunnion-testing-list trunning-second-content" style="margin-top: 5px;">
-                  <p class="item">ANSI 150</p>
-                  <p class="item">ANSI 300</p>
-                  <p class="item">ANSI 600</p>
-                  <p class="item">ANSI 900</p>
-                  <p class="item">ANSI 1500</p>
-                  <p class="item">ANSI 2500</p>
-                </div>                               
-            </div>
-            <div class="valves-section">
-                <h3 class="valves-section-title">A WORLD OF POSSIBILITIES</h3>
-                <p class="valves-testing-list" style="font-size: 18px">Developing our moulds in advance, we can <br> cast
-                    our valves in <br>
-                    virtually any <strong> ASTM code.</strong>
-                    <br><br>
-                    From <strong>Carbon Steel</strong> to <strong> Stainless Steel </strong>and <br>all in between.
-                </p>
-            </div>
+      <div class="valves-content-wrapper valves-right">
+        <div class="valves-section">
+          <h3 class="valves-section-title" style="white-space: nowrap; text-overflow: ellipsis;">HOW MUCH
+            <strong style="color: #00A39F;">PRESSURE </strong></br>DO YOU WANT?
+          </h3>
+          <h5 style="color:#959595; font-size:18px; font-family:Raleway">As should be, you can choose from:
+          </h5>
+          <div class="trunnion-testing-list trunning-second-content" style="margin-top: 5px;">
+            <p class="item">ANSI 150</p>
+            <p class="item">ANSI 300</p>
+            <p class="item">ANSI 600</p>
+            <p class="item">ANSI 900</p>
+            <p class="item">ANSI 1500</p>
+            <p class="item">ANSI 2500</p>
+          </div>
         </div>
+        <div class="valves-section">
+          <h3 class="valves-section-title">A WORLD OF POSSIBILITIES</h3>
+          <p class="valves-testing-list" style="font-size: 18px">Developing our moulds in advance, we can <br> cast
+            our valves in <br>
+            virtually any <strong> ASTM code.</strong>
+            <br><br>
+            From <strong>Carbon Steel</strong> to <strong> Stainless Steel </strong>and <br>all in between.
+          </p>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
   </br>
 
   <div class="trunnion-container trunnion-third-container">
@@ -1447,7 +1461,7 @@
             From our standard <strong>AISI 316</strong> ball and <br>
             steam with Teflon Seats.
           </p>
-        </div> 
+        </div>
         <div class="trunnion-section">
           <div class="trunnion-section-title">THINGS THAT <strong style="color: #00A39F;"> FIT </strong> YOUR
             NEEDS</div>
@@ -1520,7 +1534,7 @@
       </div>
     </div>
   </div>
-  <img src="./assets/images/Trunnion_upscaled 1.png" alt="img-pdf" class="img-pdf-section-trunnion" style="margin-top: -23%;
+  <img src="./assets/images/Trunnion_upscaled 1.png" alt="img-pdf" class="img-pdf-section-trunnion " style="margin-top: -53%;
   margin-right: 5px;">
   <div class="centered-title">DIMENSIONS AND <strong style="color:#00A39F;"> WEIGHT</strong></div>
   <img src="./assets/images/Trunnion_2 1.png" alt="img-pdf" class="img-pdf-section-trunnion-last">
@@ -1764,7 +1778,7 @@
     download>DOWNLOAD TECHNICAL FILE</a>
   <div class="background-image"></div>
 </div>
-`,ve=()=>{console.log("I'm working");let e=document.querySelector(".typeJsText");console.log("typeJsText",e);let s=["FULLY.","SUCESS.","AUTOMATED.","VALVE PURCHASING.","PROCCESSES."],t=0,i=0,a=!1;function n(){e?a?i>=0?(e.innerHTML=e.innerHTML.substring(0,i),i--,setTimeout(n,100)):(a=!1,t=(t+1)%s.length,setTimeout(n,500)):i<s[t].length?(e.innerHTML+=s[t].charAt(i),i++,setTimeout(n,100)):setTimeout(()=>{a=!0,n()},1e3):console.log("Element .typeJsText not found")}n()},h=()=>{const e=document.querySelectorAll(".dropdown");if(console.log("Number of dropdowns found:",e.length),e.length===0){console.warn("No dropdown elements found!");return}e.forEach(s=>{const t=s,i=t.querySelector(".dropdown-content");if(!i){console.warn("No dropdown-content element found in a dropdown!");return}let a;const n=()=>{console.log("Showing dropdown content for",t),i.style.display="block",a&&window.clearTimeout(a)},o=()=>{a=window.setTimeout(()=>{console.log("Hiding dropdown content for",t),i.style.display="none"},1e3)};t.addEventListener("mouseover",n),i.addEventListener("mouseover",n),t.addEventListener("mouseleave",o),i.addEventListener("mouseleave",o)})},T=()=>{window.addEventListener("scroll",()=>{const e=document.querySelector(".parallax-background");if(e){const s=window.pageYOffset;e.style.backgroundPositionY=`${s*.2}px`}})},u=()=>{const e=window.scrollY||document.documentElement.scrollTop,s=document.querySelector(".sticky-header-container");e>75?window.hasOwnProperty("processActivated")||(console.log("do it here"),s&&!s.classList.contains("animate-sticky-header")&&(s.classList.add("animate-sticky-header"),console.log("Animation triggered"),setTimeout(()=>{},3e3))):s.classList.remove("animate-sticky-header")},pe=`
+`,ve=()=>{console.log("I'm working");let e=document.querySelector(".typeJsText");console.log("typeJsText",e);let s=["FULLY.","SUCESS.","AUTOMATED.","VALVE PURCHASING.","PROCCESSES."],t=0,i=0,a=!1;function n(){e?a?i>=0?(e.innerHTML=e.innerHTML.substring(0,i),i--,setTimeout(n,100)):(a=!1,t=(t+1)%s.length,setTimeout(n,500)):i<s[t].length?(e.innerHTML+=s[t].charAt(i),i++,setTimeout(n,100)):setTimeout(()=>{a=!0,n()},1e3):console.log("Element .typeJsText not found")}n()},h=()=>{const e=document.querySelectorAll(".dropdown");if(console.log("Number of dropdowns found:",e.length),e.length===0){console.warn("No dropdown elements found!");return}e.forEach(s=>{const t=s,i=t.querySelector(".dropdown-content");if(!i){console.warn("No dropdown-content element found in a dropdown!");return}let a;const n=()=>{console.log("Showing dropdown content for",t),i.style.display="block",a&&window.clearTimeout(a)},o=()=>{a=window.setTimeout(()=>{console.log("Hiding dropdown content for",t),i.style.display="none"},1e3)};t.addEventListener("mouseover",n),i.addEventListener("mouseover",n),t.addEventListener("mouseleave",o),i.addEventListener("mouseleave",o)})},w=()=>{window.addEventListener("scroll",()=>{const e=document.querySelector(".parallax-background");if(e){const s=window.pageYOffset;e.style.backgroundPositionY=`${s*.2}px`}})},u=()=>{const e=window.scrollY||document.documentElement.scrollTop,s=document.querySelector(".sticky-header-container");e>75?window.hasOwnProperty("processActivated")||(console.log("do it here"),s&&!s.classList.contains("animate-sticky-header")&&(s.classList.add("animate-sticky-header"),console.log("Animation triggered"),setTimeout(()=>{},3e3))):s.classList.remove("animate-sticky-header")},pe=`
 
 <main class="header-container container-parallax-globe-valves">
   <!-- <img src="./assets/images/valve-2.jpeg" alt="" class="header-background-image header-image-background" />  -->
@@ -1984,4 +1998,4 @@
     target="_blank">DOWNLOAD TECHNICAL FILE</a>
   <div class="gloves-valves-background-image"></div>
 </div>
-`,m=document.getElementById("app"),he=()=>{p("/",()=>{m.innerHTML=ie,ve(),h(),window.addEventListener("scroll",u);const e=document.getElementById("fire-video");e&&(e.playbackRate=.45)}),p("/about-us",()=>{m.innerHTML=ne,h(),window.addEventListener("scroll",u)}),p("/steps",()=>{m.innerHTML=oe,T(),h(),window.addEventListener("scroll",u)}),p("/gate-valves",()=>{m.innerHTML=le,h(),window.addEventListener("scroll",u)}),p("/globe-valves",()=>{m.innerHTML=pe,h(),window.addEventListener("scroll",u)}),p("/check-valves",()=>{m.innerHTML=re,h(),window.addEventListener("scroll",u)}),p("/certifications",()=>{m.innerHTML=ce,T(),h(),window.addEventListener("scroll",u)}),p("/trunnion-valves",()=>{m.innerHTML=de,T(),h(),window.addEventListener("scroll",u)}),p("/floating-valves",()=>{m.innerHTML=ge,T(),h(),window.addEventListener("scroll",u)}),p()};document.addEventListener("DOMContentLoaded",()=>{he()});
+`,m=document.getElementById("app"),he=()=>{p("/",()=>{m.innerHTML=ie,ve(),h(),window.addEventListener("scroll",u);const e=document.getElementById("fire-video");e&&(e.playbackRate=.45)}),p("/about-us",()=>{m.innerHTML=ne,h(),window.addEventListener("scroll",u)}),p("/steps",()=>{m.innerHTML=oe,w(),h(),window.addEventListener("scroll",u)}),p("/gate-valves",()=>{m.innerHTML=le,h(),window.addEventListener("scroll",u)}),p("/globe-valves",()=>{m.innerHTML=pe,h(),window.addEventListener("scroll",u)}),p("/check-valves",()=>{m.innerHTML=re,h(),window.addEventListener("scroll",u)}),p("/certifications",()=>{m.innerHTML=ce,w(),h(),window.addEventListener("scroll",u)}),p("/trunnion-valves",()=>{m.innerHTML=de,w(),h(),window.addEventListener("scroll",u)}),p("/floating-valves",()=>{m.innerHTML=ge,w(),h(),window.addEventListener("scroll",u)}),p()};document.addEventListener("DOMContentLoaded",()=>{he()});
