@@ -1,4 +1,4 @@
-(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const i of document.querySelectorAll('link[rel="modulepreload"]'))a(i);new MutationObserver(i=>{for(const n of i)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&a(o)}).observe(document,{childList:!0,subtree:!0});function t(i){const n={};return i.integrity&&(n.integrity=i.integrity),i.referrerPolicy&&(n.referrerPolicy=i.referrerPolicy),i.crossOrigin==="use-credentials"?n.credentials="include":i.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function a(i){if(i.ep)return;i.ep=!0;const n=t(i);fetch(i.href,n)}})();var O=Array.isArray||function(e){return Object.prototype.toString.call(e)=="[object Array]"},y=V,z=N,j=J,q=k,Y=D,K=new RegExp(["(\\\\.)","([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^()])+)\\))?|\\(((?:\\\\.|[^()])+)\\))([+*?])?|(\\*))"].join("|"),"g");function N(e){for(var s=[],t=0,a=0,i="",n;(n=K.exec(e))!=null;){var o=n[0],l=n[1],r=n.index;if(i+=e.slice(a,r),a=r+o.length,l){i+=l[1];continue}i&&(s.push(i),i="");var c=n[2],g=n[3],M=n[4],U=n[5],S=n[6],B=n[7],_=S==="+"||S==="*",G=S==="?"||S==="*",C=c||"/",W=M||U||(B?".*":"[^"+C+"]+?");s.push({name:g||t++,prefix:c||"",delimiter:C,optional:G,repeat:_,pattern:$(W)})}return a<e.length&&(i+=e.substr(a)),i&&s.push(i),s}function J(e){return k(N(e))}function k(e){for(var s=new Array(e.length),t=0;t<e.length;t++)typeof e[t]=="object"&&(s[t]=new RegExp("^"+e[t].pattern+"$"));return function(a){for(var i="",n=a||{},o=0;o<e.length;o++){var l=e[o];if(typeof l=="string"){i+=l;continue}var r=n[l.name],c;if(r==null){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to be defined')}if(O(r)){if(!l.repeat)throw new TypeError('Expected "'+l.name+'" to not repeat, but received "'+r+'"');if(r.length===0){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to not be empty')}for(var g=0;g<r.length;g++){if(c=encodeURIComponent(r[g]),!s[o].test(c))throw new TypeError('Expected all "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');i+=(g===0?l.prefix:l.delimiter)+c}continue}if(c=encodeURIComponent(r),!s[o].test(c))throw new TypeError('Expected "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');i+=l.prefix+c}return i}}function F(e){return e.replace(/([.+*?=^!:${}()[\]|\/])/g,"\\$1")}function $(e){return e.replace(/([=!:$\/()])/g,"\\$1")}function R(e,s){return e.keys=s,e}function P(e){return e.sensitive?"":"i"}function Q(e,s){var t=e.source.match(/\((?!\?)/g);if(t)for(var a=0;a<t.length;a++)s.push({name:a,prefix:null,delimiter:null,optional:!1,repeat:!1,pattern:null});return R(e,s)}function X(e,s,t){for(var a=[],i=0;i<e.length;i++)a.push(V(e[i],s,t).source);var n=new RegExp("(?:"+a.join("|")+")",P(t));return R(n,s)}function Z(e,s,t){for(var a=N(e),i=D(a,t),n=0;n<a.length;n++)typeof a[n]!="string"&&s.push(a[n]);return R(i,s)}function D(e,s){s=s||{};for(var t=s.strict,a=s.end!==!1,i="",n=e[e.length-1],o=typeof n=="string"&&/\/$/.test(n),l=0;l<e.length;l++){var r=e[l];if(typeof r=="string")i+=F(r);else{var c=F(r.prefix),g=r.pattern;r.repeat&&(g+="(?:"+c+g+")*"),r.optional?c?g="(?:"+c+"("+g+"))?":g="("+g+")?":g=c+"("+g+")",i+=g}}return t||(i=(o?i.slice(0,-2):i)+"(?:\\/(?=$))?"),a?i+="$":i+=t&&o?"":"(?=\\/|$)",new RegExp("^"+i,P(s))}function V(e,s,t){return s=s||[],O(s)?t||(t={}):(t=s,s=[]),e instanceof RegExp?Q(e,s):O(e)?X(e,s,t):Z(e,s,t)}y.parse=z;y.compile=j;y.tokensToFunction=q;y.tokensToRegExp=Y;var b=typeof document<"u",v=typeof window<"u",w=typeof history<"u",ee=typeof process<"u",L=b&&document.ontouchstart?"touchstart":"click",f=v&&!!(window.history.location||window.location);function d(){this.callbacks=[],this.exits=[],this.current="",this.len=0,this._decodeURLComponents=!0,this._base="",this._strict=!1,this._running=!1,this._hashbang=!1,this.clickHandler=this.clickHandler.bind(this),this._onpopstate=this._onpopstate.bind(this)}d.prototype.configure=function(e){var s=e||{};this._window=s.window||v&&window,this._decodeURLComponents=s.decodeURLComponents!==!1,this._popstate=s.popstate!==!1&&v,this._click=s.click!==!1&&b,this._hashbang=!!s.hashbang;var t=this._window;this._popstate?t.addEventListener("popstate",this._onpopstate,!1):v&&t.removeEventListener("popstate",this._onpopstate,!1),this._click?t.document.addEventListener(L,this.clickHandler,!1):b&&t.document.removeEventListener(L,this.clickHandler,!1),this._hashbang&&v&&!w?t.addEventListener("hashchange",this._onpopstate,!1):v&&t.removeEventListener("hashchange",this._onpopstate,!1)};d.prototype.base=function(e){if(arguments.length===0)return this._base;this._base=e};d.prototype._getBase=function(){var e=this._base;if(e)return e;var s=v&&this._window&&this._window.location;return v&&this._hashbang&&s&&s.protocol==="file:"&&(e=s.pathname),e};d.prototype.strict=function(e){if(arguments.length===0)return this._strict;this._strict=e};d.prototype.start=function(e){var s=e||{};if(this.configure(s),s.dispatch!==!1){this._running=!0;var t;if(f){var a=this._window,i=a.location;this._hashbang&&~i.hash.indexOf("#!")?t=i.hash.substr(2)+i.search:this._hashbang?t=i.search+i.hash:t=i.pathname+i.search+i.hash}this.replace(t,null,!0,s.dispatch)}};d.prototype.stop=function(){if(this._running){this.current="",this.len=0,this._running=!1;var e=this._window;this._click&&e.document.removeEventListener(L,this.clickHandler,!1),v&&e.removeEventListener("popstate",this._onpopstate,!1),v&&e.removeEventListener("hashchange",this._onpopstate,!1)}};d.prototype.show=function(e,s,t,a){var i=new A(e,s,this),n=this.prevContext;return this.prevContext=i,this.current=i.path,t!==!1&&this.dispatch(i,n),i.handled!==!1&&a!==!1&&i.pushState(),i};d.prototype.back=function(e,s){var t=this;if(this.len>0){var a=this._window;w&&a.history.back(),this.len--}else setTimeout(e?function(){t.show(e,s)}:function(){t.show(t._getBase(),s)})};d.prototype.redirect=function(e,s){var t=this;typeof e=="string"&&typeof s=="string"&&I.call(this,e,function(a){setTimeout(function(){t.replace(s)},0)}),typeof e=="string"&&typeof s>"u"&&setTimeout(function(){t.replace(e)},0)};d.prototype.replace=function(e,s,t,a){var i=new A(e,s,this),n=this.prevContext;return this.prevContext=i,this.current=i.path,i.init=t,i.save(),a!==!1&&this.dispatch(i,n),i};d.prototype.dispatch=function(e,s){var t=0,a=0,i=this;function n(){var l=i.exits[a++];if(!l)return o();l(s,n)}function o(){var l=i.callbacks[t++];if(e.path!==i.current){e.handled=!1;return}if(!l)return se.call(i,e);l(e,o)}s?n():o()};d.prototype.exit=function(e,s){if(typeof e=="function")return this.exit("*",e);for(var t=new E(e,null,this),a=1;a<arguments.length;++a)this.exits.push(t.middleware(arguments[a]))};d.prototype.clickHandler=function(e){if(this._which(e)===1&&!(e.metaKey||e.ctrlKey||e.shiftKey)&&!e.defaultPrevented){var s=e.target,t=e.path||(e.composedPath?e.composedPath():null);if(t){for(var a=0;a<t.length;a++)if(t[a].nodeName&&t[a].nodeName.toUpperCase()==="A"&&t[a].href){s=t[a];break}}for(;s&&s.nodeName.toUpperCase()!=="A";)s=s.parentNode;if(!(!s||s.nodeName.toUpperCase()!=="A")){var i=typeof s.href=="object"&&s.href.constructor.name==="SVGAnimatedString";if(!(s.hasAttribute("download")||s.getAttribute("rel")==="external")){var n=s.getAttribute("href");if(!(!this._hashbang&&this._samePath(s)&&(s.hash||n==="#"))&&!(n&&n.indexOf("mailto:")>-1)&&!(i?s.target.baseVal:s.target)&&!(!i&&!this.sameOrigin(s.href))){var o=i?s.href.baseVal:s.pathname+s.search+(s.hash||"");o=o[0]!=="/"?"/"+o:o,ee&&o.match(/^\/[a-zA-Z]:\//)&&(o=o.replace(/^\/[a-zA-Z]:\//,"/"));var l=o,r=this._getBase();o.indexOf(r)===0&&(o=o.substr(r.length)),this._hashbang&&(o=o.replace("#!","")),!(r&&l===o&&(!f||this._window.location.protocol!=="file:"))&&(e.preventDefault(),this.show(l))}}}}};d.prototype._onpopstate=function(){var e=!1;return v?(b&&document.readyState==="complete"?e=!0:window.addEventListener("load",function(){setTimeout(function(){e=!0},0)}),function(t){if(e){var a=this;if(t.state){var i=t.state.path;a.replace(i,t.state)}else if(f){var n=a._window.location;a.show(n.pathname+n.search+n.hash,void 0,void 0,!1)}}}):function(){}}();d.prototype._which=function(e){return e=e||v&&this._window.event,e.which==null?e.button:e.which};d.prototype._toURL=function(e){var s=this._window;if(typeof URL=="function"&&f)return new URL(e,s.location.toString());if(b){var t=s.document.createElement("a");return t.href=e,t}};d.prototype.sameOrigin=function(e){if(!e||!f)return!1;var s=this._toURL(e),t=this._window,a=t.location;return a.protocol===s.protocol&&a.hostname===s.hostname&&(a.port===s.port||a.port===""&&(s.port==80||s.port==443))};d.prototype._samePath=function(e){if(!f)return!1;var s=this._window,t=s.location;return e.pathname===t.pathname&&e.search===t.search};d.prototype._decodeURLEncodedURIComponent=function(e){return typeof e!="string"?e:this._decodeURLComponents?decodeURIComponent(e.replace(/\+/g," ")):e};function H(){var e=new d;function s(){return I.apply(e,arguments)}return s.callbacks=e.callbacks,s.exits=e.exits,s.base=e.base.bind(e),s.strict=e.strict.bind(e),s.start=e.start.bind(e),s.stop=e.stop.bind(e),s.show=e.show.bind(e),s.back=e.back.bind(e),s.redirect=e.redirect.bind(e),s.replace=e.replace.bind(e),s.dispatch=e.dispatch.bind(e),s.exit=e.exit.bind(e),s.configure=e.configure.bind(e),s.sameOrigin=e.sameOrigin.bind(e),s.clickHandler=e.clickHandler.bind(e),s.create=H,Object.defineProperty(s,"len",{get:function(){return e.len},set:function(t){e.len=t}}),Object.defineProperty(s,"current",{get:function(){return e.current},set:function(t){e.current=t}}),s.Context=A,s.Route=E,s}function I(e,s){if(typeof e=="function")return I.call(this,"*",e);if(typeof s=="function")for(var t=new E(e,null,this),a=1;a<arguments.length;++a)this.callbacks.push(t.middleware(arguments[a]));else typeof e=="string"?this[typeof s=="string"?"redirect":"show"](e,s):this.start(e)}function se(e){if(!e.handled){var s,t=this,a=t._window;t._hashbang?s=f&&this._getBase()+a.location.hash.replace("#!",""):s=f&&a.location.pathname+a.location.search,s!==e.canonicalPath&&(t.stop(),e.handled=!1,f&&(a.location.href=e.canonicalPath))}}function te(e){return e.replace(/([.+*?=^!:${}()[\]|/\\])/g,"\\$1")}function A(e,s,t){var a=this.page=t||I,i=a._window,n=a._hashbang,o=a._getBase();e[0]==="/"&&e.indexOf(o)!==0&&(e=o+(n?"#!":"")+e);var l=e.indexOf("?");this.canonicalPath=e;var r=new RegExp("^"+te(o));if(this.path=e.replace(r,"")||"/",n&&(this.path=this.path.replace("#!","")||"/"),this.title=b&&i.document.title,this.state=s||{},this.state.path=e,this.querystring=~l?a._decodeURLEncodedURIComponent(e.slice(l+1)):"",this.pathname=a._decodeURLEncodedURIComponent(~l?e.slice(0,l):e),this.params={},this.hash="",!n){if(!~this.path.indexOf("#"))return;var c=this.path.split("#");this.path=this.pathname=c[0],this.hash=a._decodeURLEncodedURIComponent(c[1])||"",this.querystring=this.querystring.split("#")[0]}}A.prototype.pushState=function(){var e=this.page,s=e._window,t=e._hashbang;e.len++,w&&s.history.pushState(this.state,this.title,t&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};A.prototype.save=function(){var e=this.page;w&&e._window.history.replaceState(this.state,this.title,e._hashbang&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};function E(e,s,t){var a=this.page=t||x,i=s||{};i.strict=i.strict||a._strict,this.path=e==="*"?"(.*)":e,this.method="GET",this.regexp=y(this.path,this.keys=[],i)}E.prototype.middleware=function(e){var s=this;return function(t,a){if(s.match(t.path,t.params))return t.routePath=s.path,e(t,a);a()}};E.prototype.match=function(e,s){var t=this.keys,a=e.indexOf("?"),i=~a?e.slice(0,a):e,n=this.regexp.exec(decodeURIComponent(i));if(!n)return!1;delete s[0];for(var o=1,l=n.length;o<l;++o){var r=t[o-1],c=this.page._decodeURLEncodedURIComponent(n[o]);(c!==void 0||!hasOwnProperty.call(s,r.name))&&(s[r.name]=c)}return!0};var x=H(),p=x,ae=x;p.default=ae;const ie=`
+(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const i of document.querySelectorAll('link[rel="modulepreload"]'))a(i);new MutationObserver(i=>{for(const n of i)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&a(o)}).observe(document,{childList:!0,subtree:!0});function t(i){const n={};return i.integrity&&(n.integrity=i.integrity),i.referrerPolicy&&(n.referrerPolicy=i.referrerPolicy),i.crossOrigin==="use-credentials"?n.credentials="include":i.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function a(i){if(i.ep)return;i.ep=!0;const n=t(i);fetch(i.href,n)}})();var O=Array.isArray||function(e){return Object.prototype.toString.call(e)=="[object Array]"},A=V,z=N,j=J,K=P,q=D,Y=new RegExp(["(\\\\.)","([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^()])+)\\))?|\\(((?:\\\\.|[^()])+)\\))([+*?])?|(\\*))"].join("|"),"g");function N(e){for(var s=[],t=0,a=0,i="",n;(n=Y.exec(e))!=null;){var o=n[0],l=n[1],r=n.index;if(i+=e.slice(a,r),a=r+o.length,l){i+=l[1];continue}i&&(s.push(i),i="");var c=n[2],g=n[3],H=n[4],M=n[5],I=n[6],U=n[7],B=I==="+"||I==="*",G=I==="?"||I==="*",x=c||"/",W=H||M||(U?".*":"[^"+x+"]+?");s.push({name:g||t++,prefix:c||"",delimiter:x,optional:G,repeat:B,pattern:$(W)})}return a<e.length&&(i+=e.substr(a)),i&&s.push(i),s}function J(e){return P(N(e))}function P(e){for(var s=new Array(e.length),t=0;t<e.length;t++)typeof e[t]=="object"&&(s[t]=new RegExp("^"+e[t].pattern+"$"));return function(a){for(var i="",n=a||{},o=0;o<e.length;o++){var l=e[o];if(typeof l=="string"){i+=l;continue}var r=n[l.name],c;if(r==null){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to be defined')}if(O(r)){if(!l.repeat)throw new TypeError('Expected "'+l.name+'" to not repeat, but received "'+r+'"');if(r.length===0){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to not be empty')}for(var g=0;g<r.length;g++){if(c=encodeURIComponent(r[g]),!s[o].test(c))throw new TypeError('Expected all "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');i+=(g===0?l.prefix:l.delimiter)+c}continue}if(c=encodeURIComponent(r),!s[o].test(c))throw new TypeError('Expected "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');i+=l.prefix+c}return i}}function F(e){return e.replace(/([.+*?=^!:${}()[\]|\/])/g,"\\$1")}function $(e){return e.replace(/([=!:$\/()])/g,"\\$1")}function C(e,s){return e.keys=s,e}function k(e){return e.sensitive?"":"i"}function Q(e,s){var t=e.source.match(/\((?!\?)/g);if(t)for(var a=0;a<t.length;a++)s.push({name:a,prefix:null,delimiter:null,optional:!1,repeat:!1,pattern:null});return C(e,s)}function X(e,s,t){for(var a=[],i=0;i<e.length;i++)a.push(V(e[i],s,t).source);var n=new RegExp("(?:"+a.join("|")+")",k(t));return C(n,s)}function Z(e,s,t){for(var a=N(e),i=D(a,t),n=0;n<a.length;n++)typeof a[n]!="string"&&s.push(a[n]);return C(i,s)}function D(e,s){s=s||{};for(var t=s.strict,a=s.end!==!1,i="",n=e[e.length-1],o=typeof n=="string"&&/\/$/.test(n),l=0;l<e.length;l++){var r=e[l];if(typeof r=="string")i+=F(r);else{var c=F(r.prefix),g=r.pattern;r.repeat&&(g+="(?:"+c+g+")*"),r.optional?c?g="(?:"+c+"("+g+"))?":g="("+g+")?":g=c+"("+g+")",i+=g}}return t||(i=(o?i.slice(0,-2):i)+"(?:\\/(?=$))?"),a?i+="$":i+=t&&o?"":"(?=\\/|$)",new RegExp("^"+i,k(s))}function V(e,s,t){return s=s||[],O(s)?t||(t={}):(t=s,s=[]),e instanceof RegExp?Q(e,s):O(e)?X(e,s,t):Z(e,s,t)}A.parse=z;A.compile=j;A.tokensToFunction=K;A.tokensToRegExp=q;var b=typeof document<"u",v=typeof window<"u",T=typeof history<"u",ee=typeof process<"u",L=b&&document.ontouchstart?"touchstart":"click",f=v&&!!(window.history.location||window.location);function d(){this.callbacks=[],this.exits=[],this.current="",this.len=0,this._decodeURLComponents=!0,this._base="",this._strict=!1,this._running=!1,this._hashbang=!1,this.clickHandler=this.clickHandler.bind(this),this._onpopstate=this._onpopstate.bind(this)}d.prototype.configure=function(e){var s=e||{};this._window=s.window||v&&window,this._decodeURLComponents=s.decodeURLComponents!==!1,this._popstate=s.popstate!==!1&&v,this._click=s.click!==!1&&b,this._hashbang=!!s.hashbang;var t=this._window;this._popstate?t.addEventListener("popstate",this._onpopstate,!1):v&&t.removeEventListener("popstate",this._onpopstate,!1),this._click?t.document.addEventListener(L,this.clickHandler,!1):b&&t.document.removeEventListener(L,this.clickHandler,!1),this._hashbang&&v&&!T?t.addEventListener("hashchange",this._onpopstate,!1):v&&t.removeEventListener("hashchange",this._onpopstate,!1)};d.prototype.base=function(e){if(arguments.length===0)return this._base;this._base=e};d.prototype._getBase=function(){var e=this._base;if(e)return e;var s=v&&this._window&&this._window.location;return v&&this._hashbang&&s&&s.protocol==="file:"&&(e=s.pathname),e};d.prototype.strict=function(e){if(arguments.length===0)return this._strict;this._strict=e};d.prototype.start=function(e){var s=e||{};if(this.configure(s),s.dispatch!==!1){this._running=!0;var t;if(f){var a=this._window,i=a.location;this._hashbang&&~i.hash.indexOf("#!")?t=i.hash.substr(2)+i.search:this._hashbang?t=i.search+i.hash:t=i.pathname+i.search+i.hash}this.replace(t,null,!0,s.dispatch)}};d.prototype.stop=function(){if(this._running){this.current="",this.len=0,this._running=!1;var e=this._window;this._click&&e.document.removeEventListener(L,this.clickHandler,!1),v&&e.removeEventListener("popstate",this._onpopstate,!1),v&&e.removeEventListener("hashchange",this._onpopstate,!1)}};d.prototype.show=function(e,s,t,a){var i=new y(e,s,this),n=this.prevContext;return this.prevContext=i,this.current=i.path,t!==!1&&this.dispatch(i,n),i.handled!==!1&&a!==!1&&i.pushState(),i};d.prototype.back=function(e,s){var t=this;if(this.len>0){var a=this._window;T&&a.history.back(),this.len--}else setTimeout(e?function(){t.show(e,s)}:function(){t.show(t._getBase(),s)})};d.prototype.redirect=function(e,s){var t=this;typeof e=="string"&&typeof s=="string"&&w.call(this,e,function(a){setTimeout(function(){t.replace(s)},0)}),typeof e=="string"&&typeof s>"u"&&setTimeout(function(){t.replace(e)},0)};d.prototype.replace=function(e,s,t,a){var i=new y(e,s,this),n=this.prevContext;return this.prevContext=i,this.current=i.path,i.init=t,i.save(),a!==!1&&this.dispatch(i,n),i};d.prototype.dispatch=function(e,s){var t=0,a=0,i=this;function n(){var l=i.exits[a++];if(!l)return o();l(s,n)}function o(){var l=i.callbacks[t++];if(e.path!==i.current){e.handled=!1;return}if(!l)return se.call(i,e);l(e,o)}s?n():o()};d.prototype.exit=function(e,s){if(typeof e=="function")return this.exit("*",e);for(var t=new E(e,null,this),a=1;a<arguments.length;++a)this.exits.push(t.middleware(arguments[a]))};d.prototype.clickHandler=function(e){if(this._which(e)===1&&!(e.metaKey||e.ctrlKey||e.shiftKey)&&!e.defaultPrevented){var s=e.target,t=e.path||(e.composedPath?e.composedPath():null);if(t){for(var a=0;a<t.length;a++)if(t[a].nodeName&&t[a].nodeName.toUpperCase()==="A"&&t[a].href){s=t[a];break}}for(;s&&s.nodeName.toUpperCase()!=="A";)s=s.parentNode;if(!(!s||s.nodeName.toUpperCase()!=="A")){var i=typeof s.href=="object"&&s.href.constructor.name==="SVGAnimatedString";if(!(s.hasAttribute("download")||s.getAttribute("rel")==="external")){var n=s.getAttribute("href");if(!(!this._hashbang&&this._samePath(s)&&(s.hash||n==="#"))&&!(n&&n.indexOf("mailto:")>-1)&&!(i?s.target.baseVal:s.target)&&!(!i&&!this.sameOrigin(s.href))){var o=i?s.href.baseVal:s.pathname+s.search+(s.hash||"");o=o[0]!=="/"?"/"+o:o,ee&&o.match(/^\/[a-zA-Z]:\//)&&(o=o.replace(/^\/[a-zA-Z]:\//,"/"));var l=o,r=this._getBase();o.indexOf(r)===0&&(o=o.substr(r.length)),this._hashbang&&(o=o.replace("#!","")),!(r&&l===o&&(!f||this._window.location.protocol!=="file:"))&&(e.preventDefault(),this.show(l))}}}}};d.prototype._onpopstate=function(){var e=!1;return v?(b&&document.readyState==="complete"?e=!0:window.addEventListener("load",function(){setTimeout(function(){e=!0},0)}),function(t){if(e){var a=this;if(t.state){var i=t.state.path;a.replace(i,t.state)}else if(f){var n=a._window.location;a.show(n.pathname+n.search+n.hash,void 0,void 0,!1)}}}):function(){}}();d.prototype._which=function(e){return e=e||v&&this._window.event,e.which==null?e.button:e.which};d.prototype._toURL=function(e){var s=this._window;if(typeof URL=="function"&&f)return new URL(e,s.location.toString());if(b){var t=s.document.createElement("a");return t.href=e,t}};d.prototype.sameOrigin=function(e){if(!e||!f)return!1;var s=this._toURL(e),t=this._window,a=t.location;return a.protocol===s.protocol&&a.hostname===s.hostname&&(a.port===s.port||a.port===""&&(s.port==80||s.port==443))};d.prototype._samePath=function(e){if(!f)return!1;var s=this._window,t=s.location;return e.pathname===t.pathname&&e.search===t.search};d.prototype._decodeURLEncodedURIComponent=function(e){return typeof e!="string"?e:this._decodeURLComponents?decodeURIComponent(e.replace(/\+/g," ")):e};function _(){var e=new d;function s(){return w.apply(e,arguments)}return s.callbacks=e.callbacks,s.exits=e.exits,s.base=e.base.bind(e),s.strict=e.strict.bind(e),s.start=e.start.bind(e),s.stop=e.stop.bind(e),s.show=e.show.bind(e),s.back=e.back.bind(e),s.redirect=e.redirect.bind(e),s.replace=e.replace.bind(e),s.dispatch=e.dispatch.bind(e),s.exit=e.exit.bind(e),s.configure=e.configure.bind(e),s.sameOrigin=e.sameOrigin.bind(e),s.clickHandler=e.clickHandler.bind(e),s.create=_,Object.defineProperty(s,"len",{get:function(){return e.len},set:function(t){e.len=t}}),Object.defineProperty(s,"current",{get:function(){return e.current},set:function(t){e.current=t}}),s.Context=y,s.Route=E,s}function w(e,s){if(typeof e=="function")return w.call(this,"*",e);if(typeof s=="function")for(var t=new E(e,null,this),a=1;a<arguments.length;++a)this.callbacks.push(t.middleware(arguments[a]));else typeof e=="string"?this[typeof s=="string"?"redirect":"show"](e,s):this.start(e)}function se(e){if(!e.handled){var s,t=this,a=t._window;t._hashbang?s=f&&this._getBase()+a.location.hash.replace("#!",""):s=f&&a.location.pathname+a.location.search,s!==e.canonicalPath&&(t.stop(),e.handled=!1,f&&(a.location.href=e.canonicalPath))}}function te(e){return e.replace(/([.+*?=^!:${}()[\]|/\\])/g,"\\$1")}function y(e,s,t){var a=this.page=t||w,i=a._window,n=a._hashbang,o=a._getBase();e[0]==="/"&&e.indexOf(o)!==0&&(e=o+(n?"#!":"")+e);var l=e.indexOf("?");this.canonicalPath=e;var r=new RegExp("^"+te(o));if(this.path=e.replace(r,"")||"/",n&&(this.path=this.path.replace("#!","")||"/"),this.title=b&&i.document.title,this.state=s||{},this.state.path=e,this.querystring=~l?a._decodeURLEncodedURIComponent(e.slice(l+1)):"",this.pathname=a._decodeURLEncodedURIComponent(~l?e.slice(0,l):e),this.params={},this.hash="",!n){if(!~this.path.indexOf("#"))return;var c=this.path.split("#");this.path=this.pathname=c[0],this.hash=a._decodeURLEncodedURIComponent(c[1])||"",this.querystring=this.querystring.split("#")[0]}}y.prototype.pushState=function(){var e=this.page,s=e._window,t=e._hashbang;e.len++,T&&s.history.pushState(this.state,this.title,t&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};y.prototype.save=function(){var e=this.page;T&&e._window.history.replaceState(this.state,this.title,e._hashbang&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};function E(e,s,t){var a=this.page=t||R,i=s||{};i.strict=i.strict||a._strict,this.path=e==="*"?"(.*)":e,this.method="GET",this.regexp=A(this.path,this.keys=[],i)}E.prototype.middleware=function(e){var s=this;return function(t,a){if(s.match(t.path,t.params))return t.routePath=s.path,e(t,a);a()}};E.prototype.match=function(e,s){var t=this.keys,a=e.indexOf("?"),i=~a?e.slice(0,a):e,n=this.regexp.exec(decodeURIComponent(i));if(!n)return!1;delete s[0];for(var o=1,l=n.length;o<l;++o){var r=t[o-1],c=this.page._decodeURLEncodedURIComponent(n[o]);(c!==void 0||!hasOwnProperty.call(s,r.name))&&(s[r.name]=c)}return!0};var R=_(),p=R,ae=R;p.default=ae;const ie=`
 <section>
   <img src="./assets/images/home-bg1.png" alt="" class="home-header-background" />
   <main class="header-container" style="min-height: unset">
@@ -148,26 +148,26 @@
 <section class="valves-portfolio" ></br>
   <h2 class="valves-title-portfolio">OUR VALVES PORTFOLIO</h2>
   <div class="home-carousel">
-    <figure>
-        <div class="valve-card" style="font-weight: bold;">
+    <figure id="our-valves-slider">
+        <div id="v-left-end" class="valve-card" style="font-weight: bold;">
             <div class="valve-card-inner">
                 <img src="./assets/images/check_valve 1 (2).png" alt="Check Valve">
                 <p style="font-size: 32px; font-family: Raleway; margin-bottom: 5;"> Check <strong style="color: #00A39F;">Valve</strong></p>
             </div>
         </div>
-        <div class="valve-card middle-card" style="font-weight: bold;">
+        <div id="v-left" class="valve-card" style="font-weight: bold;">
             <img src="./assets/images/gate_valve 1.png" alt="Gate Valve">
             <p style="font-size: 32px; font-family: Raleway; margin-bottom: 5;">Gate <strong style="color: #00A39F;">Valve</strong></p>
         </div>
-        <div class="valve-card" style="font-weight: bold;">
+        <div id="v-center" class="valve-card" style="font-weight: bold;">
             <img src="./assets/images/valge-gloves-2 1 1.png" alt="Globe Valve">
             <p style="font-size: 32px; font-family: Raleway;">Globe <strong style="color: #00A39F;">Valve</strong></p>
         </div>
-        <div class="valve-card middle-card" style="font-weight: bold;">
+        <div id="v-right" class="valve-card" style="font-weight: bold;">
             <img src="./assets/images/trunnion2 (1).png" alt="Gate Valve">
             <p style="font-size: 32px; font-family: Raleway; margin-bottom: 5;">Ball <strong style="color: #00A39F;">Valve</strong></p>
         </div>
-        <div class="valve-card" style="font-weight: bold;">
+        <div id="v-right-end" class="valve-card" style="font-weight: bold;">
             <img src="./assets/images/Butterfly_Valve_Dervos_America 1 (1).png" alt="Globe Valve">
             <p style="font-size: 32px; font-family: Raleway;">Butterfly<strong style="color: #00A39F;">Valve</strong></p>
         </div>
@@ -897,7 +897,7 @@
 
                     </ul>
                 </div>
-                <a id="downloadLink" href="./assets/images/DervosValvesCatalog.pdf" target="_blank" class="valves-contact-button" style="align-items: center; justify-content: center; display: inline-flex; text-decoration: none; color: white;">
+                <a id="downloadLink" href="https://dervosamerica.com/DervosValvesCatalog.pdf" target="_blank" class="valves-contact-button" style="align-items: center; justify-content: center; display: inline-flex; text-decoration: none; color: white;">
                      DOWNLOAD TECHNICAL FILE
                 </a>
             </div>
@@ -966,7 +966,7 @@
 <div class="download-section">
   <h4 class="check-section-text">A DEEP LOOK AT THE TECHNICAL SHEET</h4>
   <!-- Enlace para abrir en nueva pestaña y descargar el archivo si el usuario decide hacerlo -->
-  <a href="./assets/images/DervosValvesCatalog.pdf" target="_blank" class="download-link">
+  <a href="https://dervosamerica.com/DervosValvesCatalog.pdf" target="_blank" class="download-link">
     DOWNLOAD TECHNICAL FILE
   </a>
   <div class="background-image"></div>
@@ -1110,7 +1110,7 @@
 
           </ul>
         </div>
-        <a id="downloadLink" href="./assets/images/DervosValvesCatalog.pdf"
+        <a id="downloadLink" href="https://dervosamerica.com/DervosValvesCatalog.pdf"
           target="_blank" class="check-contact-button"
           style="align-items: center; justify-content: center; display: inline-flex; text-decoration: none; color: white;">
           DOWNLOAD TECHNICAL FILE
@@ -1183,7 +1183,7 @@
 <div class="download-section">
   <h4 class="check-section-text">A DEEP LOOK AT THE TECHNICAL SHEET</h4>
   <!-- Enlace para abrir en nueva pestaña y descargar el archivo si el usuario decide hacerlo -->
-  <a href="./assets/images/DervosValvesCatalog.pdf" target="_blank" class="download-link">
+  <a href="https://dervosamerica.com/DervosValvesCatalog.pdf" target="_blank" class="download-link">
     DOWNLOAD TECHNICAL FILE
   </a>
   <div class="background-image"></div>
@@ -1201,13 +1201,13 @@
         <a href="/trunnion-valves">TRUNNION VALVES</a>
         <a href="/floating-valves">FLOATING VALVES</a>
         <div class="dropdown">
-            <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
-            <ul class="dropdown-content">
+          <a href="#">VISIT<span class="dropdown-icon">▼</span></a>
+          <ul class="dropdown-content">
             <li><a href="/">HOME</a></li>
             <li><a href="/steps">STEPS</a></li>
             <li><a href="/about-us">ABOUT US</a></li>
             <li><a href="/certifications">CERTIFICATIONS</a></li>
-            </ul>
+          </ul>
         </div>
       </nav>
     </header>
@@ -1215,7 +1215,7 @@
     <section class="header-main-content">
       <h1 class="header-main-heading" style="font-size: 50px;">
         CERTIFICATIONS
-      </h1> 
+      </h1>
       <p class="header-main-description" style="font-size: 33px; margin-bottom: 25px">
         Our manufacturing process is certificated by API International. <br> <br>
         <span class="header-api-text">You can count on the quality of our valves.</span>
@@ -1241,7 +1241,8 @@
     valves for pressure ratings up to ASME class 2500.
   </p>
 
-  <img src="./assets/images/certificado.png" alt="img background" class="img-background-certifications fadein-certification">
+  <img src="./assets/images/certificado.png" alt="img background"
+    class="img-background-certifications fadein-certification">
 
 </section>
 
@@ -1291,106 +1292,203 @@
 
   <!-- container icon -->
 
-  <div class="icon-row">
-    <div class="icon-container">
+  <div class="icon-row-alt">
+    <div class="icon-container-alt">
       <img src="./assets/images/checkout.png" alt="Icon 1" class="fade">
       <h3>STEM BACKSEAT TEST</h3>
-      <div class="line-divider-list-icons"></div>
+      <div class="line-divider-list-icons-alt"></div>
       <p>Pressure at 1.1 times valve rating for 2 to 5 minutes depending on valve size</p>
     </div>
-  
-    <div class="icon-container">
+
+    <div class="icon-container-alt">
       <img src="./assets/images/checkout.png" alt="Icon 2" class="fade">
       <h3>HYDROSTATIC SHELL TEST</h3>
-      <div class="line-divider-list-icons"></div>
+      <div class="line-divider-list-icons-alt"></div>
       <p>Pressure at 1.5 times valve rating for 2 to 30 minutes depending on valve size</p>
     </div>
-  
-    <div class="icon-container">
+
+    <div class="icon-container-alt">
       <img src="./assets/images/checkout.png" alt="Icon 3" class="fade">
       <h3>HYDROSTATIC SEAT TEST</h3>
-      <div class="line-divider-list-icons"></div>
+      <div class="line-divider-list-icons-alt"></div>
       <p>Pressure at 1.1 times valve rating for 2 to 5 minutes depending on valve size</p>
+    </div>
+  </div>
+
+
+  <!--CONTAINER ICON SECOND-->
+
+  <div>
+    <h1 class="title-certifications-icons">
+      <span class="highlight">FIRE SAFE&nbsp;</span>CERTIFICATES
+    </h1>
+    <div class="line-divider-list-icons-title"></div>
+  </div>
+  <div class="icon-row">
+    <div class="icon-container">
+      <a href="https://dervosamerica.com/certificates/API6FA_GLOBE_VALVE-268155.pdf" target="_blank"
+        rel="noopener noreferrer">
+        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+      </a>
+      <h3>API<span class="highlight title-cert">6FA</span></h3>
+      <p>GLOBE VALVE 268155</p>
+    </div>
+    <div class="icon-container">
+      <a href="https://dervosamerica.com/certificates/API6FA_GLOBE_VALVE-268157.pdf" target="_blank"
+        rel="noopener noreferrer">
+        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+      </a>
+      <h3>API<span class="highlight title-cert">6FA</span></h3>
+      <p>GLOBE VALVE 268157</p>
+    </div>
+
+    <div class="icon-container">
+      <a href="https://dervosamerica.com/certificates/API6FA_GLOBE_VALVE-268159.pdf" target="_blank"
+        rel="noopener noreferrer">
+        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+      </a>
+      <h3>API<span class="highlight title-cert">6FA</span></h3>
+      <p>GLOBE VALVE 268159</p>
+    </div>
+    <div class="icon-container">
+      <a href="https://dervosamerica.com/certificates/API6FA_Swing Check_8-600.pdf" target="_blank"
+        rel="noopener noreferrer">
+        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+      </a>
+      <h3>API<span class="highlight title-cert">6FA</span></h3>
+      <p>SWING CHECK 8-600</p>
     </div>
   </div>
 
   <div class="icon-row">
     <div class="icon-container">
-      <img src="./assets/images/checkout.png" alt="Icon 1" class="fade">
-      <h3>STEM BACKSEAT TEST</h3>
-      <div class="line-divider-list-icons"></div>
-      <p>Pressure at 1.1 times valve rating for 2 to 5 minutes depending on valve size</p>
+      <a href="https://dervosamerica.com/certificates/API6FA_Swing_Check_4-600.pdf" target="_blank"
+        rel="noopener noreferrer">
+        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+      </a>
+      <h3>API<span class="highlight title-cert">6FA</span></h3>
+      <p>SWING CHECK 4-600</p>
     </div>
-  
     <div class="icon-container">
-      <img src="./assets/images/checkout.png" alt="Icon 2" class="fade">
-      <h3>HYDROSTATIC SHELL TEST</h3>
-      <div class="line-divider-list-icons"></div>
-      <p>Pressure at 1.5 times valve rating for 2 to 30 minutes depending on valve size</p>
+      <a href="https://dervosamerica.com/certificates/API6FA_Swing_Check_16-150.pdf" target="_blank"
+        rel="noopener noreferrer">
+        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+      </a>
+      <h3>API<span class="highlight title-cert">6FA</span></h3>
+      <p>SWING CHECK 16-150</p>
     </div>
-  
     <div class="icon-container">
-      <img src="./assets/images/checkout.png" alt="Icon 3" class="fade">
-      <h3>HYDROSTATIC SEAT TEST</h3>
-      <div class="line-divider-list-icons"></div>
-      <p>Pressure at 1.1 times valve rating for 2 to 5 minutes depending on valve size</p>
+      <a href="https://dervosamerica.com/certificates/API6FD_Swing_Check_2-150_32233.pdf" target="_blank"
+        rel="noopener noreferrer">
+        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+      </a>
+      <h3>API<span class="highlight title-cert">6FD</span></h3>
+      <p>SWING CHECK 2-150 32233</p>
+    </div>
+    <div class="icon-container">
+      <a href="https://dervosamerica.com/certificates/API6FD_Swing_Check_2-600_42342.pdf" target="_blank"
+        rel="noopener noreferrer">
+        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+      </a>
+      <h3>API<span class="highlight title-cert">6FD</span></h3>
+      <p>SWING CHECK 2-600 42342</p>
     </div>
   </div>
 
   <div class="icon-row">
     <div class="icon-container">
-      <img src="./assets/images/checkout.png" alt="Icon 1" class="fade">
-      <h3>STEM BACKSEAT TEST</h3>
-      <div class="line-divider-list-icons"></div>
-      <p>Pressure at 1.1 times valve rating for 2 to 5 minutes depending on valve size</p>
+      <a href="https://dervosamerica.com/certificates/API6FD_Swing_Check_4-150_23116.pdf" target="_blank"
+        rel="noopener noreferrer">
+        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+      </a>
+      <h3>API<span class="highlight title-cert">6FD</span></h3>
+      <p>SWING CHECK 4-150 23116</p>
     </div>
-  
     <div class="icon-container">
-      <img src="./assets/images/checkout.png" alt="Icon 2" class="fade">
-      <h3>HYDROSTATIC SHELL TEST</h3>
-      <div class="line-divider-list-icons"></div>
-      <p>Pressure at 1.5 times valve rating for 2 to 30 minutes depending on valve size</p>
+      <a href="https://dervosamerica.com/certificates/API6FD_Swing_Check_8-150_48039.pdf" target="_blank"
+        rel="noopener noreferrer">
+        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+      </a>
+      <h3>API<span class="highlight title-cert">6FD</span></h3>
+      <p>SWING CHECK 8-150 48039</p>
     </div>
-  
     <div class="icon-container">
-      <img src="./assets/images/checkout.png" alt="Icon 3" class="fade">
-      <h3>HYDROSTATIC SEAT TEST</h3>
-      <div class="line-divider-list-icons"></div>
-      <p>Pressure at 1.1 times valve rating for 2 to 5 minutes depending on valve size</p>
+      <a href="https://dervosamerica.com/certificates/API6FD_WAFER_CHECK.pdf" target="_blank" rel="noopener noreferrer">
+        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+      </a>
+      <h3>API<span class="highlight title-cert">6FD</span></h3>
+      <p>WAFER CHECK</p>
+    </div>
+    <div class="icon-container">
+      <a href="https://dervosamerica.com/certificates/API607_Ball.pdf" target="_blank" rel="noopener noreferrer">
+        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+      </a>
+      <h3>API<span class="highlight title-cert">607</span></h3>
+      <p>BALL</p>
     </div>
   </div>
-  
 
-<!--  ABOUT US SECTION-->
-<section class="about-about-section">
-  <div class="about-about-container main-about">
-    <div class="about-about-content">
-      <div class="about-about-title-column">
-        <div class="about-about-title-wrapper">
-          <h2 class="about-about-title">
-            <span class="about-white-text">ABOUT</span>
-            <span class="about-dark-text">US</span>
-          </h2>
-          <p class="about-about-subtitle" style="font-size: 32px">
-            THINGS THAT
-            <strong class="about-white-text">FIT</strong>
-            YOUR NEEDS
+  <!--CONTAINER ICON THIRD-->
+  <div>
+    <h1 class="title-certifications-icons">
+      <span class="highlight">FUGITIVE EMISSION&nbsp;</span> CERTIFICATES
+    </h1>
+    <div class="line-divider-list-icons-title"></div>
+  </div>
+  <div class="icon-row">
+    <div class="icon-container">
+      <a href="https://dervosamerica.com/certificates/API624-Certificate_No273345.pdf" target="_blank"
+        rel="noopener noreferrer">
+        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+      </a>
+      <h3>API<span class="highlight title-cert">624</span></h3>
+      <p>API624 CERTIFICATE No.273345</p>
+    </div>
+    <div class="icon-container">
+      <a href="https://dervosamerica.com/certificates/ISO15848-Certificate_No273341.pdf" target="_blank"
+        rel="noopener noreferrer"> <img src="./assets/images/DervosCertificates.png" alt="Icon 3" class="fade">
+      </a>
+      <h3>ISO<span class="highlight title-cert">15848</span></h3>
+      <p>CERTIFICATE No.273341</p>
+    </div>
+    <div class="icon-container">
+      <a href="https://dervosamerica.com/certificates/ISO15848-Certificate_No273343.pdf" target="_blank"
+        rel="noopener noreferrer"> <img src="./assets/images/DervosCertificates.png" alt="Icon 3" class="fade">
+      </a>
+      <h3>ISO<span class="highlight title-cert">15848</span></h3>
+      <p>CERTIFICATE No.273343</p>
+    </div>
+  </div>
+  <!--  ABOUT US SECTION-->
+  <section class="about-about-section">
+    <div class="about-about-container main-about">
+      <div class="about-about-content">
+        <div class="about-about-title-column">
+          <div class="about-about-title-wrapper">
+            <h2 class="about-about-title">
+              <span class="about-white-text">ABOUT</span>
+              <span class="about-dark-text">US</span>
+            </h2>
+            <p class="about-about-subtitle" style="font-size: 32px">
+              THINGS THAT
+              <strong class="about-white-text">FIT</strong>
+              YOUR NEEDS
+            </p>
+          </div>
+        </div>
+        <div class="about-about-description-column" style="margin-top: 75px">
+          <p class="about-about-description">
+            We deeply feel that the best product is one that meets the
+            specifications and is delivered within the agreed deadlines. We know
+            the criticality of the projects in which our products are used and we
+            provide peace of mind in supply and planning. Dervos América markets 4
+            main lines of valves, Lock valves according to API 600,
           </p>
         </div>
       </div>
-      <div class="about-about-description-column" style="margin-top: 75px">
-        <p class="about-about-description">
-          We deeply feel that the best product is one that meets the
-          specifications and is delivered within the agreed deadlines. We know
-          the criticality of the projects in which our products are used and we
-          provide peace of mind in supply and planning. Dervos América markets 4
-          main lines of valves, Lock valves according to API 600,
-        </p>
-      </div>
     </div>
-  </div>
-</section>
-`,de=`
+  </section>
+  `,de=`
 <main class="header-container container-parallax-trunnion-valves">
   <!-- <img src="./assets/images/valve-2.jpeg" alt="" class="header-background-image header-image-background" />-->
 
@@ -1533,7 +1631,7 @@
 
           </ul>
         </div>
-        <a id="downloadLink" href="./assets/images/DervosValvesCatalog.pdf"
+        <a id="downloadLink" href="https://dervosamerica.com/DervosValvesCatalog.pdf"
           target="_blank" class="trunnion-contact-button"
           style="align-items: center; justify-content: center; display: inline-flex; text-decoration: none; color: white;">
           DOWNLOAD TECHNICAL FILE
@@ -1605,7 +1703,7 @@
 <div class="download-section">
   <h4 class="check-section-text">A DEEP LOOK AT THE TECHNICAL SHEET</h4>
   <!-- Enlace para abrir en nueva pestaña y descargar el archivo si el usuario decide hacerlo -->
-  <a href="./assets/images/DervosValvesCatalog.pdf" target="_blank" class="download-link">
+  <a href="https://dervosamerica.com/DervosValvesCatalog.pdf" target="_blank" class="download-link">
     DOWNLOAD TECHNICAL FILE
   </a>
   <div class="background-image"></div>
@@ -1754,7 +1852,7 @@
 
               </ul>
           </div>
-          <a id="downloadLink" href="./assets/images/DervosValvesCatalog.pdf" target="_blank" class="valves-contact-button" style="align-items: center; justify-content: center; display: inline-flex; text-decoration: none; color: white;">
+          <a id="downloadLink" href="https://dervosamerica.com/DervosValvesCatalog.pdf" target="_blank" class="valves-contact-button" style="align-items: center; justify-content: center; display: inline-flex; text-decoration: none; color: white;">
                DOWNLOAD TECHNICAL FILE
           </a>
       </div>
@@ -1837,7 +1935,7 @@
 <div class="download-section">
   <h4 class="check-section-text">A DEEP LOOK AT THE TECHNICAL SHEET</h4>
   <!-- Enlace para abrir en nueva pestaña y descargar el archivo si el usuario decide hacerlo -->
-  <a href="./assets/images/DervosValvesCatalog.pdf" target="_blank" class="download-link">
+  <a href="https://dervosamerica.com/DervosValvesCatalog.pdf" target="_blank" class="download-link">
     DOWNLOAD TECHNICAL FILE
   </a>
   <div class="background-image"></div>
@@ -1847,7 +1945,7 @@
     gate, globe and check valves`,`Pipeline valves including gate, plug, ball, and check valves for pipeline transportation systems.
     `,`Steel gate valves with flanged and butt-welding ends, designed for high-pressure and high-temperature services.
     `,"Check valves with flanged, lug, wafer, and butt-welding ends to prevent backflow in piping systems.","Butterfly valves with double-flanged, lug-type, and wafer-type ends for shut-off and flow control.","Forged steel valves with threaded, bolted, and welded ends, including gate, globe, and check valves.",`Steel globe valves with flanged and butt-welding ends for high-temperature and high-pressure services.
-    `],t=0,a=0,i=!1;function n(){e?i?a>=0?(e.innerHTML=e.innerHTML.substring(0,a),a--,setTimeout(n,10)):(i=!1,t=(t+1)%s.length,setTimeout(n,100)):a<s[t].length?(e.innerHTML+=s[t].charAt(a),a++,setTimeout(n,10)):setTimeout(()=>{i=!0,n()},2e3):console.log("Element .SecondtypeJsText not found")}n()},h=()=>{const e=document.querySelectorAll(".dropdown");if(console.log("Number of dropdowns found:",e.length),e.length===0){console.warn("No dropdown elements found!");return}e.forEach(s=>{const t=s,a=t.querySelector(".dropdown-content");if(!a){console.warn("No dropdown-content element found in a dropdown!");return}let i;const n=()=>{console.log("Showing dropdown content for",t),a.style.display="block",i&&window.clearTimeout(i)},o=()=>{i=window.setTimeout(()=>{console.log("Hiding dropdown content for",t),a.style.display="none"},1e3)};t.addEventListener("mouseover",n),a.addEventListener("mouseover",n),t.addEventListener("mouseleave",o),a.addEventListener("mouseleave",o)})},T=()=>{window.addEventListener("scroll",()=>{const e=document.querySelector(".parallax-background");if(e){const s=window.pageYOffset;e.style.backgroundPositionY=`${s*.2}px`}})},u=()=>{const e=window.scrollY||document.documentElement.scrollTop,s=document.querySelector(".sticky-header-container");e>75?window.hasOwnProperty("processActivated")||(console.log("do it here"),s&&!s.classList.contains("animate-sticky-header")&&(s.classList.add("animate-sticky-header"),console.log("Animation triggered"),setTimeout(()=>{},3e3))):s.classList.remove("animate-sticky-header")},ue=()=>{let e=0;const t=2*Math.PI/5,a=document.querySelector(".home-carousel figure");function i(){a&&(e+=t,a.style.transform=`rotateY(${e}rad)`)}setInterval(i,3e3)},me=`
+    `],t=0,a=0,i=!1;function n(){e?i?a>=0?(e.innerHTML=e.innerHTML.substring(0,a),a--,setTimeout(n,10)):(i=!1,t=(t+1)%s.length,setTimeout(n,100)):a<s[t].length?(e.innerHTML+=s[t].charAt(a),a++,setTimeout(n,10)):setTimeout(()=>{i=!0,n()},2e3):console.log("Element .SecondtypeJsText not found")}n()},h=()=>{const e=document.querySelectorAll(".dropdown");if(console.log("Number of dropdowns found:",e.length),e.length===0){console.warn("No dropdown elements found!");return}e.forEach(s=>{const t=s,a=t.querySelector(".dropdown-content");if(!a){console.warn("No dropdown-content element found in a dropdown!");return}let i;const n=()=>{console.log("Showing dropdown content for",t),a.style.display="block",i&&window.clearTimeout(i)},o=()=>{i=window.setTimeout(()=>{console.log("Hiding dropdown content for",t),a.style.display="none"},1e3)};t.addEventListener("mouseover",n),a.addEventListener("mouseover",n),t.addEventListener("mouseleave",o),a.addEventListener("mouseleave",o)})},S=()=>{window.addEventListener("scroll",()=>{const e=document.querySelector(".parallax-background");if(e){const s=window.pageYOffset;e.style.backgroundPositionY=`${s*.2}px`}})},u=()=>{const e=window.scrollY||document.documentElement.scrollTop,s=document.querySelector(".sticky-header-container");e>75?window.hasOwnProperty("processActivated")||(console.log("do it here"),s&&!s.classList.contains("animate-sticky-header")&&(s.classList.add("animate-sticky-header"),console.log("Animation triggered"),setTimeout(()=>{},3e3))):s.classList.remove("animate-sticky-header")},ue=`
 
 <main class="header-container container-parallax-globe-valves">
   <!-- <img src="./assets/images/valve-2.jpeg" alt="" class="header-background-image header-image-background" />  -->
@@ -1989,7 +2087,7 @@
 
           </ul>
         </div>
-        <a id="downloadLink" href="./assets/images/DervosValvesCatalog.pdf"
+        <a id="downloadLink" href="https://dervosamerica.com/DervosValvesCatalog.pdf"
           target="_blank" class="gloves-valves-contact-button"
           style="align-items: center; justify-content: center; display: inline-flex; text-decoration: none; color: white;">
           DOWNLOAD TECHNICAL FILE
@@ -2064,9 +2162,9 @@
 <div class="download-section">
   <h4 class="check-section-text">A DEEP LOOK AT THE TECHNICAL SHEET</h4>
   <!-- Enlace para abrir en nueva pestaña y descargar el archivo si el usuario decide hacerlo -->
-  <a href="./assets/images/DervosValvesCatalog.pdf" target="_blank" class="download-link">
+  <a href="https://dervosamerica.com/DervosValvesCatalog.pdf" target="_blank" class="download-link">
     DOWNLOAD TECHNICAL FILE
   </a>
   <div class="background-image"></div>
 </div>
-`,m=document.getElementById("app"),fe=()=>{p("/",()=>{m.innerHTML=ie,ve(),pe(),he(),h(),window.addEventListener("scroll",u);const e=document.getElementById("fire-video");e&&(e.playbackRate=.45),ue()}),p("/about-us",()=>{m.innerHTML=ne,h(),window.addEventListener("scroll",u)}),p("/steps",()=>{m.innerHTML=oe,T(),h(),window.addEventListener("scroll",u)}),p("/gate-valves",()=>{m.innerHTML=le,h(),window.addEventListener("scroll",u)}),p("/globe-valves",()=>{m.innerHTML=me,h(),window.addEventListener("scroll",u)}),p("/check-valves",()=>{m.innerHTML=re,h(),window.addEventListener("scroll",u)}),p("/certifications",()=>{m.innerHTML=ce,T(),h(),window.addEventListener("scroll",u)}),p("/trunnion-valves",()=>{m.innerHTML=de,T(),h(),window.addEventListener("scroll",u)}),p("/floating-valves",()=>{m.innerHTML=ge,T(),h(),window.addEventListener("scroll",u)}),p()};document.addEventListener("DOMContentLoaded",()=>{fe()});
+`,m=document.getElementById("app"),me=()=>{p("/",()=>{m.innerHTML=ie,ve(),pe(),he(),h(),window.addEventListener("scroll",u);const e=document.getElementById("fire-video");e&&(e.playbackRate=.45)}),p("/about-us",()=>{m.innerHTML=ne,h(),window.addEventListener("scroll",u)}),p("/steps",()=>{m.innerHTML=oe,S(),h(),window.addEventListener("scroll",u)}),p("/gate-valves",()=>{m.innerHTML=le,h(),window.addEventListener("scroll",u)}),p("/globe-valves",()=>{m.innerHTML=ue,h(),window.addEventListener("scroll",u)}),p("/check-valves",()=>{m.innerHTML=re,h(),window.addEventListener("scroll",u)}),p("/certifications",()=>{m.innerHTML=ce,S(),h(),window.addEventListener("scroll",u)}),p("/trunnion-valves",()=>{m.innerHTML=de,S(),h(),window.addEventListener("scroll",u)}),p("/floating-valves",()=>{m.innerHTML=ge,S(),h(),window.addEventListener("scroll",u)}),p()};document.addEventListener("DOMContentLoaded",()=>{me()});
