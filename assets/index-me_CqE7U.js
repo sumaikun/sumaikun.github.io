@@ -1,4 +1,4 @@
-(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const i of document.querySelectorAll('link[rel="modulepreload"]'))a(i);new MutationObserver(i=>{for(const n of i)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&a(o)}).observe(document,{childList:!0,subtree:!0});function t(i){const n={};return i.integrity&&(n.integrity=i.integrity),i.referrerPolicy&&(n.referrerPolicy=i.referrerPolicy),i.crossOrigin==="use-credentials"?n.credentials="include":i.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function a(i){if(i.ep)return;i.ep=!0;const n=t(i);fetch(i.href,n)}})();var O=Array.isArray||function(e){return Object.prototype.toString.call(e)=="[object Array]"},A=V,z=N,j=J,q=P,K=D,Y=new RegExp(["(\\\\.)","([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^()])+)\\))?|\\(((?:\\\\.|[^()])+)\\))([+*?])?|(\\*))"].join("|"),"g");function N(e){for(var s=[],t=0,a=0,i="",n;(n=Y.exec(e))!=null;){var o=n[0],l=n[1],r=n.index;if(i+=e.slice(a,r),a=r+o.length,l){i+=l[1];continue}i&&(s.push(i),i="");var c=n[2],g=n[3],H=n[4],M=n[5],I=n[6],U=n[7],B=I==="+"||I==="*",G=I==="?"||I==="*",x=c||"/",W=H||M||(U?".*":"[^"+x+"]+?");s.push({name:g||t++,prefix:c||"",delimiter:x,optional:G,repeat:B,pattern:$(W)})}return a<e.length&&(i+=e.substr(a)),i&&s.push(i),s}function J(e){return P(N(e))}function P(e){for(var s=new Array(e.length),t=0;t<e.length;t++)typeof e[t]=="object"&&(s[t]=new RegExp("^"+e[t].pattern+"$"));return function(a){for(var i="",n=a||{},o=0;o<e.length;o++){var l=e[o];if(typeof l=="string"){i+=l;continue}var r=n[l.name],c;if(r==null){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to be defined')}if(O(r)){if(!l.repeat)throw new TypeError('Expected "'+l.name+'" to not repeat, but received "'+r+'"');if(r.length===0){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to not be empty')}for(var g=0;g<r.length;g++){if(c=encodeURIComponent(r[g]),!s[o].test(c))throw new TypeError('Expected all "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');i+=(g===0?l.prefix:l.delimiter)+c}continue}if(c=encodeURIComponent(r),!s[o].test(c))throw new TypeError('Expected "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');i+=l.prefix+c}return i}}function F(e){return e.replace(/([.+*?=^!:${}()[\]|\/])/g,"\\$1")}function $(e){return e.replace(/([=!:$\/()])/g,"\\$1")}function C(e,s){return e.keys=s,e}function k(e){return e.sensitive?"":"i"}function Q(e,s){var t=e.source.match(/\((?!\?)/g);if(t)for(var a=0;a<t.length;a++)s.push({name:a,prefix:null,delimiter:null,optional:!1,repeat:!1,pattern:null});return C(e,s)}function X(e,s,t){for(var a=[],i=0;i<e.length;i++)a.push(V(e[i],s,t).source);var n=new RegExp("(?:"+a.join("|")+")",k(t));return C(n,s)}function Z(e,s,t){for(var a=N(e),i=D(a,t),n=0;n<a.length;n++)typeof a[n]!="string"&&s.push(a[n]);return C(i,s)}function D(e,s){s=s||{};for(var t=s.strict,a=s.end!==!1,i="",n=e[e.length-1],o=typeof n=="string"&&/\/$/.test(n),l=0;l<e.length;l++){var r=e[l];if(typeof r=="string")i+=F(r);else{var c=F(r.prefix),g=r.pattern;r.repeat&&(g+="(?:"+c+g+")*"),r.optional?c?g="(?:"+c+"("+g+"))?":g="("+g+")?":g=c+"("+g+")",i+=g}}return t||(i=(o?i.slice(0,-2):i)+"(?:\\/(?=$))?"),a?i+="$":i+=t&&o?"":"(?=\\/|$)",new RegExp("^"+i,k(s))}function V(e,s,t){return s=s||[],O(s)?t||(t={}):(t=s,s=[]),e instanceof RegExp?Q(e,s):O(e)?X(e,s,t):Z(e,s,t)}A.parse=z;A.compile=j;A.tokensToFunction=q;A.tokensToRegExp=K;var b=typeof document<"u",v=typeof window<"u",T=typeof history<"u",ee=typeof process<"u",L=b&&document.ontouchstart?"touchstart":"click",f=v&&!!(window.history.location||window.location);function d(){this.callbacks=[],this.exits=[],this.current="",this.len=0,this._decodeURLComponents=!0,this._base="",this._strict=!1,this._running=!1,this._hashbang=!1,this.clickHandler=this.clickHandler.bind(this),this._onpopstate=this._onpopstate.bind(this)}d.prototype.configure=function(e){var s=e||{};this._window=s.window||v&&window,this._decodeURLComponents=s.decodeURLComponents!==!1,this._popstate=s.popstate!==!1&&v,this._click=s.click!==!1&&b,this._hashbang=!!s.hashbang;var t=this._window;this._popstate?t.addEventListener("popstate",this._onpopstate,!1):v&&t.removeEventListener("popstate",this._onpopstate,!1),this._click?t.document.addEventListener(L,this.clickHandler,!1):b&&t.document.removeEventListener(L,this.clickHandler,!1),this._hashbang&&v&&!T?t.addEventListener("hashchange",this._onpopstate,!1):v&&t.removeEventListener("hashchange",this._onpopstate,!1)};d.prototype.base=function(e){if(arguments.length===0)return this._base;this._base=e};d.prototype._getBase=function(){var e=this._base;if(e)return e;var s=v&&this._window&&this._window.location;return v&&this._hashbang&&s&&s.protocol==="file:"&&(e=s.pathname),e};d.prototype.strict=function(e){if(arguments.length===0)return this._strict;this._strict=e};d.prototype.start=function(e){var s=e||{};if(this.configure(s),s.dispatch!==!1){this._running=!0;var t;if(f){var a=this._window,i=a.location;this._hashbang&&~i.hash.indexOf("#!")?t=i.hash.substr(2)+i.search:this._hashbang?t=i.search+i.hash:t=i.pathname+i.search+i.hash}this.replace(t,null,!0,s.dispatch)}};d.prototype.stop=function(){if(this._running){this.current="",this.len=0,this._running=!1;var e=this._window;this._click&&e.document.removeEventListener(L,this.clickHandler,!1),v&&e.removeEventListener("popstate",this._onpopstate,!1),v&&e.removeEventListener("hashchange",this._onpopstate,!1)}};d.prototype.show=function(e,s,t,a){var i=new y(e,s,this),n=this.prevContext;return this.prevContext=i,this.current=i.path,t!==!1&&this.dispatch(i,n),i.handled!==!1&&a!==!1&&i.pushState(),i};d.prototype.back=function(e,s){var t=this;if(this.len>0){var a=this._window;T&&a.history.back(),this.len--}else setTimeout(e?function(){t.show(e,s)}:function(){t.show(t._getBase(),s)})};d.prototype.redirect=function(e,s){var t=this;typeof e=="string"&&typeof s=="string"&&w.call(this,e,function(a){setTimeout(function(){t.replace(s)},0)}),typeof e=="string"&&typeof s>"u"&&setTimeout(function(){t.replace(e)},0)};d.prototype.replace=function(e,s,t,a){var i=new y(e,s,this),n=this.prevContext;return this.prevContext=i,this.current=i.path,i.init=t,i.save(),a!==!1&&this.dispatch(i,n),i};d.prototype.dispatch=function(e,s){var t=0,a=0,i=this;function n(){var l=i.exits[a++];if(!l)return o();l(s,n)}function o(){var l=i.callbacks[t++];if(e.path!==i.current){e.handled=!1;return}if(!l)return se.call(i,e);l(e,o)}s?n():o()};d.prototype.exit=function(e,s){if(typeof e=="function")return this.exit("*",e);for(var t=new E(e,null,this),a=1;a<arguments.length;++a)this.exits.push(t.middleware(arguments[a]))};d.prototype.clickHandler=function(e){if(this._which(e)===1&&!(e.metaKey||e.ctrlKey||e.shiftKey)&&!e.defaultPrevented){var s=e.target,t=e.path||(e.composedPath?e.composedPath():null);if(t){for(var a=0;a<t.length;a++)if(t[a].nodeName&&t[a].nodeName.toUpperCase()==="A"&&t[a].href){s=t[a];break}}for(;s&&s.nodeName.toUpperCase()!=="A";)s=s.parentNode;if(!(!s||s.nodeName.toUpperCase()!=="A")){var i=typeof s.href=="object"&&s.href.constructor.name==="SVGAnimatedString";if(!(s.hasAttribute("download")||s.getAttribute("rel")==="external")){var n=s.getAttribute("href");if(!(!this._hashbang&&this._samePath(s)&&(s.hash||n==="#"))&&!(n&&n.indexOf("mailto:")>-1)&&!(i?s.target.baseVal:s.target)&&!(!i&&!this.sameOrigin(s.href))){var o=i?s.href.baseVal:s.pathname+s.search+(s.hash||"");o=o[0]!=="/"?"/"+o:o,ee&&o.match(/^\/[a-zA-Z]:\//)&&(o=o.replace(/^\/[a-zA-Z]:\//,"/"));var l=o,r=this._getBase();o.indexOf(r)===0&&(o=o.substr(r.length)),this._hashbang&&(o=o.replace("#!","")),!(r&&l===o&&(!f||this._window.location.protocol!=="file:"))&&(e.preventDefault(),this.show(l))}}}}};d.prototype._onpopstate=function(){var e=!1;return v?(b&&document.readyState==="complete"?e=!0:window.addEventListener("load",function(){setTimeout(function(){e=!0},0)}),function(t){if(e){var a=this;if(t.state){var i=t.state.path;a.replace(i,t.state)}else if(f){var n=a._window.location;a.show(n.pathname+n.search+n.hash,void 0,void 0,!1)}}}):function(){}}();d.prototype._which=function(e){return e=e||v&&this._window.event,e.which==null?e.button:e.which};d.prototype._toURL=function(e){var s=this._window;if(typeof URL=="function"&&f)return new URL(e,s.location.toString());if(b){var t=s.document.createElement("a");return t.href=e,t}};d.prototype.sameOrigin=function(e){if(!e||!f)return!1;var s=this._toURL(e),t=this._window,a=t.location;return a.protocol===s.protocol&&a.hostname===s.hostname&&(a.port===s.port||a.port===""&&(s.port==80||s.port==443))};d.prototype._samePath=function(e){if(!f)return!1;var s=this._window,t=s.location;return e.pathname===t.pathname&&e.search===t.search};d.prototype._decodeURLEncodedURIComponent=function(e){return typeof e!="string"?e:this._decodeURLComponents?decodeURIComponent(e.replace(/\+/g," ")):e};function _(){var e=new d;function s(){return w.apply(e,arguments)}return s.callbacks=e.callbacks,s.exits=e.exits,s.base=e.base.bind(e),s.strict=e.strict.bind(e),s.start=e.start.bind(e),s.stop=e.stop.bind(e),s.show=e.show.bind(e),s.back=e.back.bind(e),s.redirect=e.redirect.bind(e),s.replace=e.replace.bind(e),s.dispatch=e.dispatch.bind(e),s.exit=e.exit.bind(e),s.configure=e.configure.bind(e),s.sameOrigin=e.sameOrigin.bind(e),s.clickHandler=e.clickHandler.bind(e),s.create=_,Object.defineProperty(s,"len",{get:function(){return e.len},set:function(t){e.len=t}}),Object.defineProperty(s,"current",{get:function(){return e.current},set:function(t){e.current=t}}),s.Context=y,s.Route=E,s}function w(e,s){if(typeof e=="function")return w.call(this,"*",e);if(typeof s=="function")for(var t=new E(e,null,this),a=1;a<arguments.length;++a)this.callbacks.push(t.middleware(arguments[a]));else typeof e=="string"?this[typeof s=="string"?"redirect":"show"](e,s):this.start(e)}function se(e){if(!e.handled){var s,t=this,a=t._window;t._hashbang?s=f&&this._getBase()+a.location.hash.replace("#!",""):s=f&&a.location.pathname+a.location.search,s!==e.canonicalPath&&(t.stop(),e.handled=!1,f&&(a.location.href=e.canonicalPath))}}function te(e){return e.replace(/([.+*?=^!:${}()[\]|/\\])/g,"\\$1")}function y(e,s,t){var a=this.page=t||w,i=a._window,n=a._hashbang,o=a._getBase();e[0]==="/"&&e.indexOf(o)!==0&&(e=o+(n?"#!":"")+e);var l=e.indexOf("?");this.canonicalPath=e;var r=new RegExp("^"+te(o));if(this.path=e.replace(r,"")||"/",n&&(this.path=this.path.replace("#!","")||"/"),this.title=b&&i.document.title,this.state=s||{},this.state.path=e,this.querystring=~l?a._decodeURLEncodedURIComponent(e.slice(l+1)):"",this.pathname=a._decodeURLEncodedURIComponent(~l?e.slice(0,l):e),this.params={},this.hash="",!n){if(!~this.path.indexOf("#"))return;var c=this.path.split("#");this.path=this.pathname=c[0],this.hash=a._decodeURLEncodedURIComponent(c[1])||"",this.querystring=this.querystring.split("#")[0]}}y.prototype.pushState=function(){var e=this.page,s=e._window,t=e._hashbang;e.len++,T&&s.history.pushState(this.state,this.title,t&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};y.prototype.save=function(){var e=this.page;T&&e._window.history.replaceState(this.state,this.title,e._hashbang&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};function E(e,s,t){var a=this.page=t||R,i=s||{};i.strict=i.strict||a._strict,this.path=e==="*"?"(.*)":e,this.method="GET",this.regexp=A(this.path,this.keys=[],i)}E.prototype.middleware=function(e){var s=this;return function(t,a){if(s.match(t.path,t.params))return t.routePath=s.path,e(t,a);a()}};E.prototype.match=function(e,s){var t=this.keys,a=e.indexOf("?"),i=~a?e.slice(0,a):e,n=this.regexp.exec(decodeURIComponent(i));if(!n)return!1;delete s[0];for(var o=1,l=n.length;o<l;++o){var r=t[o-1],c=this.page._decodeURLEncodedURIComponent(n[o]);(c!==void 0||!hasOwnProperty.call(s,r.name))&&(s[r.name]=c)}return!0};var R=_(),p=R,ae=R;p.default=ae;const ie=`
+(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const i of document.querySelectorAll('link[rel="modulepreload"]'))a(i);new MutationObserver(i=>{for(const n of i)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&a(o)}).observe(document,{childList:!0,subtree:!0});function t(i){const n={};return i.integrity&&(n.integrity=i.integrity),i.referrerPolicy&&(n.referrerPolicy=i.referrerPolicy),i.crossOrigin==="use-credentials"?n.credentials="include":i.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function a(i){if(i.ep)return;i.ep=!0;const n=t(i);fetch(i.href,n)}})();var O=Array.isArray||function(e){return Object.prototype.toString.call(e)=="[object Array]"},A=V,z=N,j=J,q=P,K=D,Y=new RegExp(["(\\\\.)","([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^()])+)\\))?|\\(((?:\\\\.|[^()])+)\\))([+*?])?|(\\*))"].join("|"),"g");function N(e){for(var s=[],t=0,a=0,i="",n;(n=Y.exec(e))!=null;){var o=n[0],l=n[1],r=n.index;if(i+=e.slice(a,r),a=r+o.length,l){i+=l[1];continue}i&&(s.push(i),i="");var c=n[2],g=n[3],H=n[4],M=n[5],I=n[6],U=n[7],B=I==="+"||I==="*",G=I==="?"||I==="*",x=c||"/",W=H||M||(U?".*":"[^"+x+"]+?");s.push({name:g||t++,prefix:c||"",delimiter:x,optional:G,repeat:B,pattern:$(W)})}return a<e.length&&(i+=e.substr(a)),i&&s.push(i),s}function J(e){return P(N(e))}function P(e){for(var s=new Array(e.length),t=0;t<e.length;t++)typeof e[t]=="object"&&(s[t]=new RegExp("^"+e[t].pattern+"$"));return function(a){for(var i="",n=a||{},o=0;o<e.length;o++){var l=e[o];if(typeof l=="string"){i+=l;continue}var r=n[l.name],c;if(r==null){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to be defined')}if(O(r)){if(!l.repeat)throw new TypeError('Expected "'+l.name+'" to not repeat, but received "'+r+'"');if(r.length===0){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to not be empty')}for(var g=0;g<r.length;g++){if(c=encodeURIComponent(r[g]),!s[o].test(c))throw new TypeError('Expected all "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');i+=(g===0?l.prefix:l.delimiter)+c}continue}if(c=encodeURIComponent(r),!s[o].test(c))throw new TypeError('Expected "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');i+=l.prefix+c}return i}}function F(e){return e.replace(/([.+*?=^!:${}()[\]|\/])/g,"\\$1")}function $(e){return e.replace(/([=!:$\/()])/g,"\\$1")}function C(e,s){return e.keys=s,e}function k(e){return e.sensitive?"":"i"}function Q(e,s){var t=e.source.match(/\((?!\?)/g);if(t)for(var a=0;a<t.length;a++)s.push({name:a,prefix:null,delimiter:null,optional:!1,repeat:!1,pattern:null});return C(e,s)}function X(e,s,t){for(var a=[],i=0;i<e.length;i++)a.push(V(e[i],s,t).source);var n=new RegExp("(?:"+a.join("|")+")",k(t));return C(n,s)}function Z(e,s,t){for(var a=N(e),i=D(a,t),n=0;n<a.length;n++)typeof a[n]!="string"&&s.push(a[n]);return C(i,s)}function D(e,s){s=s||{};for(var t=s.strict,a=s.end!==!1,i="",n=e[e.length-1],o=typeof n=="string"&&/\/$/.test(n),l=0;l<e.length;l++){var r=e[l];if(typeof r=="string")i+=F(r);else{var c=F(r.prefix),g=r.pattern;r.repeat&&(g+="(?:"+c+g+")*"),r.optional?c?g="(?:"+c+"("+g+"))?":g="("+g+")?":g=c+"("+g+")",i+=g}}return t||(i=(o?i.slice(0,-2):i)+"(?:\\/(?=$))?"),a?i+="$":i+=t&&o?"":"(?=\\/|$)",new RegExp("^"+i,k(s))}function V(e,s,t){return s=s||[],O(s)?t||(t={}):(t=s,s=[]),e instanceof RegExp?Q(e,s):O(e)?X(e,s,t):Z(e,s,t)}A.parse=z;A.compile=j;A.tokensToFunction=q;A.tokensToRegExp=K;var b=typeof document<"u",v=typeof window<"u",w=typeof history<"u",ee=typeof process<"u",L=b&&document.ontouchstart?"touchstart":"click",f=v&&!!(window.history.location||window.location);function d(){this.callbacks=[],this.exits=[],this.current="",this.len=0,this._decodeURLComponents=!0,this._base="",this._strict=!1,this._running=!1,this._hashbang=!1,this.clickHandler=this.clickHandler.bind(this),this._onpopstate=this._onpopstate.bind(this)}d.prototype.configure=function(e){var s=e||{};this._window=s.window||v&&window,this._decodeURLComponents=s.decodeURLComponents!==!1,this._popstate=s.popstate!==!1&&v,this._click=s.click!==!1&&b,this._hashbang=!!s.hashbang;var t=this._window;this._popstate?t.addEventListener("popstate",this._onpopstate,!1):v&&t.removeEventListener("popstate",this._onpopstate,!1),this._click?t.document.addEventListener(L,this.clickHandler,!1):b&&t.document.removeEventListener(L,this.clickHandler,!1),this._hashbang&&v&&!w?t.addEventListener("hashchange",this._onpopstate,!1):v&&t.removeEventListener("hashchange",this._onpopstate,!1)};d.prototype.base=function(e){if(arguments.length===0)return this._base;this._base=e};d.prototype._getBase=function(){var e=this._base;if(e)return e;var s=v&&this._window&&this._window.location;return v&&this._hashbang&&s&&s.protocol==="file:"&&(e=s.pathname),e};d.prototype.strict=function(e){if(arguments.length===0)return this._strict;this._strict=e};d.prototype.start=function(e){var s=e||{};if(this.configure(s),s.dispatch!==!1){this._running=!0;var t;if(f){var a=this._window,i=a.location;this._hashbang&&~i.hash.indexOf("#!")?t=i.hash.substr(2)+i.search:this._hashbang?t=i.search+i.hash:t=i.pathname+i.search+i.hash}this.replace(t,null,!0,s.dispatch)}};d.prototype.stop=function(){if(this._running){this.current="",this.len=0,this._running=!1;var e=this._window;this._click&&e.document.removeEventListener(L,this.clickHandler,!1),v&&e.removeEventListener("popstate",this._onpopstate,!1),v&&e.removeEventListener("hashchange",this._onpopstate,!1)}};d.prototype.show=function(e,s,t,a){var i=new y(e,s,this),n=this.prevContext;return this.prevContext=i,this.current=i.path,t!==!1&&this.dispatch(i,n),i.handled!==!1&&a!==!1&&i.pushState(),i};d.prototype.back=function(e,s){var t=this;if(this.len>0){var a=this._window;w&&a.history.back(),this.len--}else setTimeout(e?function(){t.show(e,s)}:function(){t.show(t._getBase(),s)})};d.prototype.redirect=function(e,s){var t=this;typeof e=="string"&&typeof s=="string"&&T.call(this,e,function(a){setTimeout(function(){t.replace(s)},0)}),typeof e=="string"&&typeof s>"u"&&setTimeout(function(){t.replace(e)},0)};d.prototype.replace=function(e,s,t,a){var i=new y(e,s,this),n=this.prevContext;return this.prevContext=i,this.current=i.path,i.init=t,i.save(),a!==!1&&this.dispatch(i,n),i};d.prototype.dispatch=function(e,s){var t=0,a=0,i=this;function n(){var l=i.exits[a++];if(!l)return o();l(s,n)}function o(){var l=i.callbacks[t++];if(e.path!==i.current){e.handled=!1;return}if(!l)return se.call(i,e);l(e,o)}s?n():o()};d.prototype.exit=function(e,s){if(typeof e=="function")return this.exit("*",e);for(var t=new E(e,null,this),a=1;a<arguments.length;++a)this.exits.push(t.middleware(arguments[a]))};d.prototype.clickHandler=function(e){if(this._which(e)===1&&!(e.metaKey||e.ctrlKey||e.shiftKey)&&!e.defaultPrevented){var s=e.target,t=e.path||(e.composedPath?e.composedPath():null);if(t){for(var a=0;a<t.length;a++)if(t[a].nodeName&&t[a].nodeName.toUpperCase()==="A"&&t[a].href){s=t[a];break}}for(;s&&s.nodeName.toUpperCase()!=="A";)s=s.parentNode;if(!(!s||s.nodeName.toUpperCase()!=="A")){var i=typeof s.href=="object"&&s.href.constructor.name==="SVGAnimatedString";if(!(s.hasAttribute("download")||s.getAttribute("rel")==="external")){var n=s.getAttribute("href");if(!(!this._hashbang&&this._samePath(s)&&(s.hash||n==="#"))&&!(n&&n.indexOf("mailto:")>-1)&&!(i?s.target.baseVal:s.target)&&!(!i&&!this.sameOrigin(s.href))){var o=i?s.href.baseVal:s.pathname+s.search+(s.hash||"");o=o[0]!=="/"?"/"+o:o,ee&&o.match(/^\/[a-zA-Z]:\//)&&(o=o.replace(/^\/[a-zA-Z]:\//,"/"));var l=o,r=this._getBase();o.indexOf(r)===0&&(o=o.substr(r.length)),this._hashbang&&(o=o.replace("#!","")),!(r&&l===o&&(!f||this._window.location.protocol!=="file:"))&&(e.preventDefault(),this.show(l))}}}}};d.prototype._onpopstate=function(){var e=!1;return v?(b&&document.readyState==="complete"?e=!0:window.addEventListener("load",function(){setTimeout(function(){e=!0},0)}),function(t){if(e){var a=this;if(t.state){var i=t.state.path;a.replace(i,t.state)}else if(f){var n=a._window.location;a.show(n.pathname+n.search+n.hash,void 0,void 0,!1)}}}):function(){}}();d.prototype._which=function(e){return e=e||v&&this._window.event,e.which==null?e.button:e.which};d.prototype._toURL=function(e){var s=this._window;if(typeof URL=="function"&&f)return new URL(e,s.location.toString());if(b){var t=s.document.createElement("a");return t.href=e,t}};d.prototype.sameOrigin=function(e){if(!e||!f)return!1;var s=this._toURL(e),t=this._window,a=t.location;return a.protocol===s.protocol&&a.hostname===s.hostname&&(a.port===s.port||a.port===""&&(s.port==80||s.port==443))};d.prototype._samePath=function(e){if(!f)return!1;var s=this._window,t=s.location;return e.pathname===t.pathname&&e.search===t.search};d.prototype._decodeURLEncodedURIComponent=function(e){return typeof e!="string"?e:this._decodeURLComponents?decodeURIComponent(e.replace(/\+/g," ")):e};function _(){var e=new d;function s(){return T.apply(e,arguments)}return s.callbacks=e.callbacks,s.exits=e.exits,s.base=e.base.bind(e),s.strict=e.strict.bind(e),s.start=e.start.bind(e),s.stop=e.stop.bind(e),s.show=e.show.bind(e),s.back=e.back.bind(e),s.redirect=e.redirect.bind(e),s.replace=e.replace.bind(e),s.dispatch=e.dispatch.bind(e),s.exit=e.exit.bind(e),s.configure=e.configure.bind(e),s.sameOrigin=e.sameOrigin.bind(e),s.clickHandler=e.clickHandler.bind(e),s.create=_,Object.defineProperty(s,"len",{get:function(){return e.len},set:function(t){e.len=t}}),Object.defineProperty(s,"current",{get:function(){return e.current},set:function(t){e.current=t}}),s.Context=y,s.Route=E,s}function T(e,s){if(typeof e=="function")return T.call(this,"*",e);if(typeof s=="function")for(var t=new E(e,null,this),a=1;a<arguments.length;++a)this.callbacks.push(t.middleware(arguments[a]));else typeof e=="string"?this[typeof s=="string"?"redirect":"show"](e,s):this.start(e)}function se(e){if(!e.handled){var s,t=this,a=t._window;t._hashbang?s=f&&this._getBase()+a.location.hash.replace("#!",""):s=f&&a.location.pathname+a.location.search,s!==e.canonicalPath&&(t.stop(),e.handled=!1,f&&(a.location.href=e.canonicalPath))}}function te(e){return e.replace(/([.+*?=^!:${}()[\]|/\\])/g,"\\$1")}function y(e,s,t){var a=this.page=t||T,i=a._window,n=a._hashbang,o=a._getBase();e[0]==="/"&&e.indexOf(o)!==0&&(e=o+(n?"#!":"")+e);var l=e.indexOf("?");this.canonicalPath=e;var r=new RegExp("^"+te(o));if(this.path=e.replace(r,"")||"/",n&&(this.path=this.path.replace("#!","")||"/"),this.title=b&&i.document.title,this.state=s||{},this.state.path=e,this.querystring=~l?a._decodeURLEncodedURIComponent(e.slice(l+1)):"",this.pathname=a._decodeURLEncodedURIComponent(~l?e.slice(0,l):e),this.params={},this.hash="",!n){if(!~this.path.indexOf("#"))return;var c=this.path.split("#");this.path=this.pathname=c[0],this.hash=a._decodeURLEncodedURIComponent(c[1])||"",this.querystring=this.querystring.split("#")[0]}}y.prototype.pushState=function(){var e=this.page,s=e._window,t=e._hashbang;e.len++,w&&s.history.pushState(this.state,this.title,t&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};y.prototype.save=function(){var e=this.page;w&&e._window.history.replaceState(this.state,this.title,e._hashbang&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};function E(e,s,t){var a=this.page=t||R,i=s||{};i.strict=i.strict||a._strict,this.path=e==="*"?"(.*)":e,this.method="GET",this.regexp=A(this.path,this.keys=[],i)}E.prototype.middleware=function(e){var s=this;return function(t,a){if(s.match(t.path,t.params))return t.routePath=s.path,e(t,a);a()}};E.prototype.match=function(e,s){var t=this.keys,a=e.indexOf("?"),i=~a?e.slice(0,a):e,n=this.regexp.exec(decodeURIComponent(i));if(!n)return!1;delete s[0];for(var o=1,l=n.length;o<l;++o){var r=t[o-1],c=this.page._decodeURLEncodedURIComponent(n[o]);(c!==void 0||!hasOwnProperty.call(s,r.name))&&(s[r.name]=c)}return!0};var R=_(),p=R,ae=R;p.default=ae;const ie=`
 <section>
   <img src="./assets/images/home-bg1.png" alt="" class="home-header-background" />
   <main class="header-container" style="min-height: unset">
@@ -44,36 +44,41 @@
 
     <section class="home-globe-valve-section">
       <div class="home-globe-valve-content">
-       <a href="/gate-valves"><img src="./assets/images/valve1.png" alt="Gate valve" class="home-butterfly-valve-" loading="lazy" /></a> 
+        <a href="/gate-valves"><img src="./assets/images/valve1.png" alt="Gate valve" class="home-butterfly-valve-"
+            loading="lazy" /></a>
         <span class="home-globe-valve-text link gate-link">GATE VALVE</span>
       </div>
     </section>
 
     <section class="home-globe-valve-section">
       <div class="home-globe-valve-content">
-        <a href="/check-valves"><img src="./assets/images/valve2.png" alt="Swing valve" class="home-butterfly-valve-image" loading="lazy" /></a>
+        <a href="/check-valves"><img src="./assets/images/valve2.png" alt="Swing valve"
+            class="home-butterfly-valve-image" loading="lazy" /></a>
         <span class="home-globe-valve-text link">SWING VALVE</span>
       </div>
     </section>
 
     <section class="home-ball-valve-section">
       <div class="home-globe-valve-content">
-       <a href="/globe-valves"> <img src="./assets/images/valve3.png" alt="Globe valve" class="home-butterfly-valve-image" loading="lazy" /></a>
+        <a href="/globe-valves"> <img src="./assets/images/valve3.png" alt="Globe valve"
+            class="home-butterfly-valve-image" loading="lazy" /></a>
         <span class="home-globe-valve-text link">GLOBE VALVE</span>
       </div>
     </section>
 
     <section class="home-butterfly-valve-section">
       <div class="home-globe-valve-content">
-        <a href="/floating-valves"><img src="./assets/images/valve4.png" alt="Ball valve" class="home-butterfly-valve-image" loading="lazy" /></a>
+        <a href="/floating-valves"><img src="./assets/images/valve4.png" alt="Ball valve"
+            class="home-butterfly-valve-image" loading="lazy" /></a>
         <span class="home-globe-valve-text link">BALL VALVE</span>
       </div>
-      
+
     </section>
 
     <section class="home-butterfly-valve-section">
       <div class="home-globe-valve-content">
-        <a href="#"><img src="./assets/images/valve5.png" alt="Butterfly valve" class="home-butterfly-valve-image butterfly-image" loading="lazy" /></a>
+        <a href="#"><img src="./assets/images/valve5.png" alt="Butterfly valve"
+            class="home-butterfly-valve-image butterfly-image" loading="lazy" /></a>
         <span class="home-globe-valve-text link">BUTTERFLY VALVE</span>
       </div>
     </section>
@@ -97,18 +102,9 @@
 </section>
 
 <section class="home-first-api-section">
-   <video
-    id="fire-video"
-    autoplay
-    loop
-    muted
-    playsinline
-  >
-    <source
-      src="./assets/videos/40_sss_loop_compressed.webm"
-      type="video/webm"
-    />
-  </video> 
+  <video id="fire-video" autoplay loop muted playsinline>
+    <source src="./assets/videos/40_sss_loop_compressed.webm" type="video/webm" />
+  </video>
   <img src="./assets/images/bg-valve-home1.jpeg" alt="" class="home-first-background-image" />
   <img src="./assets/images/first-valve.png" alt="API 6FD Fire Testing Standard for Valves"
     class="home-first-api-image" />
@@ -128,7 +124,7 @@
 </section>
 
 <section class="home-second-api-section">
-  <video autoplay loop muted playsinline  id="water-video">
+  <video autoplay loop muted playsinline id="water-video">
     <source src="./assets/videos/WhiteLiquislashtranAlph_compressed.webm" type="video/webm" />
   </video>
   <img src="./assets/images/bg-team.jpeg" alt="" class="home-first-background-image" />
@@ -145,32 +141,51 @@
   </div>
 </section>
 
-<section class="valves-portfolio" ></br>
+<section class="valves-portfolio"></br>
   <h2 class="valves-title-portfolio">OUR VALVES PORTFOLIO</h2>
   <div class="home-carousel">
     <figure id="our-valves-slider">
-        <div id="v-left-end" class="valve-card" style="font-weight: bold;">
-            <div class="valve-card-inner">
-                <img src="./assets/images/check_valve 1 (2).png" alt="Check Valve">
-                <p style="font-size: 32px; font-family: Raleway; margin-bottom: 5;"> Check <strong style="color: #00A39F;">Valve</strong></p>
-            </div>
+      <div id="v-left-end" class="valve-card" style="font-weight: bold;">
+        <div class="valve-card-inner">
+          <a href="/check-valves" style="text-decoration: none;">
+            <img src="./assets/images/check_valve 1 (2).png" alt="Check Valve">
+            <p style="font-size: 32px; font-family: Raleway; margin-bottom: 5;"> Check <strong
+                style="color: #00A39F;">Valve</strong></p>
+          </a>
         </div>
-        <div id="v-left" class="valve-card" style="font-weight: bold;">
-            <img src="./assets/images/gate_valve 1.png" alt="Gate Valve">
-            <p style="font-size: 32px; font-family: Raleway; margin-bottom: 5;">Gate <strong style="color: #00A39F;">Valve</strong></p>
-        </div>
-        <div id="v-center" class="valve-card" style="font-weight: bold;">
-            <img src="./assets/images/valge-gloves-2 1 1.png" alt="Globe Valve">
-            <p style="font-size: 32px; font-family: Raleway;">Globe <strong style="color: #00A39F;">Valve</strong></p>
-        </div>
-        <div id="v-right" class="valve-card" style="font-weight: bold;">
-            <img src="./assets/images/trunnion2 (1).png" alt="Gate Valve">
-            <p style="font-size: 32px; font-family: Raleway; margin-bottom: 5;">Ball <strong style="color: #00A39F;">Valve</strong></p>
-        </div>
-        <div id="v-right-end" class="valve-card" style="font-weight: bold;">
-            <img src="./assets/images/Butterfly_Valve_Dervos_America 1 (1).png" alt="Globe Valve">
-            <p style="font-size: 32px; font-family: Raleway;">Butterfly<strong style="color: #00A39F;">Valve</strong></p>
-        </div>
+      </div>
+      <div id="v-left" class="valve-card" style="font-weight: bold;">
+        <a href="/gate-valves" style="text-decoration: none;">
+          <img src="./assets/images/gate_valve 1.png" alt="Gate Valve">
+          <p style="font-size: 32px; font-family: Raleway; margin-bottom: 5;">Gate <strong
+              style="color: #00A39F;">Valve</strong></p>
+        </a>
+      </div>
+      <div id="v-center" class="valve-card" style="font-weight: bold;">
+        <a href="/globe-valves" style="text-decoration: none;">
+          <img src="./assets/images/valge-gloves-2 1 1.png" alt="Globe Valve">
+          <p style="font-size: 32px; font-family: Raleway;">Globe <strong style="color: #00A39F;">Valve</strong></p>
+        </a>
+      </div>
+      <div id="v-right" class="valve-card" style="font-weight: bold;">
+        <a href="/trunnion-valves" style="text-decoration: none;">
+          <img src="./assets/images/trunnion2 (1).png" alt="Gate Valve">
+          <p style="font-size: 32px; font-family: Raleway; margin-bottom: 5;">Trunnion <strong
+              style="color: #00A39F;">Valve</strong></p>
+        </a>
+      </div>
+      <div id="v-right-end" class="valve-card" style="font-weight: bold;">
+        <a href="/#" style="text-decoration: none;">
+          <img src="./assets/images/Butterfly_Valve_Dervos_America 1 (1).png" alt="Globe Valve">
+          <p style="font-size: 32px; font-family: Raleway;">Butterfly<strong style="color: #00A39F;">Valve</strong></p>
+        </a>
+      </div>
+      <div id="v-right-end" class="valve-card" style="font-weight: bold;">
+        <a href="/floating-valves" style="text-decoration: none;">
+          <img src="./assets/images/Butterfly_Valve_Dervos_America 1 (1).png" alt="Globe Valve">
+          <p style="font-size: 32px; font-family: Raleway;">Butterfly<strong style="color: #00A39F;">Valve</strong></p>
+        </a>
+      </div>
     </figure>
   </div>
 </section>
@@ -181,8 +196,9 @@
       <div class="home-info-certification-item">
         <div class="home-info-certification-content">
           <div class="home-info-certification-header">
-            <img src="./assets/images/certificate-info1.png" alt="Operational Certifications Icon"
+            <a href ="/certifications" style="text-decoration: none;" ><img src="./assets/images/certificate-info1.png" alt="Operational Certifications Icon"
               class="home-info-certification-icon" />
+            </a>
             <h3 class="home-info-certification-title">
               OPERATIONAL<br />
               CERTIFICATIONS
@@ -198,8 +214,10 @@
       <div class="home-info-certification-item">
         <div class="home-info-certification-content">
           <div class="home-info-certification-header">
+            <a href ="/certifications" style="text-decoration: none;" >
             <img src="./assets/images/certificate-info2.png" alt="Operational Certifications Icon"
               class="home-info-certification-icon" />
+            </a>
             <h3 class="home-info-certification-title">
               OPERATIONAL<br />
               CERTIFICATIONS
@@ -215,8 +233,10 @@
       <div class="home-info-certification-item">
         <div class="home-info-certification-content">
           <div class="home-info-certification-header">
+           <a href ="/certifications" style="text-decoration: none;" >
             <img src="./assets/images/certificate-info3.png" alt="Operational Certifications Icon"
               class="home-info-certification-icon home-info-certificate-gears" />
+           </a>
             <h3 class="home-info-certification-title">
               OPERATIONAL<br />
               CERTIFICATIONS
@@ -250,7 +270,7 @@
       exceeds the quality demands imposed by the market <br />
       today.
     </p>
-    <button class="home-mission-cta">LEARN MORE</button>
+    <a href="/about-us"><button class="home-mission-cta">LEARN MORE</button></a>
   </div>
 </section>
 
@@ -710,7 +730,7 @@
                 </div>
                 <div class="steps-certification-button-container">
                     <img src="./assets/images/certification-star.png" alt="Cert image" class="steps-cert-image" />
-                    <button class="steps-cert-button">MORE ABOUT OUR CERTIFICATIONS</button>
+                    <a href ="/certifications" style="text-decoration: none;" ><button class="steps-cert-button">MORE ABOUT OUR CERTIFICATIONS</button></a>
                 </div>
             </div>
         </div>
@@ -2159,7 +2179,7 @@
 
 
 <div class="just-image-container">
-  <img src="./assets/images/pdf-2.jpeg" alt="img-pdf" class="img-pdf-section-gloves">
+  <img src="./assets/images/Globe-Valves-Parts.jpg" alt="img-pdf" class="img-pdf-section-gloves">
 </div>
 <div class="centered-title">TEST PRESSURE TO <strong style="color: #00A39F;">API598</strong></div>
 <div class="just-image-container">
