@@ -1,0 +1,129 @@
+.home-valve-background {
+    position: relative;
+    width: 981px; /* Width of the image */
+    height: 623px; /* Height of the image */
+    background: url('https://dervosamerica.com/assets/images/Dervos_All_Valves_Home_Banner.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+.home-valve-punto {
+    position: absolute;
+    width: 50px; /* Container width */
+    height: 50px; /* Container height */
+    cursor: pointer; /* Change cursor to pointer for clickable effect */
+}
+
+.home-valve-visuals {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.home-valve-circle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid white;
+    border-radius: 50%;
+    pointer-events: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.822045;
+}
+
+.home-valve-inner-point {
+    position: absolute;
+    background: white; /* Fondo sólido para el punto */
+    border-radius: 50%;
+    width: 11px; /* Tamaño pequeño del punto */
+    height: 11px; /* Tamaño pequeño del punto */
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.25);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes circleAnimation {
+    0% {
+        width: 20px;
+        height: 20px;
+        opacity: 0.822045;
+    }
+    100% {
+        width: 91px;
+        height: 91px;
+        opacity: 0;
+    }
+}
+.home-valve-animate-circle {
+    animation: circleAnimation 5s infinite; /* Duración de la animación del círculo */
+}
+
+@keyframes scaleAnimation {
+    0% {
+        transform: translate(-50%, -50%) scale(0.87);
+    }
+    25% {
+        transform: translate(-50%, -50%) scale(0.6275);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(0.625);
+    }
+    75% {
+        transform: translate(-50%, -50%) scale(1.445);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.00127);
+    }
+}
+.home-valve-animate-point {
+    animation: scaleAnimation 5s infinite; /* Duración de la animación del punto */
+}
+
+.home-valve-punto:hover .home-valve-tooltip {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, 0); /* Ajuste para la animación */
+}
+
+.home-valve-tooltip {
+    transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    top: calc(50% + 6px);
+    left: 50%;
+    transform: translate(-50%, 10px);
+    background-color: white;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    box-shadow: rgba(0, 0, 0, 0.home-valve-25) 0px 0px 10px;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.home-valve-tooltip::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
+}
+
+.home-valve-tooltip .home-valve-highlight {
+    color: #009894;
+}
+
+.home-valve-punto:hover .home-valve-visuals {
+    opacity: 0;
+}

@@ -1,10 +1,66 @@
-var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,configurable:!0,writable:!0,value:t}):e[s]=t;var d=(e,s,t)=>(ae(e,typeof s!="symbol"?s+"":s,t),t);(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const i of document.querySelectorAll('link[rel="modulepreload"]'))a(i);new MutationObserver(i=>{for(const n of i)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&a(o)}).observe(document,{childList:!0,subtree:!0});function t(i){const n={};return i.integrity&&(n.integrity=i.integrity),i.referrerPolicy&&(n.referrerPolicy=i.referrerPolicy),i.crossOrigin==="use-credentials"?n.credentials="include":i.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function a(i){if(i.ep)return;i.ep=!0;const n=t(i);fetch(i.href,n)}})();var N=Array.isArray||function(e){return Object.prototype.toString.call(e)=="[object Array]"},E=q,ie=x,ne=ce,oe=j,le=K,re=new RegExp(["(\\\\.)","([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^()])+)\\))?|\\(((?:\\\\.|[^()])+)\\))([+*?])?|(\\*))"].join("|"),"g");function x(e){for(var s=[],t=0,a=0,i="",n;(n=re.exec(e))!=null;){var o=n[0],l=n[1],r=n.index;if(i+=e.slice(a,r),a=r+o.length,l){i+=l[1];continue}i&&(s.push(i),i="");var c=n[2],g=n[3],$=n[4],Q=n[5],T=n[6],X=n[7],Z=T==="+"||T==="*",ee=T==="?"||T==="*",P=c||"/",se=$||Q||(X?".*":"[^"+P+"]+?");s.push({name:g||t++,prefix:c||"",delimiter:P,optional:ee,repeat:Z,pattern:de(se)})}return a<e.length&&(i+=e.substr(a)),i&&s.push(i),s}function ce(e){return j(x(e))}function j(e){for(var s=new Array(e.length),t=0;t<e.length;t++)typeof e[t]=="object"&&(s[t]=new RegExp("^"+e[t].pattern+"$"));return function(a){for(var i="",n=a||{},o=0;o<e.length;o++){var l=e[o];if(typeof l=="string"){i+=l;continue}var r=n[l.name],c;if(r==null){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to be defined')}if(N(r)){if(!l.repeat)throw new TypeError('Expected "'+l.name+'" to not repeat, but received "'+r+'"');if(r.length===0){if(l.optional)continue;throw new TypeError('Expected "'+l.name+'" to not be empty')}for(var g=0;g<r.length;g++){if(c=encodeURIComponent(r[g]),!s[o].test(c))throw new TypeError('Expected all "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');i+=(g===0?l.prefix:l.delimiter)+c}continue}if(c=encodeURIComponent(r),!s[o].test(c))throw new TypeError('Expected "'+l.name+'" to match "'+l.pattern+'", but received "'+c+'"');i+=l.prefix+c}return i}}function V(e){return e.replace(/([.+*?=^!:${}()[\]|\/])/g,"\\$1")}function de(e){return e.replace(/([=!:$\/()])/g,"\\$1")}function R(e,s){return e.keys=s,e}function Y(e){return e.sensitive?"":"i"}function ve(e,s){var t=e.source.match(/\((?!\?)/g);if(t)for(var a=0;a<t.length;a++)s.push({name:a,prefix:null,delimiter:null,optional:!1,repeat:!1,pattern:null});return R(e,s)}function ge(e,s,t){for(var a=[],i=0;i<e.length;i++)a.push(q(e[i],s,t).source);var n=new RegExp("(?:"+a.join("|")+")",Y(t));return R(n,s)}function pe(e,s,t){for(var a=x(e),i=K(a,t),n=0;n<a.length;n++)typeof a[n]!="string"&&s.push(a[n]);return R(i,s)}function K(e,s){s=s||{};for(var t=s.strict,a=s.end!==!1,i="",n=e[e.length-1],o=typeof n=="string"&&/\/$/.test(n),l=0;l<e.length;l++){var r=e[l];if(typeof r=="string")i+=V(r);else{var c=V(r.prefix),g=r.pattern;r.repeat&&(g+="(?:"+c+g+")*"),r.optional?c?g="(?:"+c+"("+g+"))?":g="("+g+")?":g=c+"("+g+")",i+=g}}return t||(i=(o?i.slice(0,-2):i)+"(?:\\/(?=$))?"),a?i+="$":i+=t&&o?"":"(?=\\/|$)",new RegExp("^"+i,Y(s))}function q(e,s,t){return s=s||[],N(s)?t||(t={}):(t=s,s=[]),e instanceof RegExp?ve(e,s):N(e)?ge(e,s,t):pe(e,s,t)}E.parse=ie;E.compile=ne;E.tokensToFunction=oe;E.tokensToRegExp=le;var A=typeof document<"u",h=typeof window<"u",O=typeof history<"u",he=typeof process<"u",C=A&&document.ontouchstart?"touchstart":"click",y=h&&!!(window.history.location||window.location);function v(){this.callbacks=[],this.exits=[],this.current="",this.len=0,this._decodeURLComponents=!0,this._base="",this._strict=!1,this._running=!1,this._hashbang=!1,this.clickHandler=this.clickHandler.bind(this),this._onpopstate=this._onpopstate.bind(this)}v.prototype.configure=function(e){var s=e||{};this._window=s.window||h&&window,this._decodeURLComponents=s.decodeURLComponents!==!1,this._popstate=s.popstate!==!1&&h,this._click=s.click!==!1&&A,this._hashbang=!!s.hashbang;var t=this._window;this._popstate?t.addEventListener("popstate",this._onpopstate,!1):h&&t.removeEventListener("popstate",this._onpopstate,!1),this._click?t.document.addEventListener(C,this.clickHandler,!1):A&&t.document.removeEventListener(C,this.clickHandler,!1),this._hashbang&&h&&!O?t.addEventListener("hashchange",this._onpopstate,!1):h&&t.removeEventListener("hashchange",this._onpopstate,!1)};v.prototype.base=function(e){if(arguments.length===0)return this._base;this._base=e};v.prototype._getBase=function(){var e=this._base;if(e)return e;var s=h&&this._window&&this._window.location;return h&&this._hashbang&&s&&s.protocol==="file:"&&(e=s.pathname),e};v.prototype.strict=function(e){if(arguments.length===0)return this._strict;this._strict=e};v.prototype.start=function(e){var s=e||{};if(this.configure(s),s.dispatch!==!1){this._running=!0;var t;if(y){var a=this._window,i=a.location;this._hashbang&&~i.hash.indexOf("#!")?t=i.hash.substr(2)+i.search:this._hashbang?t=i.search+i.hash:t=i.pathname+i.search+i.hash}this.replace(t,null,!0,s.dispatch)}};v.prototype.stop=function(){if(this._running){this.current="",this.len=0,this._running=!1;var e=this._window;this._click&&e.document.removeEventListener(C,this.clickHandler,!1),h&&e.removeEventListener("popstate",this._onpopstate,!1),h&&e.removeEventListener("hashchange",this._onpopstate,!1)}};v.prototype.show=function(e,s,t,a){var i=new I(e,s,this),n=this.prevContext;return this.prevContext=i,this.current=i.path,t!==!1&&this.dispatch(i,n),i.handled!==!1&&a!==!1&&i.pushState(),i};v.prototype.back=function(e,s){var t=this;if(this.len>0){var a=this._window;O&&a.history.back(),this.len--}else setTimeout(e?function(){t.show(e,s)}:function(){t.show(t._getBase(),s)})};v.prototype.redirect=function(e,s){var t=this;typeof e=="string"&&typeof s=="string"&&L.call(this,e,function(a){setTimeout(function(){t.replace(s)},0)}),typeof e=="string"&&typeof s>"u"&&setTimeout(function(){t.replace(e)},0)};v.prototype.replace=function(e,s,t,a){var i=new I(e,s,this),n=this.prevContext;return this.prevContext=i,this.current=i.path,i.init=t,i.save(),a!==!1&&this.dispatch(i,n),i};v.prototype.dispatch=function(e,s){var t=0,a=0,i=this;function n(){var l=i.exits[a++];if(!l)return o();l(s,n)}function o(){var l=i.callbacks[t++];if(e.path!==i.current){e.handled=!1;return}if(!l)return ue.call(i,e);l(e,o)}s?n():o()};v.prototype.exit=function(e,s){if(typeof e=="function")return this.exit("*",e);for(var t=new S(e,null,this),a=1;a<arguments.length;++a)this.exits.push(t.middleware(arguments[a]))};v.prototype.clickHandler=function(e){if(this._which(e)===1&&!(e.metaKey||e.ctrlKey||e.shiftKey)&&!e.defaultPrevented){var s=e.target,t=e.path||(e.composedPath?e.composedPath():null);if(t){for(var a=0;a<t.length;a++)if(t[a].nodeName&&t[a].nodeName.toUpperCase()==="A"&&t[a].href){s=t[a];break}}for(;s&&s.nodeName.toUpperCase()!=="A";)s=s.parentNode;if(!(!s||s.nodeName.toUpperCase()!=="A")){var i=typeof s.href=="object"&&s.href.constructor.name==="SVGAnimatedString";if(!(s.hasAttribute("download")||s.getAttribute("rel")==="external")){var n=s.getAttribute("href");if(!(!this._hashbang&&this._samePath(s)&&(s.hash||n==="#"))&&!(n&&n.indexOf("mailto:")>-1)&&!(i?s.target.baseVal:s.target)&&!(!i&&!this.sameOrigin(s.href))){var o=i?s.href.baseVal:s.pathname+s.search+(s.hash||"");o=o[0]!=="/"?"/"+o:o,he&&o.match(/^\/[a-zA-Z]:\//)&&(o=o.replace(/^\/[a-zA-Z]:\//,"/"));var l=o,r=this._getBase();o.indexOf(r)===0&&(o=o.substr(r.length)),this._hashbang&&(o=o.replace("#!","")),!(r&&l===o&&(!y||this._window.location.protocol!=="file:"))&&(e.preventDefault(),this.show(l))}}}}};v.prototype._onpopstate=function(){var e=!1;return h?(A&&document.readyState==="complete"?e=!0:window.addEventListener("load",function(){setTimeout(function(){e=!0},0)}),function(t){if(e){var a=this;if(t.state){var i=t.state.path;a.replace(i,t.state)}else if(y){var n=a._window.location;a.show(n.pathname+n.search+n.hash,void 0,void 0,!1)}}}):function(){}}();v.prototype._which=function(e){return e=e||h&&this._window.event,e.which==null?e.button:e.which};v.prototype._toURL=function(e){var s=this._window;if(typeof URL=="function"&&y)return new URL(e,s.location.toString());if(A){var t=s.document.createElement("a");return t.href=e,t}};v.prototype.sameOrigin=function(e){if(!e||!y)return!1;var s=this._toURL(e),t=this._window,a=t.location;return a.protocol===s.protocol&&a.hostname===s.hostname&&(a.port===s.port||a.port===""&&(s.port==80||s.port==443))};v.prototype._samePath=function(e){if(!y)return!1;var s=this._window,t=s.location;return e.pathname===t.pathname&&e.search===t.search};v.prototype._decodeURLEncodedURIComponent=function(e){return typeof e!="string"?e:this._decodeURLComponents?decodeURIComponent(e.replace(/\+/g," ")):e};function J(){var e=new v;function s(){return L.apply(e,arguments)}return s.callbacks=e.callbacks,s.exits=e.exits,s.base=e.base.bind(e),s.strict=e.strict.bind(e),s.start=e.start.bind(e),s.stop=e.stop.bind(e),s.show=e.show.bind(e),s.back=e.back.bind(e),s.redirect=e.redirect.bind(e),s.replace=e.replace.bind(e),s.dispatch=e.dispatch.bind(e),s.exit=e.exit.bind(e),s.configure=e.configure.bind(e),s.sameOrigin=e.sameOrigin.bind(e),s.clickHandler=e.clickHandler.bind(e),s.create=J,Object.defineProperty(s,"len",{get:function(){return e.len},set:function(t){e.len=t}}),Object.defineProperty(s,"current",{get:function(){return e.current},set:function(t){e.current=t}}),s.Context=I,s.Route=S,s}function L(e,s){if(typeof e=="function")return L.call(this,"*",e);if(typeof s=="function")for(var t=new S(e,null,this),a=1;a<arguments.length;++a)this.callbacks.push(t.middleware(arguments[a]));else typeof e=="string"?this[typeof s=="string"?"redirect":"show"](e,s):this.start(e)}function ue(e){if(!e.handled){var s,t=this,a=t._window;t._hashbang?s=y&&this._getBase()+a.location.hash.replace("#!",""):s=y&&a.location.pathname+a.location.search,s!==e.canonicalPath&&(t.stop(),e.handled=!1,y&&(a.location.href=e.canonicalPath))}}function me(e){return e.replace(/([.+*?=^!:${}()[\]|/\\])/g,"\\$1")}function I(e,s,t){var a=this.page=t||L,i=a._window,n=a._hashbang,o=a._getBase();e[0]==="/"&&e.indexOf(o)!==0&&(e=o+(n?"#!":"")+e);var l=e.indexOf("?");this.canonicalPath=e;var r=new RegExp("^"+me(o));if(this.path=e.replace(r,"")||"/",n&&(this.path=this.path.replace("#!","")||"/"),this.title=A&&i.document.title,this.state=s||{},this.state.path=e,this.querystring=~l?a._decodeURLEncodedURIComponent(e.slice(l+1)):"",this.pathname=a._decodeURLEncodedURIComponent(~l?e.slice(0,l):e),this.params={},this.hash="",!n){if(!~this.path.indexOf("#"))return;var c=this.path.split("#");this.path=this.pathname=c[0],this.hash=a._decodeURLEncodedURIComponent(c[1])||"",this.querystring=this.querystring.split("#")[0]}}I.prototype.pushState=function(){var e=this.page,s=e._window,t=e._hashbang;e.len++,O&&s.history.pushState(this.state,this.title,t&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};I.prototype.save=function(){var e=this.page;O&&e._window.history.replaceState(this.state,this.title,e._hashbang&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};function S(e,s,t){var a=this.page=t||F,i=s||{};i.strict=i.strict||a._strict,this.path=e==="*"?"(.*)":e,this.method="GET",this.regexp=E(this.path,this.keys=[],i)}S.prototype.middleware=function(e){var s=this;return function(t,a){if(s.match(t.path,t.params))return t.routePath=s.path,e(t,a);a()}};S.prototype.match=function(e,s){var t=this.keys,a=e.indexOf("?"),i=~a?e.slice(0,a):e,n=this.regexp.exec(decodeURIComponent(i));if(!n)return!1;delete s[0];for(var o=1,l=n.length;o<l;++o){var r=t[o-1],c=this.page._decodeURLEncodedURIComponent(n[o]);(c!==void 0||!hasOwnProperty.call(s,r.name))&&(s[r.name]=c)}return!0};var F=J(),p=F,fe=F;p.default=fe;const be=`
+var ae=Object.defineProperty;var ie=(e,s,t)=>s in e?ae(e,s,{enumerable:!0,configurable:!0,writable:!0,value:t}):e[s]=t;var d=(e,s,t)=>(ie(e,typeof s!="symbol"?s+"":s,t),t);(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const i of document.querySelectorAll('link[rel="modulepreload"]'))a(i);new MutationObserver(i=>{for(const n of i)if(n.type==="childList")for(const l of n.addedNodes)l.tagName==="LINK"&&l.rel==="modulepreload"&&a(l)}).observe(document,{childList:!0,subtree:!0});function t(i){const n={};return i.integrity&&(n.integrity=i.integrity),i.referrerPolicy&&(n.referrerPolicy=i.referrerPolicy),i.crossOrigin==="use-credentials"?n.credentials="include":i.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function a(i){if(i.ep)return;i.ep=!0;const n=t(i);fetch(i.href,n)}})();var D=Array.isArray||function(e){return Object.prototype.toString.call(e)=="[object Array]"},L=se,ne=B,le=de,oe=X,re=ee,ce=new RegExp(["(\\\\.)","([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^()])+)\\))?|\\(((?:\\\\.|[^()])+)\\))([+*?])?|(\\*))"].join("|"),"g");function B(e){for(var s=[],t=0,a=0,i="",n;(n=ce.exec(e))!=null;){var l=n[0],o=n[1],r=n.index;if(i+=e.slice(a,r),a=r+l.length,o){i+=o[1];continue}i&&(s.push(i),i="");var c=n[2],g=n[3],R=n[4],k=n[5],T=n[6],w=n[7],F=T==="+"||T==="*",E=T==="?"||T==="*",u=c||"/",O=R||k||(w?".*":"[^"+u+"]+?");s.push({name:g||t++,prefix:c||"",delimiter:u,optional:E,repeat:F,pattern:ve(O)})}return a<e.length&&(i+=e.substr(a)),i&&s.push(i),s}function de(e){return X(B(e))}function X(e){for(var s=new Array(e.length),t=0;t<e.length;t++)typeof e[t]=="object"&&(s[t]=new RegExp("^"+e[t].pattern+"$"));return function(a){for(var i="",n=a||{},l=0;l<e.length;l++){var o=e[l];if(typeof o=="string"){i+=o;continue}var r=n[o.name],c;if(r==null){if(o.optional)continue;throw new TypeError('Expected "'+o.name+'" to be defined')}if(D(r)){if(!o.repeat)throw new TypeError('Expected "'+o.name+'" to not repeat, but received "'+r+'"');if(r.length===0){if(o.optional)continue;throw new TypeError('Expected "'+o.name+'" to not be empty')}for(var g=0;g<r.length;g++){if(c=encodeURIComponent(r[g]),!s[l].test(c))throw new TypeError('Expected all "'+o.name+'" to match "'+o.pattern+'", but received "'+c+'"');i+=(g===0?o.prefix:o.delimiter)+c}continue}if(c=encodeURIComponent(r),!s[l].test(c))throw new TypeError('Expected "'+o.name+'" to match "'+o.pattern+'", but received "'+c+'"');i+=o.prefix+c}return i}}function U(e){return e.replace(/([.+*?=^!:${}()[\]|\/])/g,"\\$1")}function ve(e){return e.replace(/([=!:$\/()])/g,"\\$1")}function H(e,s){return e.keys=s,e}function Z(e){return e.sensitive?"":"i"}function ge(e,s){var t=e.source.match(/\((?!\?)/g);if(t)for(var a=0;a<t.length;a++)s.push({name:a,prefix:null,delimiter:null,optional:!1,repeat:!1,pattern:null});return H(e,s)}function pe(e,s,t){for(var a=[],i=0;i<e.length;i++)a.push(se(e[i],s,t).source);var n=new RegExp("(?:"+a.join("|")+")",Z(t));return H(n,s)}function he(e,s,t){for(var a=B(e),i=ee(a,t),n=0;n<a.length;n++)typeof a[n]!="string"&&s.push(a[n]);return H(i,s)}function ee(e,s){s=s||{};for(var t=s.strict,a=s.end!==!1,i="",n=e[e.length-1],l=typeof n=="string"&&/\/$/.test(n),o=0;o<e.length;o++){var r=e[o];if(typeof r=="string")i+=U(r);else{var c=U(r.prefix),g=r.pattern;r.repeat&&(g+="(?:"+c+g+")*"),r.optional?c?g="(?:"+c+"("+g+"))?":g="("+g+")?":g=c+"("+g+")",i+=g}}return t||(i=(l?i.slice(0,-2):i)+"(?:\\/(?=$))?"),a?i+="$":i+=t&&l?"":"(?=\\/|$)",new RegExp("^"+i,Z(s))}function se(e,s,t){return s=s||[],D(s)?t||(t={}):(t=s,s=[]),e instanceof RegExp?ge(e,s):D(e)?pe(e,s,t):he(e,s,t)}L.parse=ne;L.compile=le;L.tokensToFunction=oe;L.tokensToRegExp=re;var I=typeof document<"u",h=typeof window<"u",P=typeof history<"u",ue=typeof process<"u",_=I&&document.ontouchstart?"touchstart":"click",A=h&&!!(window.history.location||window.location);function v(){this.callbacks=[],this.exits=[],this.current="",this.len=0,this._decodeURLComponents=!0,this._base="",this._strict=!1,this._running=!1,this._hashbang=!1,this.clickHandler=this.clickHandler.bind(this),this._onpopstate=this._onpopstate.bind(this)}v.prototype.configure=function(e){var s=e||{};this._window=s.window||h&&window,this._decodeURLComponents=s.decodeURLComponents!==!1,this._popstate=s.popstate!==!1&&h,this._click=s.click!==!1&&I,this._hashbang=!!s.hashbang;var t=this._window;this._popstate?t.addEventListener("popstate",this._onpopstate,!1):h&&t.removeEventListener("popstate",this._onpopstate,!1),this._click?t.document.addEventListener(_,this.clickHandler,!1):I&&t.document.removeEventListener(_,this.clickHandler,!1),this._hashbang&&h&&!P?t.addEventListener("hashchange",this._onpopstate,!1):h&&t.removeEventListener("hashchange",this._onpopstate,!1)};v.prototype.base=function(e){if(arguments.length===0)return this._base;this._base=e};v.prototype._getBase=function(){var e=this._base;if(e)return e;var s=h&&this._window&&this._window.location;return h&&this._hashbang&&s&&s.protocol==="file:"&&(e=s.pathname),e};v.prototype.strict=function(e){if(arguments.length===0)return this._strict;this._strict=e};v.prototype.start=function(e){var s=e||{};if(this.configure(s),s.dispatch!==!1){this._running=!0;var t;if(A){var a=this._window,i=a.location;this._hashbang&&~i.hash.indexOf("#!")?t=i.hash.substr(2)+i.search:this._hashbang?t=i.search+i.hash:t=i.pathname+i.search+i.hash}this.replace(t,null,!0,s.dispatch)}};v.prototype.stop=function(){if(this._running){this.current="",this.len=0,this._running=!1;var e=this._window;this._click&&e.document.removeEventListener(_,this.clickHandler,!1),h&&e.removeEventListener("popstate",this._onpopstate,!1),h&&e.removeEventListener("hashchange",this._onpopstate,!1)}};v.prototype.show=function(e,s,t,a){var i=new N(e,s,this),n=this.prevContext;return this.prevContext=i,this.current=i.path,t!==!1&&this.dispatch(i,n),i.handled!==!1&&a!==!1&&i.pushState(),i};v.prototype.back=function(e,s){var t=this;if(this.len>0){var a=this._window;P&&a.history.back(),this.len--}else setTimeout(e?function(){t.show(e,s)}:function(){t.show(t._getBase(),s)})};v.prototype.redirect=function(e,s){var t=this;typeof e=="string"&&typeof s=="string"&&V.call(this,e,function(a){setTimeout(function(){t.replace(s)},0)}),typeof e=="string"&&typeof s>"u"&&setTimeout(function(){t.replace(e)},0)};v.prototype.replace=function(e,s,t,a){var i=new N(e,s,this),n=this.prevContext;return this.prevContext=i,this.current=i.path,i.init=t,i.save(),a!==!1&&this.dispatch(i,n),i};v.prototype.dispatch=function(e,s){var t=0,a=0,i=this;function n(){var o=i.exits[a++];if(!o)return l();o(s,n)}function l(){var o=i.callbacks[t++];if(e.path!==i.current){e.handled=!1;return}if(!o)return me.call(i,e);o(e,l)}s?n():l()};v.prototype.exit=function(e,s){if(typeof e=="function")return this.exit("*",e);for(var t=new C(e,null,this),a=1;a<arguments.length;++a)this.exits.push(t.middleware(arguments[a]))};v.prototype.clickHandler=function(e){if(this._which(e)===1&&!(e.metaKey||e.ctrlKey||e.shiftKey)&&!e.defaultPrevented){var s=e.target,t=e.path||(e.composedPath?e.composedPath():null);if(t){for(var a=0;a<t.length;a++)if(t[a].nodeName&&t[a].nodeName.toUpperCase()==="A"&&t[a].href){s=t[a];break}}for(;s&&s.nodeName.toUpperCase()!=="A";)s=s.parentNode;if(!(!s||s.nodeName.toUpperCase()!=="A")){var i=typeof s.href=="object"&&s.href.constructor.name==="SVGAnimatedString";if(!(s.hasAttribute("download")||s.getAttribute("rel")==="external")){var n=s.getAttribute("href");if(!(!this._hashbang&&this._samePath(s)&&(s.hash||n==="#"))&&!(n&&n.indexOf("mailto:")>-1)&&!(i?s.target.baseVal:s.target)&&!(!i&&!this.sameOrigin(s.href))){var l=i?s.href.baseVal:s.pathname+s.search+(s.hash||"");l=l[0]!=="/"?"/"+l:l,ue&&l.match(/^\/[a-zA-Z]:\//)&&(l=l.replace(/^\/[a-zA-Z]:\//,"/"));var o=l,r=this._getBase();l.indexOf(r)===0&&(l=l.substr(r.length)),this._hashbang&&(l=l.replace("#!","")),!(r&&o===l&&(!A||this._window.location.protocol!=="file:"))&&(e.preventDefault(),this.show(o))}}}}};v.prototype._onpopstate=function(){var e=!1;return h?(I&&document.readyState==="complete"?e=!0:window.addEventListener("load",function(){setTimeout(function(){e=!0},0)}),function(t){if(e){var a=this;if(t.state){var i=t.state.path;a.replace(i,t.state)}else if(A){var n=a._window.location;a.show(n.pathname+n.search+n.hash,void 0,void 0,!1)}}}):function(){}}();v.prototype._which=function(e){return e=e||h&&this._window.event,e.which==null?e.button:e.which};v.prototype._toURL=function(e){var s=this._window;if(typeof URL=="function"&&A)return new URL(e,s.location.toString());if(I){var t=s.document.createElement("a");return t.href=e,t}};v.prototype.sameOrigin=function(e){if(!e||!A)return!1;var s=this._toURL(e),t=this._window,a=t.location;return a.protocol===s.protocol&&a.hostname===s.hostname&&(a.port===s.port||a.port===""&&(s.port==80||s.port==443))};v.prototype._samePath=function(e){if(!A)return!1;var s=this._window,t=s.location;return e.pathname===t.pathname&&e.search===t.search};v.prototype._decodeURLEncodedURIComponent=function(e){return typeof e!="string"?e:this._decodeURLComponents?decodeURIComponent(e.replace(/\+/g," ")):e};function te(){var e=new v;function s(){return V.apply(e,arguments)}return s.callbacks=e.callbacks,s.exits=e.exits,s.base=e.base.bind(e),s.strict=e.strict.bind(e),s.start=e.start.bind(e),s.stop=e.stop.bind(e),s.show=e.show.bind(e),s.back=e.back.bind(e),s.redirect=e.redirect.bind(e),s.replace=e.replace.bind(e),s.dispatch=e.dispatch.bind(e),s.exit=e.exit.bind(e),s.configure=e.configure.bind(e),s.sameOrigin=e.sameOrigin.bind(e),s.clickHandler=e.clickHandler.bind(e),s.create=te,Object.defineProperty(s,"len",{get:function(){return e.len},set:function(t){e.len=t}}),Object.defineProperty(s,"current",{get:function(){return e.current},set:function(t){e.current=t}}),s.Context=N,s.Route=C,s}function V(e,s){if(typeof e=="function")return V.call(this,"*",e);if(typeof s=="function")for(var t=new C(e,null,this),a=1;a<arguments.length;++a)this.callbacks.push(t.middleware(arguments[a]));else typeof e=="string"?this[typeof s=="string"?"redirect":"show"](e,s):this.start(e)}function me(e){if(!e.handled){var s,t=this,a=t._window;t._hashbang?s=A&&this._getBase()+a.location.hash.replace("#!",""):s=A&&a.location.pathname+a.location.search,s!==e.canonicalPath&&(t.stop(),e.handled=!1,A&&(a.location.href=e.canonicalPath))}}function fe(e){return e.replace(/([.+*?=^!:${}()[\]|/\\])/g,"\\$1")}function N(e,s,t){var a=this.page=t||V,i=a._window,n=a._hashbang,l=a._getBase();e[0]==="/"&&e.indexOf(l)!==0&&(e=l+(n?"#!":"")+e);var o=e.indexOf("?");this.canonicalPath=e;var r=new RegExp("^"+fe(l));if(this.path=e.replace(r,"")||"/",n&&(this.path=this.path.replace("#!","")||"/"),this.title=I&&i.document.title,this.state=s||{},this.state.path=e,this.querystring=~o?a._decodeURLEncodedURIComponent(e.slice(o+1)):"",this.pathname=a._decodeURLEncodedURIComponent(~o?e.slice(0,o):e),this.params={},this.hash="",!n){if(!~this.path.indexOf("#"))return;var c=this.path.split("#");this.path=this.pathname=c[0],this.hash=a._decodeURLEncodedURIComponent(c[1])||"",this.querystring=this.querystring.split("#")[0]}}N.prototype.pushState=function(){var e=this.page,s=e._window,t=e._hashbang;e.len++,P&&s.history.pushState(this.state,this.title,t&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};N.prototype.save=function(){var e=this.page;P&&e._window.history.replaceState(this.state,this.title,e._hashbang&&this.path!=="/"?"#!"+this.path:this.canonicalPath)};function C(e,s,t){var a=this.page=t||M,i=s||{};i.strict=i.strict||a._strict,this.path=e==="*"?"(.*)":e,this.method="GET",this.regexp=L(this.path,this.keys=[],i)}C.prototype.middleware=function(e){var s=this;return function(t,a){if(s.match(t.path,t.params))return t.routePath=s.path,e(t,a);a()}};C.prototype.match=function(e,s){var t=this.keys,a=e.indexOf("?"),i=~a?e.slice(0,a):e,n=this.regexp.exec(decodeURIComponent(i));if(!n)return!1;delete s[0];for(var l=1,o=n.length;l<o;++l){var r=t[l-1],c=this.page._decodeURLEncodedURIComponent(n[l]);(c!==void 0||!hasOwnProperty.call(s,r.name))&&(s[r.name]=c)}return!0};var M=te(),p=M,be=M;p.default=be;const ye=`
+  <div class="home-valve-background">
+        <!-- Primer punto -->
+        <div class="home-valve-punto" style="top: 280px; left: 227px;" onclick="window.location.href='/floating-valves'">
+            <div class="home-valve-visuals">
+                <span class="home-valve-circle home-valve-animate-circle"></span>
+                <span class="home-valve-inner-point home-valve-animate-point"></span>
+            </div>
+            <div class="home-valve-tooltip"><span>FLOATING BALL </span><span class="home-valve-highlight">VALVE</span></div>
+        </div>
+
+        <!-- Segundo punto -->
+        <div class="home-valve-punto" style="top: 116px; left: 298px;" onclick="window.location.href='/trunnion-valves'">
+            <div class="home-valve-visuals">
+                <span class="home-valve-circle home-valve-animate-circle"></span>
+                <span class="home-valve-inner-point home-valve-animate-point"></span>
+            </div>
+            <div class="home-valve-tooltip"><span>TRUNNION </span><span class="home-valve-highlight">VALVE</span></div>
+        </div>
+
+        <!-- Tercer punto -->
+        <div class="home-valve-punto" style="top: 269px; left: 407px;" onclick="window.location.href='/butterfly-valves'">
+            <div class="home-valve-visuals">
+                <span class="home-valve-circle home-valve-animate-circle"></span>
+                <span class="home-valve-inner-point home-valve-animate-point"></span>
+            </div>
+            <div class="home-valve-tooltip"><span>BUTTERFLY </span><span class="home-valve-highlight">VALVE</span></div>
+        </div>
+
+        <!-- Cuarto punto -->
+        <div class="home-valve-punto" style="top: 440px; left: 400px;" onclick="window.location.href='/globe-valves'">
+            <div class="home-valve-visuals">
+                <span class="home-valve-circle home-valve-animate-circle"></span>
+                <span class="home-valve-inner-point home-valve-animate-point"></span>
+            </div>
+            <div class="home-valve-tooltip"><span>GLOBE </span><span class="home-valve-highlight">VALVE</span></div>
+        </div>
+
+        <!-- Quinto punto -->
+        <div class="home-valve-punto" style="top: 157px; left: 543px;" onclick="window.location.href='/gate-valves'">
+            <div class="home-valve-visuals">
+                <span class="home-valve-circle home-valve-animate-circle"></span>
+                <span class="home-valve-inner-point home-valve-animate-point"></span>
+            </div>
+            <div class="home-valve-tooltip"><span>GATE </span><span class="home-valve-highlight">VALVE</span></div>
+        </div>
+
+        <!-- Sexto punto -->
+        <div class="home-valve-punto" style="top: 303px; left: 511px;" onclick="window.location.href='/floating-valves'">
+            <div class="home-valve-visuals">
+                <span class="home-valve-circle home-valve-animate-circle"></span>
+                <span class="home-valve-inner-point home-valve-animate-point"></span>
+            </div>
+            <div class="home-valve-tooltip"><span>SWING CHECK </span><span class="home-valve-highlight">VALVE</span></div>
+        </div>
+    </div>
+`,Ae=`
 <section>
-  <img src="./assets/images/home-bg1.png" alt="" class="home-header-background" />
+  <img src="./assets/images/home-bg1.webp" alt="" class="home-header-background" />
   <main class="header-container" style="min-height: unset">
     <div class="header-content-wrapper">
       <header class="header-header">
-        <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
+        <a href="/"><img src="./assets/images/logo.webp" alt="Company Logo" class="header-logo" /></a>
         <nav class="header-navigation">
           <a href="/gate-valves" class="link">GATE VALVES</a>
           <a href="/check-valves" class="link">CHECK VALVES</a>
@@ -37,7 +93,9 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
         valves. Our manufacturing process is certified by API International.
       </p>
     </div>
-    <img src="./assets/images/home-valve.png" alt="" class="home-header-valve" />
+    <div class="home-header-valve">
+      ${ye}
+    </div>
   </section>
 </section>
 
@@ -46,7 +104,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
 
     <section class="home-globe-valve-section">
       <div class="home-globe-valve-content">
-        <a href="/gate-valves"><img src="./assets/images/valve1.png" alt="Gate valve" class="home-butterfly-valve-"
+        <a href="/gate-valves"><img src="./assets/images/valve1.webp" alt="Gate valve" class="home-butterfly-valve-"
             loading="lazy" /></a>
         <span class="home-globe-valve-text link gate-link">GATE VALVE</span>
       </div>
@@ -54,7 +112,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
 
     <section class="home-globe-valve-section">
       <div class="home-globe-valve-content">
-        <a href="/check-valves"><img src="./assets/images/valve2.png" alt="Swing valve"
+        <a href="/check-valves"><img src="./assets/images/valve2.webp" alt="Swing valve"
             class="home-butterfly-valve-image" loading="lazy" /></a>
         <span class="home-globe-valve-text link">SWING VALVE</span>
       </div>
@@ -62,7 +120,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
 
     <section class="home-ball-valve-section">
       <div class="home-globe-valve-content">
-        <a href="/globe-valves"> <img src="./assets/images/valve3.png" alt="Globe valve"
+        <a href="/globe-valves"> <img src="./assets/images/valve3.webp" alt="Globe valve"
             class="home-butterfly-valve-image" loading="lazy" /></a>
         <span class="home-globe-valve-text link">GLOBE VALVE</span>
       </div>
@@ -70,7 +128,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
 
     <section class="home-butterfly-valve-section">
       <div class="home-globe-valve-content">
-        <a href="/floating-valves"><img src="./assets/images/valve4.png" alt="Ball valve"
+        <a href="/floating-valves"><img src="./assets/images/valve4.webp" alt="Ball valve"
             class="home-butterfly-valve-image" loading="lazy" /></a>
         <span class="home-globe-valve-text link">BALL VALVE</span>
       </div>
@@ -79,7 +137,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
 
     <section class="home-butterfly-valve-section">
       <div class="home-globe-valve-content">
-        <a href="/butterfly-valves"><img src="./assets/images/valve5.png" alt="Butterfly valve"
+        <a href="/butterfly-valves"><img src="./assets/images/valve5.webp" alt="Butterfly valve"
             class="home-butterfly-valve-image butterfly-image" loading="lazy" /></a>
         <span class="home-globe-valve-text link">BUTTERFLY VALVE</span>
       </div>
@@ -108,7 +166,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
     <source src="./assets/videos/40_sss_loop_compressed.webm" type="video/webm" />
   </video>
   <img src="./assets/images/bg-valve-home1.jpeg" alt="" class="home-first-background-image" />
-  <img src="./assets/images/first-valve.png" alt="API 6FD Fire Testing Standard for Valves"
+  <img src="./assets/images/first-valve.webp" alt="API 6FD Fire Testing Standard for Valves"
     class="home-first-api-image" />
   <div class="home-first-text-content">
     <h1 class="home-first-api-title">
@@ -130,7 +188,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
     <source src="./assets/videos/WhiteLiquislashtranAlph_compressed.webm" type="video/webm" />
   </video>
   <img src="./assets/images/bg-team.jpeg" alt="" class="home-first-background-image" />
-  <img src="./assets/images/second-valve.png" alt="API 6FD Fire Testing Standard for Valves"
+  <img src="./assets/images/second-valve.webp" alt="API 6FD Fire Testing Standard for Valves"
     class="home-second-api-image" />
   <div class="home-second-text-content">
     <h1 class="home-first-api-title">
@@ -150,7 +208,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
       <div id="v-left-end" class="valve-card" style="font-weight: bold;">
         <div class="valve-card-inner">
           <a href="/check-valves" style="text-decoration: none;">
-            <img src="./assets/images/check_valve 1 (2).png" alt="Check Valve">
+            <img src="./assets/images/check_valve 1 (2).webp" alt="Check Valve">
             <p style="font-size: 32px; font-family: Raleway; margin-bottom: 5;"> Check <strong
                 style="color: #00A39F;">Valve</strong></p>
           </a>
@@ -158,13 +216,13 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
       </div>
       <div id="v-left-mid" class="valve-card" style="font-weight: bold;">
         <a href="/floating-valves" style="text-decoration: none;">
-          <img src="./assets/images/Butterfly_Valve_Dervos_America 1 (1).png" alt="Globe Valve">
+          <img src="./assets/images/Butterfly_Valve_Dervos_America 1 (1).webp" alt="Globe Valve">
           <p style="font-size: 32px; font-family: Raleway;">Floating<strong style="color: #00A39F;">Valve</strong></p>
         </a>
       </div>
       <div id="v-left" class="valve-card" style="font-weight: bold;">
         <a href="/gate-valves" style="text-decoration: none;">
-          <img src="./assets/images/gate_valve 1.png" alt="Gate Valve">
+          <img src="./assets/images/gate_valve 1.webp" alt="Gate Valve">
           <p style="font-size: 32px; font-family: Raleway; margin-bottom: 5;">Gate <strong
               style="color: #00A39F;">Valve</strong></p>
         </a>
@@ -173,7 +231,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
         <a href="javascript:void(0);"
          onclick="window.open('https://crm.dervosamerica.com/contact', '_blank');" 
          style="text-decoration: none;">
-          <img src="./assets/images/logo-footer.png" style="margin-top:10%; scale:1.2;"  alt="Contact">
+          <img src="./assets/images/logo-footer.webp" style="margin-top:10%; scale:1.2;"  alt="Contact">
           <p style="font-size: 32px; font-family: Raleway; margin-top: revert">
             <strong style="color: #00A39F;">Contact</strong>
           </p>
@@ -181,21 +239,21 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
       </div>
       <div id="v-right" class="valve-card" style="font-weight: bold;">
         <a href="/trunnion-valves" style="text-decoration: none;">
-          <img src="./assets/images/trunnion2 (1).png" alt="Gate Valve">
+          <img src="./assets/images/trunnion2 (1).webp" alt="Gate Valve">
           <p style="font-size: 32px; font-family: Raleway; margin-bottom: 5;">Trunnion <strong
               style="color: #00A39F;">Valve</strong></p>
         </a>
       </div>
       <div id="v-right-mid" class="valve-card" style="font-weight: bold;">
         <a href="/butterfly-valves" style="text-decoration: none;">
-          <img src="./assets/images/Butterfly_Valve_Dervos_America 1 (1).png" alt="Globe Valve">
+          <img src="./assets/images/Butterfly_Valve_Dervos_America 1 (1).webp" alt="Globe Valve">
           <p style="font-size: 32px; font-family: Raleway;">Butterfly<strong style="color: #00A39F;">&nbsp;Valve</strong></p>
         </a>
       </div>
       
       <div id="v-right-end" class="valve-card" style="font-weight: bold;">
         <a href="/globe-valves" style="text-decoration: none;">
-          <img src="./assets/images/valge-gloves-2 1 1.png" alt="Globe Valve">
+          <img src="./assets/images/valge-gloves-2 1 1.webp" alt="Globe Valve">
           <p style="font-size: 32px; font-family: Raleway;">Globe <strong style="color: #00A39F;">Valve</strong></p>
         </a>
       </div>
@@ -210,7 +268,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
       <div class="home-info-certification-item">
         <div class="home-info-certification-content">
           <div class="home-info-certification-header">
-            <a href ="/certifications" style="text-decoration: none;" ><img src="./assets/images/certificate-info1.png" alt="Operational Certifications Icon"
+            <a href ="/certifications" style="text-decoration: none;" ><img src="./assets/images/certificate-info1.webp" alt="Operational Certifications Icon"
               class="home-info-certification-icon" />
             </a>
             <h3 class="home-info-certification-title">
@@ -229,7 +287,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
         <div class="home-info-certification-content">
           <div class="home-info-certification-header">
             <a href ="/certifications" style="text-decoration: none;" >
-            <img src="./assets/images/certificate-info2.png" alt="Operational Certifications Icon"
+            <img src="./assets/images/certificate-info2.webp" alt="Operational Certifications Icon"
               class="home-info-certification-icon" />
             </a>
             <h3 class="home-info-certification-title">
@@ -248,7 +306,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
         <div class="home-info-certification-content">
           <div class="home-info-certification-header">
            <a href ="/certifications" style="text-decoration: none;" >
-            <img src="./assets/images/certificate-info3.png" alt="Operational Certifications Icon"
+            <img src="./assets/images/certificate-info3.webp" alt="Operational Certifications Icon"
               class="home-info-certification-icon home-info-certificate-gears" />
            </a>
             <h3 class="home-info-certification-title">
@@ -266,8 +324,14 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
 </section>
 
 <section class="home-mission-section-container">
+  <video autoplay muted loop alt="Usa map" class="home-info-certification-map" >
+        <source src="./assets/videos/Dervos_Mapa_Web1.webm" type="video/webm">
+        Your browser does not support the video tag.
+  </video>
+  <!--
   <img src="./assets/images/usa-map.jpeg" alt="Usa map" class="home-info-certification-map" />
-  <div class="home-mission-section">
+  -->
+   <div class="home-mission-section">
     <h2 class="home-mission-label">OUR MISSION</h2>
     <h3 class="home-mission-title">
       DEVELOPING SOLUTIONS <br />
@@ -339,17 +403,17 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
 </section>
 
 -->
-`,ye=()=>{let e=document.querySelector(".typeJsText");console.log("typeJsText",e);let s=["FULLY.","SUCESS.","AUTOMATED.","VALVE PURCHASING.","PROCCESSES."],t=0,a=0,i=!1;function n(){e?i?a>=0?(e.innerHTML=e.innerHTML.substring(0,a),a--,setTimeout(n,100)):(i=!1,t=(t+1)%s.length,setTimeout(n,500)):a<s[t].length?(e.innerHTML+=s[t].charAt(a),a++,setTimeout(n,100)):setTimeout(()=>{i=!0,n()},1e3):console.log("Element .typeJsText not found")}n()},Ae=()=>{let e=document.querySelector(".SecondtypeJsText");console.log("SecondtypeJsText",e);let s=["602","6D","600","594","609","602","623"],t=0,a=0,i=!1;function n(){e?i?a>=0?(e.innerHTML=e.innerHTML.substring(0,a),a--,setTimeout(n,100)):(i=!1,t=(t+1)%s.length,setTimeout(n,90)):a<s[t].length?(e.innerHTML+=s[t].charAt(a),a++,setTimeout(n,100)):setTimeout(()=>{i=!0,n()},6e3):console.log("Element .SecondtypeJsText not found")}n()},Ee=()=>{let e=document.querySelector(".DescriptionpeJsText"),s=[`Forged steel valves with threaded, bolted and welded ends, including
+`,we=()=>{let e=document.querySelector(".typeJsText");console.log("typeJsText",e);let s=["FULLY.","SUCESS.","AUTOMATED.","VALVE PURCHASING.","PROCCESSES."],t=0,a=0,i=!1;function n(){e?i?a>=0?(e.innerHTML=e.innerHTML.substring(0,a),a--,setTimeout(n,100)):(i=!1,t=(t+1)%s.length,setTimeout(n,500)):a<s[t].length?(e.innerHTML+=s[t].charAt(a),a++,setTimeout(n,100)):setTimeout(()=>{i=!0,n()},1e3):console.log("Element .typeJsText not found")}n()},Ee=()=>{let e=document.querySelector(".SecondtypeJsText");console.log("SecondtypeJsText",e);let s=["602","6D","600","594","609","602","623"],t=0,a=0,i=!1;function n(){e?i?a>=0?(e.innerHTML=e.innerHTML.substring(0,a),a--,setTimeout(n,100)):(i=!1,t=(t+1)%s.length,setTimeout(n,90)):a<s[t].length?(e.innerHTML+=s[t].charAt(a),a++,setTimeout(n,100)):setTimeout(()=>{i=!0,n()},6e3):console.log("Element .SecondtypeJsText not found")}n()},Ie=()=>{let e=document.querySelector(".DescriptionpeJsText"),s=[`Forged steel valves with threaded, bolted and welded ends, including
     gate, globe and check valves`,`Pipeline valves including gate, plug, ball, and check valves for pipeline transportation systems.
     `,`Steel gate valves with flanged and butt-welding ends, designed for high-pressure and high-temperature services.
     `,"Check valves with flanged, lug, wafer, and butt-welding ends to prevent backflow in piping systems.","Butterfly valves with double-flanged, lug-type, and wafer-type ends for shut-off and flow control.","Forged steel valves with threaded, bolted, and welded ends, including gate, globe, and check valves.",`Steel globe valves with flanged and butt-welding ends for high-temperature and high-pressure services.
-    `],t=0,a=0,i=!1;function n(){e?i?a>=0?(e.innerHTML=e.innerHTML.substring(0,a),a--,setTimeout(n,10)):(i=!1,t=(t+1)%s.length,setTimeout(n,100)):a<s[t].length?(e.innerHTML+=s[t].charAt(a),a++,setTimeout(n,10)):setTimeout(()=>{i=!0,n()},4e3):console.log("Element .SecondtypeJsText not found")}n()},m=()=>{const e=document.querySelectorAll(".dropdown");if(console.log("Number of dropdowns found:",e.length),e.length===0){console.warn("No dropdown elements found!");return}e.forEach(s=>{const t=s,a=t.querySelector(".dropdown-content");if(!a){console.warn("No dropdown-content element found in a dropdown!");return}let i;const n=()=>{console.log("Showing dropdown content for",t),a.style.display="block",i&&window.clearTimeout(i)},o=()=>{i=window.setTimeout(()=>{console.log("Hiding dropdown content for",t),a.style.display="none"},1e3)};t.addEventListener("mouseover",n),a.addEventListener("mouseover",n),t.addEventListener("mouseleave",o),a.addEventListener("mouseleave",o)})},w=()=>{window.addEventListener("scroll",()=>{const e=document.querySelector(".parallax-background");if(e){const s=window.pageYOffset;e.style.backgroundPositionY=`${s*.2}px`}})},f=()=>{const e=window.scrollY||document.documentElement.scrollTop,s=document.querySelector(".sticky-header-container");e>75?window.hasOwnProperty("processActivated")||(console.log("do it here"),s&&!s.classList.contains("animate-sticky-header")&&(s.classList.add("animate-sticky-header"),console.log("Animation triggered"),setTimeout(()=>{},3e3))):s.classList.remove("animate-sticky-header")},Ie=()=>{if(!document.getElementById("our-valves-slider")){console.error("Slider element not found");return}const s=["v-center","v-right","v-right-mid","v-right-end","v-left-end","v-left-mid","v-left"];function t(){const a=s.map(n=>document.getElementById(n)).filter(n=>n!==null);if(a.length!==s.length){console.error("Some elements are missing");return}const i=a.pop();i&&a.unshift(i),a.forEach((n,o)=>{n.id=s[o]})}setInterval(t,5e3)},b=()=>{window.addEventListener("popstate",()=>{window.scrollTo(0,0)}),window.addEventListener("pushState",()=>{window.scrollTo(0,0)}),window.addEventListener("replaceState",()=>{window.scrollTo(0,0)}),function(){const e=history.pushState;history.pushState=function(t,a,i){e.call(history,t,a,i),window.dispatchEvent(new Event("pushState")),window.scrollTo(0,0)};const s=history.replaceState;history.replaceState=function(t,a,i){s.call(history,t,a,i),window.dispatchEvent(new Event("replaceState")),window.scrollTo(0,0)}}()},Se=e=>{e.forEach(s=>{const t=new Image;t.src=s})},we=()=>{const e=["./assets/scroll-animations/floating-valves/output_frame_0001.webp","./assets/scroll-animations/floating-valves/output_frame_0002.webp","./assets/scroll-animations/floating-valves/output_frame_0003.webp","./assets/scroll-animations/floating-valves/output_frame_0004.webp","./assets/scroll-animations/floating-valves/output_frame_0005.webp","./assets/scroll-animations/floating-valves/output_frame_0006.webp","./assets/scroll-animations/floating-valves/output_frame_0007.webp","./assets/scroll-animations/floating-valves/output_frame_0008.webp","./assets/scroll-animations/floating-valves/output_frame_0009.webp","./assets/scroll-animations/floating-valves/output_frame_0010.webp","./assets/scroll-animations/floating-valves/output_frame_0011.webp","./assets/scroll-animations/floating-valves/output_frame_0012.webp","./assets/scroll-animations/floating-valves/output_frame_0013.webp","./assets/scroll-animations/floating-valves/output_frame_0014.webp","./assets/scroll-animations/floating-valves/output_frame_0015.webp","./assets/scroll-animations/floating-valves/output_frame_0016.webp"];Se(e);const s=document.getElementById("parallax-valve");let t=0,a=!1,i=0,n=!1;if(!s){console.error('Element with id "parallax-valve" not found.');return}new IntersectionObserver(r=>{r.forEach(c=>{c.isIntersecting?(a=!0,i=window.pageYOffset||document.documentElement.scrollTop,window.addEventListener("scroll",l)):(a=!1,window.removeEventListener("scroll",l))})},{threshold:.5}).observe(s);const l=()=>{n||(n=!0,requestAnimationFrame(()=>{const r=window.pageYOffset||document.documentElement.scrollTop;a&&(r>i&&t<e.length-1?t++:r<i&&t>0&&t--,s.src=e[t]),i=r,n=!1}))}};b();const Te=`
+    `],t=0,a=0,i=!1;function n(){e?i?a>=0?(e.innerHTML=e.innerHTML.substring(0,a),a--,setTimeout(n,10)):(i=!1,t=(t+1)%s.length,setTimeout(n,100)):a<s[t].length?(e.innerHTML+=s[t].charAt(a),a++,setTimeout(n,10)):setTimeout(()=>{i=!0,n()},4e3):console.log("Element .SecondtypeJsText not found")}n()},f=()=>{const e=document.querySelectorAll(".dropdown");if(console.log("Number of dropdowns found:",e.length),e.length===0){console.warn("No dropdown elements found!");return}e.forEach(s=>{const t=s,a=t.querySelector(".dropdown-content");if(!a){console.warn("No dropdown-content element found in a dropdown!");return}let i;const n=()=>{console.log("Showing dropdown content for",t),a.style.display="block",i&&window.clearTimeout(i)},l=()=>{i=window.setTimeout(()=>{console.log("Hiding dropdown content for",t),a.style.display="none"},1e3)};t.addEventListener("mouseover",n),a.addEventListener("mouseover",n),t.addEventListener("mouseleave",l),a.addEventListener("mouseleave",l)})},x=()=>{window.addEventListener("scroll",()=>{const e=document.querySelector(".parallax-background");if(e){const s=window.pageYOffset;e.style.backgroundPositionY=`${s*.2}px`}})},b=()=>{const e=window.scrollY||document.documentElement.scrollTop,s=document.querySelector(".sticky-header-container");e>75?window.hasOwnProperty("processActivated")||s&&!s.classList.contains("animate-sticky-header")&&(s.classList.add("animate-sticky-header"),setTimeout(()=>{},3e3)):s.classList.remove("animate-sticky-header")},Se=()=>{if(!document.getElementById("our-valves-slider")){console.error("Slider element not found");return}const s=["v-center","v-right","v-right-mid","v-right-end","v-left-end","v-left-mid","v-left"];function t(){const a=s.map(n=>document.getElementById(n)).filter(n=>n!==null);if(a.length!==s.length){console.error("Some elements are missing");return}const i=a.pop();i&&a.unshift(i),a.forEach((n,l)=>{n.id=s[l]})}setInterval(t,5e3)},y=()=>{window.addEventListener("popstate",()=>{window.scrollTo(0,0)}),window.addEventListener("pushState",()=>{window.scrollTo(0,0)}),window.addEventListener("replaceState",()=>{window.scrollTo(0,0)}),function(){const e=history.pushState;history.pushState=function(t,a,i){e.call(history,t,a,i),window.dispatchEvent(new Event("pushState")),window.scrollTo(0,0)};const s=history.replaceState;history.replaceState=function(t,a,i){s.call(history,t,a,i),window.dispatchEvent(new Event("replaceState")),window.scrollTo(0,0)}}()},Te=e=>{e.forEach(s=>{const t=new Image;t.src=s})},S=(e,s,t=100,a=!1)=>{const i=Array.from({length:18},(E,u)=>`./assets/scroll-animations/${e}/output_frame_${String(u+1).padStart(4,"0")}.webp`);Te(i);const n=document.getElementById(s);if(!n){console.error("Element with id not found.",s);return}let l=0,o=!1,r=0,c=!1;const g=15;let R=-1;const k=!1;new IntersectionObserver(E=>{E.forEach(u=>{if(u.isIntersecting){o=!0,r=window.pageYOffset||document.documentElement.scrollTop;const O=setInterval(()=>{console.log("time to activate scrolling",r,document.documentElement.scrollTop),document.documentElement.scrollTop>r+t?(console.log("yes"),window.addEventListener("wheel",F,{passive:!1}),clearInterval(O)):console.log("no")},50)}else o=!1,window.removeEventListener("wheel",F)})},{threshold:.5}).observe(n);let w=null;const F=E=>{if(c)return;const u=window.pageYOffset||document.documentElement.scrollTop;o&&(u>r?l<i.length-1&&(l++,n.src=i[l],l===i.length-1&&(c=!0,w&&clearTimeout(w))):u<r&&l>0&&k&&(l--,n.src=i[l],l===0&&(c=!0,w&&clearTimeout(w)))),r=u,c=!0,w=setTimeout(()=>{if(R===l){c=!1;return}if(a){const O=E.deltaY*g;window.scrollBy({top:O,behavior:"smooth"})}c=!1,w=null,R=l},a?10:5)}};y();const Oe=`
 <main class="header-container container-parallax-about">
   <!-- <img src="./assets/images/header_bg.jpeg" alt="" class="header-background-image" /> -->
 
   <div class="header-content-wrapper">
     <header class="header-header">
-      <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
+      <a href="/"><img src="./assets/images/logo.webp" alt="Company Logo" class="header-logo" /></a>
       <nav class="header-navigation">
         <a href="/gate-valves" class="link">GATE VALVES</a>
         <a href="/check-valves" class="link">CHECK VALVES</a>
@@ -378,7 +442,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
         industrial valves. Our manufacturing process is certified by
         <span class="header-api-text">API International.</span>
       </p>
-      <img  src="./assets/images/arrow.png" class="header-arrow flotation-container" style="margin-bottom: 3%; margin-top:6%;"/>
+      <img  src="./assets/images/arrow.webp" class="header-arrow flotation-container" style="margin-bottom: 3%; margin-top:6%;"/>
       <p class="header-scroll-text" style="margin-top: 0;">SCROLL BELOW</p>
     </section>
   </div>
@@ -425,7 +489,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
         <strong class="about-highlight">class 2500.</strong>
       </p>
     </div>
-    <img src="./assets/images/globe_valves.png" alt="" class="about-product-blode-valve-image img-valve-about" />
+    <img src="./assets/images/globe_valves.webp" alt="" class="about-product-blode-valve-image img-valve-about" />
   </div>
 </section>
 
@@ -464,7 +528,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
   </p>
   <div class="about-profile-container">
     <section class="about-profile-image-column">
-      <img src="./assets/images/Santiago Giron - Ceo Dervos America.png"  alt="Profile picture of Nestor Morales"
+      <img src="./assets/images/Santiago Giron - Ceo Dervos America.webp"  alt="Profile picture of Nestor Morales"
         class="about-profile-image" />
     </section>
     <section class="about-profile-details-column">
@@ -481,7 +545,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
           <li><strong>PhD,</strong> Economics, Management and Politics</li>
           <li><strong>Master</strong> of Business Administration</li>
         </ul> 
-        <img src="./assets/images/blue-linkedin.png" alt="" class="about-profile-logo" />-->
+        <img src="./assets/images/blue-linkedin.webp" alt="" class="about-profile-logo" />-->
       </div>
     </section>
   </div>
@@ -501,11 +565,11 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
           <li><strong>PhD,</strong> Economics, Management and Politics</li>
           <li><strong>Master</strong> of Business Administration</li>
         </ul>
-        <img src="./assets/images/blue-linkedin.png" alt="" class="about-profile-logo" />-->
+        <img src="./assets/images/blue-linkedin.webp" alt="" class="about-profile-logo" />-->
       </div>
     </section>
     <section class="about-profile-image-column">
-      <img src="./assets/images/Eric Wong - Ceo Dervos.png" />
+      <img src="./assets/images/Eric Wong - Ceo Dervos.webp" />
     </section>
   </div>
 
@@ -551,7 +615,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
               6D</strong>, which outlines requirements for pipeline valves and is certified with full traceability by the DERVOS
               AMERICA team.
             </p>
-            <img src="./assets/images/dervos_logo.png" alt="Company image" class="about-company-image" />
+            <img src="./assets/images/dervos_logo.webp" alt="Company image" class="about-company-image" />
           </div>
         </div>
       </div>
@@ -580,13 +644,13 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
     </div>
   </div>
 </section>
-`;b();const Oe=`
+`;y();const Le=`
 <main class="header-container container-parallax">
 <!-- <img src="./assets/images/building-bg.jpeg" alt="" class="header-background-image" />-->
 
     <div class="header-content-wrapper">
         <header class="header-header">
-        <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
+        <a href="/"><img src="./assets/images/logo.webp" alt="Company Logo" class="header-logo" /></a>
             <nav class="header-navigation">
                 <a href="/gate-valves" class="link">GATE VALVES</a>
                 <a href="/check-valves" class="link">CHECK VALVES</a>
@@ -611,14 +675,14 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
                 <h1 class="header-main-heading">
                     WE DESIGN AND CARRY OUT ALL THE STEPS IN THE CREATION OF OUR PRODUCTS.
                 </h1>
-                 <img  src="./assets/images/arrow.png" class="header-arrow flotation-container"  style="height:50px; margin: 5%"/>
+                 <img  src="./assets/images/arrow.webp" class="header-arrow flotation-container"  style="height:50px; margin: 5%"/>
                 <p class="header-scroll-text" style="margin-top: 20px;">SCROLL BELOW</p>
         </section>
     </div>
 </main>
 <div class="steps-content ">
-    <img src="./assets/images/bg-products.png" class="steps-bg-right steps-first-bg" />
-    <img src="./assets/images/bg-products.png" class="steps-bg-right steps-middle-bg" />
+    <img src="./assets/images/bg-products.webp" class="steps-bg-right steps-first-bg" />
+    <img src="./assets/images/bg-products.webp" class="steps-bg-right steps-middle-bg" />
     <img src="./assets/images/bg-team.jpeg" class="steps-bg-right steps-third-bg" />
     <div class="steps-container steps-content-first">
         <div class="steps-content-column">
@@ -752,7 +816,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
                     </ul>
                 </div>
                 <div class="steps-certification-button-container">
-                    <img src="./assets/images/certification-star.png" alt="Cert image" class="steps-cert-image" />
+                    <img src="./assets/images/certification-star.webp" alt="Cert image" class="steps-cert-image" />
                     <a href ="/certifications" style="text-decoration: none;" ><button class="steps-cert-button">MORE ABOUT OUR CERTIFICATIONS</button></a>
                 </div>
             </div>
@@ -813,13 +877,13 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
   </div>
 </section>
 
-`;b();const Le=`
+`;y();const Ne=`
 <main class="header-container container-parallax-gate-valves">
 <!-- <img src="./assets/images/valve-2.jpeg" alt="" class="header-background-image header-image-background" />-->
 
     <div class="header-content-wrapper">
         <header class="header-header">
-        <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
+        <a href="/"><img src="./assets/images/logo.webp" alt="Company Logo" class="header-logo" /></a>
             <nav class="header-navigation">
                 <a href="/gate-valves" class="link">GATE VALVES</a>
                 <a href="/check-valves" class="link">CHECK VALVES</a>
@@ -843,7 +907,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
             <p class="header-scroll-text"
                 style="font-weight: 900;  letter-spacing: 0.20em ;margin-top: 20px; font-size: 60px; color: #3F3F3F; font-family: Raleway; ">GATE
                 VALVES</p>
-                <img src="./assets/images/arrow.png" class="header-arrow flotation-container" style="height:50px; margin: 5%; filter: grayscale(100%) brightness(50%) contrast(50%);" />
+                <img src="./assets/images/arrow.webp" class="header-arrow flotation-container" style="height:50px; margin: 5%; filter: grayscale(100%) brightness(50%) contrast(50%);" />
           <p class="header-scroll-text" style="margin-top: 20px; color:#3F3F3F">SCROLL BELOW</p>
         </section>
     </div>
@@ -851,7 +915,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
 <div class="valves-content">
     <img class="valves-bg-right valves-first-bg" />
     <img src="./assets/images/bg-team.jpeg" class="valves-bg-right valves-middle-bg" />
-    <img src="./assets/images/bg-products.png" class="valves-bg-right valves-third-bg" />
+    <img src="./assets/images/bg-products.webp" class="valves-bg-right valves-third-bg" />
     <div class="valves-container">
         <div class="valves-content-column valves-first-column">
             <div class="valves-content-wrapper">
@@ -889,13 +953,16 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
             </div>
         </div>
         <div class="valves-image-column">
+            <!--
             <img src="./assets/images/valves-equipment-1.jpeg" alt="Product image" class="valves-product-image first-image-valve" />
+            -->
+            <img src="./assets/scroll-animations/gate-valves/output_frame_0001.webp" id="parallax-gate-valve" alt="Product image" class="valves-product-image first-image-valve" />
         </div>
     </div>
     </br>
     <div class="valves-container second-container">
         <div class="valves-image-column">
-            <img src="./assets/images/valves-equipment-2.png" alt="Product image" class="valves-product-image" />
+            <img src="./assets/images/valves-equipment-2.webp" alt="Product image" class="valves-product-image" />
         </div>
         <div class="valves-content-column valves-second-column">
             <div class="valves-content-wrapper valves-right">
@@ -950,7 +1017,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
             </div>
         </div>
         <div class="valves-image-column">
-            <img src="./assets/images/valves-equipment-3.png" alt="Product image" class="valves-product-image" />
+            <img src="./assets/images/valves-equipment-3.webp" alt="Product image" class="valves-product-image" />
         </div>
     </div>
 
@@ -1019,12 +1086,12 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
   <div class="background-image"></div>
 </div>
 
-`;b();const Ne=`
+`;y();const Ce=`
 <main class="header-container container-parallax-gate-check">
   <!-- <img src="./assets/images/valve-2.jpeg" alt="" class="header-background-image header-image-background" />-->
   <div class="header-content-wrapper">
     <header class="header-header">
-      <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
+      <a href="/"><img src="./assets/images/logo.webp" alt="Company Logo" class="header-logo" /></a>
       <nav class="header-navigation">
         <a href="/gate-valves" class="link">GATE VALVES</a>
         <a href="/check-valves" class="link">CHECK VALVES</a>
@@ -1050,7 +1117,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
         style="font-weight: 900;  letter-spacing: 0.20em ;margin-top: 20px; font-size: 60px; color: #3F3F3F; font-family: Raleway; ">
         SWING CHECK
         VALVE</p>
-        <img src="./assets/images/arrow.png" class="header-arrow flotation-container" style="height:50px; margin: 5%; filter: grayscale(100%) brightness(50%) contrast(50%);" />
+        <img src="./assets/images/arrow.webp" class="header-arrow flotation-container" style="height:50px; margin: 5%; filter: grayscale(100%) brightness(50%) contrast(50%);" />
           <p class="header-scroll-text" style="margin-top: 20px; color:#3F3F3F">SCROLL BELOW</p>
     </section>
   </div>
@@ -1058,7 +1125,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
 <div class="check-content">
   <img class="check-bg-right check-first-bg" />
   <img src="./assets/images/bg-team.jpeg" class="check-bg-right check-middle-bg" />
-  <img src="./assets/images/bg-products.png" class="check-bg-right check-third-bg" />
+  <img src="./assets/images/bg-products.webp" class="check-bg-right check-third-bg" />
   <div class="check-container">
     <div class="check-content-column check-first-column">
       <div class="check-content-wrapper">
@@ -1102,13 +1169,16 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
       </div>
     </div>
     <div class="check-image-column">
-      <img src="./assets/images/SwingCheck6.png" alt="Product image" class="check-product-image-first" />
+    <!--
+      <img src="./assets/images/SwingCheck6.webp" alt="Product image" class="check-product-image-first" />
+    -->
+    <img src="./assets/scroll-animations/check-valves/output_frame_0001.webp" id="parallax-check-valve" alt="Product image" class="check-product-image-first" />
     </div>
   </div>
   </br>
   <div class="check-container check-second-container">
     <div class="check-image-column">
-      <img src="./assets/images/swingCheck02.png" alt="Product image" class="check-product-image-second image-check-second" />
+      <img src="./assets/images/swingCheck02.webp" alt="Product image" class="check-product-image-second image-check-second" />
     </div>
     <div class="check-content-column check-second-column">
       <div class="check-content-wrapper check-right">
@@ -1166,7 +1236,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
       </div>
     </div>
     <div class="check-image-column">
-      <img src="./assets/images/swingCheck03.png" alt="Product image" class="check-product-image third-image-check" style=" width: 778px;
+      <img src="./assets/images/swingCheck03.webp" alt="Product image" class="check-product-image third-image-check" style=" width: 778px;
       height: 778px;"/>
     </div>
   </div>
@@ -1221,8 +1291,8 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
     </div>
   </div>
   <div class="centered-title">STANDARD MATERIALS <strong style="color: #00A39F;"> SPECIFICATIONS</strong></div></br>
-  <img src="./assets/images/Material_specificiations.png" alt="img-pdf" class="img-pdf-section-check">
-  <img src="./assets/images/Material_specificiations2.png" alt="img-pdf" class="img-pdf-section-check">
+  <img src="./assets/images/Material_specificiations.webp" alt="img-pdf" class="img-pdf-section-check">
+  <img src="./assets/images/Material_specificiations2.webp" alt="img-pdf" class="img-pdf-section-check">
 
   <div class="centered-title">TEST PRESSURE TO <strong style="color: #00A39F;">API598</strong></div></br>
   <img src="./assets/images/pdf-3.jpeg" alt="img-pdf" class="img-pdf-section-check">
@@ -1237,11 +1307,11 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
   <div class="background-image"></div>
 </div>
 
-`;b();const Ce=`
+`;y();const xe=`
 <main class="header-container container-parallax">
   <div class="header-content-wrapper">
     <header class="header-header">
-      <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
+      <a href="/"><img src="./assets/images/logo.webp" alt="Company Logo" class="header-logo" /></a>
       <nav class="header-navigation">
         <a href="/gate-valves">GATE VALVES</a>
         <a href="/check-valves">CHECK VALVES</a>
@@ -1270,7 +1340,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
         <span class="header-api-text">You can count on the quality of our valves.</span>
       </p>
       <!--<h6 style="color: white; font-size: 38px; margin-bottom:15%; font-family: Raleway; " >Our manufacturing process is certificated by API International.You can count on the quality of our valves.</h6>-->
-      <img class="flotation-container" src="./assets/images/arrow.png" class="header-arrow"
+      <img class="flotation-container" src="./assets/images/arrow.webp" class="header-arrow"
         style="height:50px; margin: 5%" />
       <p class="header-scroll-text" style="margin-top: 0;">SCROLL BELOW</p>
     </section>
@@ -1290,7 +1360,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
     valves for pressure ratings up to ASME class 2500.
   </p>
 
-  <img src="./assets/images/certificado.png" alt="img background"
+  <img src="./assets/images/certificado.webp" alt="img background"
     class="img-background-certifications fadein-certification">
 
 </section>
@@ -1343,21 +1413,21 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
 
   <div class="icon-row-alt">
     <div class="icon-container-alt">
-      <img src="./assets/images/checkout.png" alt="Icon 1" class="fade">
+      <img src="./assets/images/checkout.webp" alt="Icon 1" class="fade">
       <h3>STEM BACKSEAT TEST</h3>
       <div class="line-divider-list-icons-alt"></div>
       <p>Pressure at 1.1 times valve rating for 2 to 5 minutes depending on valve size</p>
     </div>
 
     <div class="icon-container-alt">
-      <img src="./assets/images/checkout.png" alt="Icon 2" class="fade">
+      <img src="./assets/images/checkout.webp" alt="Icon 2" class="fade">
       <h3>HYDROSTATIC SHELL TEST</h3>
       <div class="line-divider-list-icons-alt"></div>
       <p>Pressure at 1.5 times valve rating for 2 to 30 minutes depending on valve size</p>
     </div>
 
     <div class="icon-container-alt">
-      <img src="./assets/images/checkout.png" alt="Icon 3" class="fade">
+      <img src="./assets/images/checkout.webp" alt="Icon 3" class="fade">
       <h3>HYDROSTATIC SEAT TEST</h3>
       <div class="line-divider-list-icons-alt"></div>
       <p>Pressure at 1.1 times valve rating for 2 to 5 minutes depending on valve size</p>
@@ -1377,7 +1447,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
     <div class="icon-container">
       <a href="https://dervosamerica.com/certificates/API6FA_GLOBE_VALVE-268155.pdf" target="_blank"
         rel="noopener noreferrer">
-        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+        <img src="./assets/images/DervosAPI.webp" alt="Icon 3" class="fade">
       </a>
       <h3>API<span class="highlight title-cert">6FA</span></h3>
       <p>GLOBE VALVE 268155</p>
@@ -1385,7 +1455,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
     <div class="icon-container">
       <a href="https://dervosamerica.com/certificates/API6FA_GLOBE_VALVE-268157.pdf" target="_blank"
         rel="noopener noreferrer">
-        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+        <img src="./assets/images/DervosAPI.webp" alt="Icon 3" class="fade">
       </a>
       <h3>API<span class="highlight title-cert">6FA</span></h3>
       <p>GLOBE VALVE 268157</p>
@@ -1394,7 +1464,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
     <div class="icon-container">
       <a href="https://dervosamerica.com/certificates/API6FA_GLOBE_VALVE-268159.pdf" target="_blank"
         rel="noopener noreferrer">
-        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+        <img src="./assets/images/DervosAPI.webp" alt="Icon 3" class="fade">
       </a>
       <h3>API<span class="highlight title-cert">6FA</span></h3>
       <p>GLOBE VALVE 268159</p>
@@ -1402,7 +1472,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
     <div class="icon-container">
       <a href="https://dervosamerica.com/certificates/API6FA_Swing Check_8-600.pdf" target="_blank"
         rel="noopener noreferrer">
-        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+        <img src="./assets/images/DervosAPI.webp" alt="Icon 3" class="fade">
       </a>
       <h3>API<span class="highlight title-cert">6FA</span></h3>
       <p>SWING CHECK 8-600</p>
@@ -1413,7 +1483,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
     <div class="icon-container">
       <a href="https://dervosamerica.com/certificates/API6FA_Swing_Check_4-600.pdf" target="_blank"
         rel="noopener noreferrer">
-        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+        <img src="./assets/images/DervosAPI.webp" alt="Icon 3" class="fade">
       </a>
       <h3>API<span class="highlight title-cert">6FA</span></h3>
       <p>SWING CHECK 4-600</p>
@@ -1421,7 +1491,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
     <div class="icon-container">
       <a href="https://dervosamerica.com/certificates/API6FA_Swing_Check_16-150.pdf" target="_blank"
         rel="noopener noreferrer">
-        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+        <img src="./assets/images/DervosAPI.webp" alt="Icon 3" class="fade">
       </a>
       <h3>API<span class="highlight title-cert">6FA</span></h3>
       <p>SWING CHECK 16-150</p>
@@ -1429,7 +1499,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
     <div class="icon-container">
       <a href="https://dervosamerica.com/certificates/API6FD_Swing_Check_2-150_32233.pdf" target="_blank"
         rel="noopener noreferrer">
-        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+        <img src="./assets/images/DervosAPI.webp" alt="Icon 3" class="fade">
       </a>
       <h3>API<span class="highlight title-cert">6FD</span></h3>
       <p>SWING CHECK 2-150 32233</p>
@@ -1437,7 +1507,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
     <div class="icon-container">
       <a href="https://dervosamerica.com/certificates/API6FD_Swing_Check_2-600_42342.pdf" target="_blank"
         rel="noopener noreferrer">
-        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+        <img src="./assets/images/DervosAPI.webp" alt="Icon 3" class="fade">
       </a>
       <h3>API<span class="highlight title-cert">6FD</span></h3>
       <p>SWING CHECK 2-600 42342</p>
@@ -1448,7 +1518,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
     <div class="icon-container">
       <a href="https://dervosamerica.com/certificates/API6FD_Swing_Check_4-150_23116.pdf" target="_blank"
         rel="noopener noreferrer">
-        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+        <img src="./assets/images/DervosAPI.webp" alt="Icon 3" class="fade">
       </a>
       <h3>API<span class="highlight title-cert">6FD</span></h3>
       <p>SWING CHECK 4-150 23116</p>
@@ -1456,21 +1526,21 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
     <div class="icon-container">
       <a href="https://dervosamerica.com/certificates/API6FD_Swing_Check_8-150_48039.pdf" target="_blank"
         rel="noopener noreferrer">
-        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+        <img src="./assets/images/DervosAPI.webp" alt="Icon 3" class="fade">
       </a>
       <h3>API<span class="highlight title-cert">6FD</span></h3>
       <p>SWING CHECK 8-150 48039</p>
     </div>
     <div class="icon-container">
       <a href="https://dervosamerica.com/certificates/API6FD_WAFER_CHECK.pdf" target="_blank" rel="noopener noreferrer">
-        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+        <img src="./assets/images/DervosAPI.webp" alt="Icon 3" class="fade">
       </a>
       <h3>API<span class="highlight title-cert">6FD</span></h3>
       <p>WAFER CHECK</p>
     </div>
     <div class="icon-container">
       <a href="https://dervosamerica.com/certificates/API607_Ball.pdf" target="_blank" rel="noopener noreferrer">
-        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+        <img src="./assets/images/DervosAPI.webp" alt="Icon 3" class="fade">
       </a>
       <h3>API<span class="highlight title-cert">607</span></h3>
       <p>BALL</p>
@@ -1488,21 +1558,21 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
     <div class="icon-container">
       <a href="https://dervosamerica.com/certificates/API624-Certificate_No273345.pdf" target="_blank"
         rel="noopener noreferrer">
-        <img src="./assets/images/DervosAPI.png" alt="Icon 3" class="fade">
+        <img src="./assets/images/DervosAPI.webp" alt="Icon 3" class="fade">
       </a>
       <h3>API<span class="highlight title-cert">624</span></h3>
       <p>API624 CERTIFICATE No.273345</p>
     </div>
     <div class="icon-container">
       <a href="https://dervosamerica.com/certificates/ISO15848-Certificate_No273341.pdf" target="_blank"
-        rel="noopener noreferrer"> <img src="./assets/images/DervosCertificates.png" alt="Icon 3" class="fade">
+        rel="noopener noreferrer"> <img src="./assets/images/DervosCertificates.webp" alt="Icon 3" class="fade">
       </a>
       <h3>ISO<span class="highlight title-cert">15848</span></h3>
       <p>CERTIFICATE No.273341</p>
     </div>
     <div class="icon-container">
       <a href="https://dervosamerica.com/certificates/ISO15848-Certificate_No273343.pdf" target="_blank"
-        rel="noopener noreferrer"> <img src="./assets/images/DervosCertificates.png" alt="Icon 3" class="fade">
+        rel="noopener noreferrer"> <img src="./assets/images/DervosCertificates.webp" alt="Icon 3" class="fade">
       </a>
       <h3>ISO<span class="highlight title-cert">15848</span></h3>
       <p>CERTIFICATE No.273343</p>
@@ -1537,13 +1607,13 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
       </div>
     </div>
   </section>
-  `;b();const xe=`
+  `;y();const Re=`
 <main class="header-container container-parallax-trunnion-valves">
   <!-- <img src="./assets/images/valve-2.jpeg" alt="" class="header-background-image header-image-background" />-->
 
   <div class="header-content-wrapper">
     <header class="header-header">
-      <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
+      <a href="/"><img src="./assets/images/logo.webp" alt="Company Logo" class="header-logo" /></a>
       <nav class="header-navigation">
         <a href="/gate-valves" class="link">GATE VALVES</a>
         <a href="/check-valves" class="link">CHECK VALVES</a>
@@ -1568,7 +1638,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
       <p class="trunnion-header-scroll-text"
         style="font-weight: 900;  letter-spacing: 0.20em ;margin-top: 20px; font-size: 60px; color: #3F3F3F; font-family: Raleway; ">
         TRUNNION BALL VALVES</p>
-      <img src="./assets/images/arrow.png" class="header-arrow flotation-container"
+      <img src="./assets/images/arrow.webp" class="header-arrow flotation-container"
         style="height:50px; margin: 5%; filter: grayscale(100%) brightness(50%) contrast(50%);" />
       <p class="header-scroll-text" style="margin-top: 20px; color:#3F3F3F">SCROLL BELOW</p>
     </section>
@@ -1577,7 +1647,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
 <div class="trunnion-content">
   <img class="trunnion-bg-right trunnion-first-bg" />
   <img src="./assets/images/bg-team.jpeg" class="trunnion-bg-right trunnion-middle-bg" />
-  <img src="./assets/images/bg-products.png" class="trunnion-bg-right trunnion-third-bg" />
+  <img src="./assets/images/bg-products.webp" class="trunnion-bg-right trunnion-third-bg" />
   <div class="trunnion-container">
     <div class="trunnion-content-column trunnion-first-column">
       <div class="trunnion-content-wrapper">
@@ -1616,14 +1686,17 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
       </div>
     </div>
     <div class="trunnion-image-column">
-      <img src="./assets/images/trunnion1.png" alt="Product image" class="trunnion-product-image-first" />
+      <!--
+      <img src="./assets/images/trunnion1.webp" alt="Product image" class="trunnion-product-image-first" />
+      -->
+      <img src="./assets/scroll-animations/trunnion-valves/output_frame_0001.webp" id="parallax-trunnion-valve" alt="Product image" class="trunnion-product-image-first" />
     </div>
   </div>
   </br>
 
   <div class="valves-container second-container container-trunnion">
     <div class="valves-image-column">
-      <img src="./assets/images/trunnion2.png" alt="Product image" class="valves-product-image second-trunnion-img" />
+      <img src="./assets/images/trunnion2.webp" alt="Product image" class="valves-product-image second-trunnion-img" />
     </div>
     <div class="valves-content-column trunnion-second-column">
       <div class="valves-content-wrapper valves-right">
@@ -1689,7 +1762,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
       </div>
     </div>
     <div class="trunnion-image-column">
-      <img src="./assets/images/trunnion3.png" alt="Product image" class="trunnion-product-image" />
+      <img src="./assets/images/trunnion3.webp" alt="Product image" class="trunnion-product-image" />
     </div>
   </div>
 
@@ -1749,14 +1822,14 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
 </div>
 <div class="centered-title-trunnion">STANDARD MATERIALS<strong style="color:#00A39F;">  SPECIFICATIONS</strong></div>
 <div class="justify-img-content-trunnion">
-  <img src="./assets/images/Tabla_Trunnion_Valve 1 (1).png" alt="img-pdf" class="img-pdf-section-trunnion-last">
+  <img src="./assets/images/Tabla_Trunnion_Valve 1 (1).webp" alt="img-pdf" class="img-pdf-section-trunnion-last">
 </div>
 <div class="centered-title-trunnion-second">DIMENSIONS AND <strong style="color:#00A39F;"> WEIGHT</strong></div>
 <div class="justify-img-content-trunnion">
-  <img src="./assets/images/Trunnion_2 1.png" alt="img-pdf" class="img-pdf-section-trunnion-last">
-<img src="./assets/images/Trunnion_! 1.png" alt="img-pdf" class="img-pdf-section-trunnion-last">
-<img src="./assets/images/Trunnion_3 1.png" alt="img-pdf" class="img-pdf-section-trunnion-last">
-<img src="./assets/images/Trunnion_4 1.png" alt="img-pdf" class="img-pdf-section-trunnion-last">
+  <img src="./assets/images/Trunnion_2 1.webp" alt="img-pdf" class="img-pdf-section-trunnion-last">
+<img src="./assets/images/Trunnion_! 1.webp" alt="img-pdf" class="img-pdf-section-trunnion-last">
+<img src="./assets/images/Trunnion_3 1.webp" alt="img-pdf" class="img-pdf-section-trunnion-last">
+<img src="./assets/images/Trunnion_4 1.webp" alt="img-pdf" class="img-pdf-section-trunnion-last">
 </div>
 <div class="download-section">
   <h4 class="check-section-text">A DEEP LOOK AT THE TECHNICAL SHEET</h4>
@@ -1767,13 +1840,13 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
   <div class="background-image"></div>
 </div>
 
-`;b();const Re=`
+`;y();const Fe=`
 <main class="header-container container-parallax-gate-floating">
   <!-- <img src="./assets/images/valve-2.jpeg" alt="" class="header-background-image header-image-background" />-->
 
   <div class="header-content-wrapper">
     <header class="header-header">
-      <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
+      <a href="/"><img src="./assets/images/logo.webp" alt="Company Logo" class="header-logo" /></a>
       <nav class="header-navigation">
         <a href="/gate-valves">GATE VALVES</a>
         <a href="/check-valves">CHECK VALVES</a>
@@ -1798,7 +1871,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
       <p class="header-scroll-text"
         style="font-weight: 900;  letter-spacing: 0.20em ;margin-top: 20px; font-size: 60px; color: #3F3F3F; font-family: Raleway; ">
         FLOATING BALL VALVES</p>
-      <img src="./assets/images/arrow.png" class="header-arrow flotation-container"
+      <img src="./assets/images/arrow.webp" class="header-arrow flotation-container"
         style="height:50px; margin: 5%; filter: grayscale(100%) brightness(50%) contrast(50%);" />
       <p class="header-scroll-text" style="margin-top: 20px; color:#3F3F3F">SCROLL BELOW</p>
     </section>
@@ -1809,7 +1882,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
 <div class="trunnion-content">
   <img class="trunnion-bg-right trunnion-first-bg" />
   <img src="./assets/images/bg-team.jpeg" class="trunnion-bg-right trunnion-middle-bg" />
-  <img src="./assets/images/bg-products.png" class="trunnion-bg-right trunnion-third-bg" />
+  <img src="./assets/images/bg-products.webp" class="trunnion-bg-right trunnion-third-bg" />
   <div class="trunnion-container">
     <div class="trunnion-content-column trunnion-first-column">
       <div class="trunnion-content-wrapper">
@@ -1847,15 +1920,16 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
       </div>
     </div>
     <div class="trunnion-image-column" style="z-index:0">
-      <!-- <img src="./assets/images/floating_valve011.png" alt="Product image" class="floating-product-image-first floating-valv" /> -->
-      <img src="./assets/scroll-animations/floating-valves/output_frame_0001.png" alt="Product image" id="parallax-valve" class="floating-product-image-first floating-valv" />
+      <!-- <img src="./assets/images/floating_valve011.webp" alt="Product image" class="floating-product-image-first floating-valv" /> -->
+      <img src="./assets/scroll-animations/floating-valves/output_frame_0001.webp" alt="Product image" id="parallax-floating-valve" class="floating-product-image-first floating-valv" />
+      <div id="visibility-trigger" style="top: 0; left: 0; z-index: -1;"></div>
     </div>
   </div>
   </br>
  
   <div class="valves-container second-container container-floating" style="margin-top: 35%; margin-right: 25%;">
     <div class="floating-image-column">
-        <img src="./assets/images/floating_valve022.png" alt="Product image" class="valves-product-image second-floating-img" />
+        <img src="./assets/images/floating_valve022.webp" alt="Product image" class="valves-product-image second-floating-img" />
     </div>
     <div class="valves-content-column trunnion-second-column">
         <div class="valves-content-wrapper valves-right">
@@ -1919,7 +1993,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
       </div>
   </div>
   <div class="valves-image-column">
-      <img src="./assets/images/floating_valve0333 1.png" alt="Product image" class="valves-product-image" style="margin-top: 125px"/>
+      <img src="./assets/images/floating_valve0333 1.webp" alt="Product image" class="valves-product-image" style="margin-top: 125px"/>
   </div>
 </div>
   
@@ -2001,45 +2075,14 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
   </a>
   <div class="background-image"></div>
 </div>
-
-
-<script>
-    const frames = [
-        'output_frame_0001.png',
-        'output_frame_0002.png',
-        'output_frame_0003.png',
-        'output_frame_0004.png',
-        'output_frame_0005.png',
-        'output_frame_0006.png'
-    ];
-
-    const animatedImage = document.getElementById('animated-image');
-    let currentFrame = 0;
-
-    window.addEventListener('scroll', () => {
-    console.log('scrolling here');
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const maxScrollTop = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollFraction = scrollTop / maxScrollTop;
-        const frameIndex = Math.min(
-            frames.length - 1,
-            Math.floor(scrollFraction * frames.length)
-        );
-
-        if (frameIndex !== currentFrame) {
-            animatedImage.src = frames[frameIndex];
-            currentFrame = frameIndex;
-        }
-    });
-<\/script>
-`;b();const Fe=`
+`;y();const Pe=`
 
 <main class="header-container container-parallax-globe-valves">
   <!-- <img src="./assets/images/valve-2.jpeg" alt="" class="header-background-image header-image-background" />  -->
 
   <div class="header-content-wrapper">
     <header class="header-header">
-      <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
+      <a href="/"><img src="./assets/images/logo.webp" alt="Company Logo" class="header-logo" /></a>
       <nav class="header-navigation">
         <a href="/gate-valves" class="link">GATE VALVES</a>
         <a href="/check-valves" class="link">CHECK VALVES</a>
@@ -2065,7 +2108,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
         style="font-weight: 900;  letter-spacing: 0.20em ;margin-top: 20px; font-size: 60px; color: #3F3F3F; font-family: Raleway; ">
         BUTTERFLY
         VALVES</p>
-      <img src="./assets/images/arrow.png" class="header-arrow flotation-container"
+      <img src="./assets/images/arrow.webp" class="header-arrow flotation-container"
         style="height:50px; margin: 5%; filter: grayscale(100%) brightness(50%) contrast(50%);" />
       <p class="header-scroll-text" style="margin-top: 20px; color:#3F3F3F">SCROLL BELOW</p>
     </section>
@@ -2074,7 +2117,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
 <div class="butterflys-valves-content">
   <img class="butterflys-valves-bg-right valves-first-bg" />
   <img src="./assets/images/bg-team.jpeg" class="butterflys-valves-bg-right butterflys-valves-middle-bg" />
-  <img src="./assets/images/bg-products.png" class="butterflys-valves-bg-right butterflys-valves-third-bg" />
+  <img src="./assets/images/bg-products.webp" class="butterflys-valves-bg-right butterflys-valves-third-bg" />
   <div class="butterflys-valves-container">
     <div class="butterflys-valves-content-column butterflys-valves-first-column">
       <div class="butterflys-valves-content-wrapper">
@@ -2121,14 +2164,18 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
       </div>
     </div>
     <div class="butterflys-valves-image-column ">
-      <img src="./assets/images/Dervos_Butterfly_Valve_Parts.png" alt="Product image"
+    <!--
+      <img src="./assets/images/Dervos_Butterfly_Valve_Parts.webp" alt="Product image"
+        class="butterflys-valves-product-image" />
+    -->
+    <img src="./assets/scroll-animations/butterfly-valves/output_frame_0001.webp" id="parallax-butterfly-valve" alt="Product image"
         class="butterflys-valves-product-image" />
     </div>
   </div>
   </br>
   <div class="butterflys-valves-container second-container">
     <div class="butterflys-valves-image-column">
-      <img src="./assets/images/Dervos_Butterfly_Valve.png" alt="Product image"
+      <img src="./assets/images/Dervos_Butterfly_Valve.webp" alt="Product image"
         class="butterflys-valves-product-image-second" />
     </div>
     <div class="butterflys-valves-content-column butterflys-valves-second-column">
@@ -2193,7 +2240,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
       </div>
     </div>
     <div class="butterflys-valves-image-column third-img-butterflys">
-      <img src="./assets/images/Dervos_Butterfly_Valve_Inside.png" alt="Product image"
+      <img src="./assets/images/Dervos_Butterfly_Valve_Inside.webp" alt="Product image"
         class="butterflys-valves-product-image img-butterflys-second" />
     </div>
   </div>
@@ -2295,7 +2342,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
 <br><br>
 
 
-<!-- <img src="./assets/images/Globe3_ 1.png" alt="img-pdf" class="butterflys-second-img">-->
+<!-- <img src="./assets/images/Globe3_ 1.webp" alt="img-pdf" class="butterflys-second-img">-->
 
 <div class="download-section">
   <h4 class="check-section-text">A DEEP LOOK AT THE TECHNICAL SHEET</h4>
@@ -2306,14 +2353,14 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
   <div class="background-image"></div>
 </div>
 
-`;b();const Pe=`
+`;y();const Ve=`
 
 <main class="header-container container-parallax-globe-valves">
   <!-- <img src="./assets/images/valve-2.jpeg" alt="" class="header-background-image header-image-background" />  -->
 
   <div class="header-content-wrapper">
     <header class="header-header">
-      <a href="/"><img src="./assets/images/logo.png" alt="Company Logo" class="header-logo" /></a>
+      <a href="/"><img src="./assets/images/logo.webp" alt="Company Logo" class="header-logo" /></a>
       <nav class="header-navigation">
         <a href="/gate-valves" class="link">GATE VALVES</a>
         <a href="/check-valves" class="link">CHECK VALVES</a>
@@ -2339,7 +2386,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
         style="font-weight: 900;  letter-spacing: 0.20em ;margin-top: 20px; font-size: 60px; color: #3F3F3F; font-family: Raleway; ">
         GLOBE
         VALVES</p>
-      <img src="./assets/images/arrow.png" class="header-arrow flotation-container"
+      <img src="./assets/images/arrow.webp" class="header-arrow flotation-container"
         style="height:50px; margin: 5%; filter: grayscale(100%) brightness(50%) contrast(50%);" />
       <p class="header-scroll-text" style="margin-top: 20px; color:#3F3F3F">SCROLL BELOW</p>
     </section>
@@ -2348,7 +2395,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
 <div class="gloves-valves-content">
   <img class="gloves-valves-bg-right valves-first-bg" />
   <img src="./assets/images/bg-team.jpeg" class="gloves-valves-bg-right gloves-valves-middle-bg" />
-  <img src="./assets/images/bg-products.png" class="gloves-valves-bg-right gloves-valves-third-bg" />
+  <img src="./assets/images/bg-products.webp" class="gloves-valves-bg-right gloves-valves-third-bg" />
   <div class="gloves-valves-container">
     <div class="gloves-valves-content-column gloves-valves-first-column">
       <div class="gloves-valves-content-wrapper">
@@ -2393,13 +2440,16 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
       </div>
     </div>
     <div class="gloves-valves-image-column ">
-      <img src="./assets/images/Globe-6.png" alt="Product image" class="gloves-valves-product-image" />
+      <!--
+      <img src="./assets/images/Globe-6.webp" alt="Product image" class="gloves-valves-product-image" />
+      -->
+      <img src="./assets/scroll-animations/globe-valves/output_frame_0001.webp" id="parallax-globe-valve" alt="Product image" class="gloves-valves-product-image" />
     </div>
   </div>
   </br>
   <div class="gloves-valves-container second-container">
     <div class="gloves-valves-image-column">
-      <img src="./assets/images/globe_valves.png" alt="Product image" class="gloves-valves-product-image" />
+      <img src="./assets/images/globe_valves.webp" alt="Product image" class="gloves-valves-product-image" />
     </div>
     <div class="gloves-valves-content-column gloves-valves-second-column">
       <div class="gloves-valves-content-wrapper gloves-valves-right">
@@ -2458,7 +2508,7 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
       </div>
     </div>
     <div class="gloves-valves-image-column third-img-gloves">
-      <img src="./assets/images/valge-gloves-2.png" alt="Product image"
+      <img src="./assets/images/valge-gloves-2.webp" alt="Product image"
         class="gloves-valves-product-image img-gloves-second" />
     </div>
   </div>
@@ -2538,19 +2588,19 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
     </div>
   </div>
   <div class="gloves-valves-image-column third-img-gloves">
-    <img src="./assets/images/Globe5_ 1.png" alt="Product image"
+    <img src="./assets/images/Globe5_ 1.webp" alt="Product image"
       class="gloves-valves-product-image img-gloves-fourth" />
   </div>
 </div>
 
 <div class="just-image-container">
-  <img src="./assets/images/Globe3_ 1.png" alt="img-pdf" class="img-pdf-section-gloves">
+  <img src="./assets/images/Globe3_ 1.webp" alt="img-pdf" class="img-pdf-section-gloves">
 </div>
 
 </br> </br>
 </div>
 
-<!-- <img src="./assets/images/Globe3_ 1.png" alt="img-pdf" class="gloves-second-img">-->
+<!-- <img src="./assets/images/Globe3_ 1.webp" alt="img-pdf" class="gloves-second-img">-->
 
 <div class="download-section">
   <h4 class="check-section-text">A DEEP LOOK AT THE TECHNICAL SHEET</h4>
@@ -2561,4 +2611,4 @@ var te=Object.defineProperty;var ae=(e,s,t)=>s in e?te(e,s,{enumerable:!0,config
   <div class="background-image"></div>
 </div>
 
-`,u=document.getElementById("app");class Ve{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){if(!this.animationsInitialized){m(),window.addEventListener("scroll",f);const s=document.getElementById("fire-video");s&&(s.playbackRate=.45),Ie(),this.animationsInitialized=!0}ye(),Ae(),Ee()}}class ke{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){this.animationsInitialized||(m(),window.addEventListener("scroll",f),this.animationsInitialized=!0)}}class De{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){this.animationsInitialized||(w(),m(),window.addEventListener("scroll",f),this.animationsInitialized=!0)}}class _e{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){this.animationsInitialized||(m(),window.addEventListener("scroll",f),this.animationsInitialized=!0)}}class He{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){this.animationsInitialized||(m(),window.addEventListener("scroll",f),this.animationsInitialized=!0)}}class Be{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){this.animationsInitialized||(w(),m(),window.addEventListener("scroll",f),this.animationsInitialized=!0)}}class Me{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){this.animationsInitialized||(w(),m(),window.addEventListener("scroll",f),this.animationsInitialized=!0)}}class Ue{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){this.animationsInitialized||(w(),m(),window.addEventListener("scroll",f),we(),this.animationsInitialized=!0)}}class Ge{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){this.animationsInitialized||(m(),window.addEventListener("scroll",f),this.animationsInitialized=!0)}}class ze{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){this.animationsInitialized||(m(),window.addEventListener("scroll",f),w(),this.animationsInitialized=!0)}}const k=new Ve(be),D=new ke(Te),_=new De(Oe),H=new _e(Le),B=new Ge(Pe),M=new He(Ne),U=new Be(Ce),G=new Me(xe),z=new Ue(Re),W=new ze(Fe),We=()=>{p("/",()=>{u.innerHTML=k.render(),k.initAnimations()}),p("/about-us",()=>{u.innerHTML=D.render(),D.initAnimations()}),p("/steps",()=>{u.innerHTML=_.render(),_.initAnimations()}),p("/gate-valves",()=>{u.innerHTML=H.render(),H.initAnimations()}),p("/globe-valves",()=>{u.innerHTML=B.render(),B.initAnimations()}),p("/check-valves",()=>{u.innerHTML=M.render(),M.initAnimations()}),p("/certifications",()=>{u.innerHTML=U.render(),U.initAnimations()}),p("/trunnion-valves",()=>{u.innerHTML=G.render(),G.initAnimations()}),p("/floating-valves",()=>{u.innerHTML=z.render(),z.initAnimations()}),p("/butterfly-valves",()=>{u.innerHTML=W.render(),W.initAnimations()}),p(),b()};document.addEventListener("DOMContentLoaded",()=>{const e=document.querySelector(".footer-container");console.log("footer",e),e&&setTimeout(()=>{e.classList.remove("hidden")},1e3),We()});
+`,m=document.getElementById("app");class ke{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){if(!this.animationsInitialized){f(),window.addEventListener("scroll",b);const s=document.getElementById("fire-video");s&&(s.playbackRate=.45),Se(),this.animationsInitialized=!0}we(),Ee(),Ie()}}class De{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){this.animationsInitialized||(f(),window.addEventListener("scroll",b),this.animationsInitialized=!0)}}class _e{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){this.animationsInitialized||(x(),f(),window.addEventListener("scroll",b),this.animationsInitialized=!0)}}class Be{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){this.animationsInitialized||(f(),window.addEventListener("scroll",b),this.animationsInitialized=!0),S("gate-valves","parallax-gate-valve",0)}}class He{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){this.animationsInitialized||(f(),window.addEventListener("scroll",b),this.animationsInitialized=!0),S("check-valves","parallax-check-valve",100,!0)}}class Me{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){this.animationsInitialized||(x(),f(),window.addEventListener("scroll",b),this.animationsInitialized=!0)}}class Ue{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){this.animationsInitialized||(x(),f(),window.addEventListener("scroll",b),this.animationsInitialized=!0),S("trunnion-valves","parallax-trunnion-valve",0,!1)}}class Ge{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){this.animationsInitialized||(x(),f(),window.addEventListener("scroll",b),this.animationsInitialized=!0),S("floating-valves","parallax-floating-valve")}}class ze{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){this.animationsInitialized||(f(),window.addEventListener("scroll",b),this.animationsInitialized=!0),S("globe-valves","parallax-globe-valve",0,!1)}}class We{constructor(s){d(this,"html");d(this,"animationsInitialized",!1);this.html=s}render(){return this.html}initAnimations(){this.animationsInitialized||(f(),window.addEventListener("scroll",b),x(),this.animationsInitialized=!0),S("butterfly-valves","parallax-butterfly-valve",0,!1)}}const G=new ke(Ae),z=new De(Oe),W=new _e(Le),j=new Be(Ne),Y=new ze(Ve),K=new He(Ce),q=new Me(xe),J=new Ue(Re),$=new Ge(Fe),Q=new We(Pe),je=()=>{p("/",()=>{m.innerHTML=G.render(),G.initAnimations()}),p("/about-us",()=>{m.innerHTML=z.render(),z.initAnimations()}),p("/steps",()=>{m.innerHTML=W.render(),W.initAnimations()}),p("/gate-valves",()=>{m.innerHTML=j.render(),j.initAnimations()}),p("/globe-valves",()=>{m.innerHTML=Y.render(),Y.initAnimations()}),p("/check-valves",()=>{m.innerHTML=K.render(),K.initAnimations()}),p("/certifications",()=>{m.innerHTML=q.render(),q.initAnimations()}),p("/trunnion-valves",()=>{m.innerHTML=J.render(),J.initAnimations()}),p("/floating-valves",()=>{m.innerHTML=$.render(),$.initAnimations()}),p("/butterfly-valves",()=>{m.innerHTML=Q.render(),Q.initAnimations()}),p(),y()};document.addEventListener("DOMContentLoaded",()=>{const e=document.querySelector(".footer-container");console.log("footer",e),e&&setTimeout(()=>{e.classList.remove("hidden")},1e3),je()});
