@@ -19,12 +19,16 @@
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dervos</title>
-    <script type="module" crossorigin src="/assets/index-B5BMsaM2.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DiRO4pIU.css">
+    <script type="module" crossorigin src="/assets/index-B100sE5T.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Gx4zKGd6.css">
   </head>
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
 
   <body>
-
     <header class="mobile-header">
       <a href="/"
         ><img
@@ -83,7 +87,7 @@
     </main>
 
     <div id="app"></div>
-    
+
     <div class="footer-container hidden">
       <div class="footer-content-wrapper">
         <main class="footer-main-content">
@@ -206,4 +210,10 @@
     </div>
   </body>
   <script src="/js/mobile-header.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const footer = document.querySelector(".footer-container");
+      footer.classList.remove('hidden');
+    });
+  </script>
 </html>

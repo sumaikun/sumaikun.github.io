@@ -785,7 +785,7 @@ var ae=Object.defineProperty;var ie=(e,s,t)=>s in e?ae(e,s,{enumerable:!0,config
     </div>
 
     <div class="steps-container steps-content-first">
-        <div class="steps-image-column ">
+        <div class="steps-image-column steps-forth-container">
             <img src="./assets/images/steps4.jpeg" alt="Product image" class="steps-product-image steps-forth" />
         </div>
         <div class="steps-content-column test-steps-container">
@@ -1879,7 +1879,7 @@ var ae=Object.defineProperty;var ie=(e,s,t)=>s in e?ae(e,s,{enumerable:!0,config
 </main>
 
 
-<div class="trunnion-content">
+<div class="trunnion-content floating-content">
   <img class="trunnion-bg-right trunnion-first-bg" />
   <img src="./assets/images/bg-team.jpeg" class="trunnion-bg-right trunnion-middle-bg" />
   <img src="./assets/images/bg-products.webp" class="trunnion-bg-right trunnion-third-bg" />
@@ -1927,7 +1927,7 @@ var ae=Object.defineProperty;var ie=(e,s,t)=>s in e?ae(e,s,{enumerable:!0,config
   </div>
   </br>
  
-  <div class="valves-container second-container container-floating" style="margin-top: 35%; margin-right: 25%;">
+  <div class="valves-container second-container container-floating">
     <div class="floating-image-column">
         <img src="./assets/images/floating_valve022.webp" alt="Product image" class="valves-product-image second-floating-img" />
     </div>
@@ -2321,21 +2321,21 @@ var ae=Object.defineProperty;var ie=(e,s,t)=>s in e?ae(e,s,{enumerable:!0,config
 </div>
 
 
-<div class="just-image-container">
+<div class="just-image-container butterfly-img">
 </div>
 <div class="butterflys-valves-centered-title">DIMENSIONS AND <strong style="color: #00A39F;">WEIGHTS</strong></div>
-<div class="just-image-container">
+<div class="just-image-container butterfly-img">
   <img src="./assets/images/Dervos_Butterfly_Valve_Technical_1.jpg" alt="img-pdf" class="img-pdf-section-butterflys">
 </div>
 </div>
-<div class="just-image-container">
+<div class="just-image-container butterfly-img">
   <img src="./assets/images/Dervos_Butterfly_Valve_Technical_2.jpg" alt="img-pdf" class="img-pdf-section-butterflys">
 </div>
-<div class="just-image-container">
+<div class="just-image-container butterfly-img">
   <img src="./assets/images/Dervos_Butterfly_Valve_Technical_3.jpg" alt="img-pdf" class="img-pdf-section-butterflys">
 </div>
 </div>
-<div class="just-image-container">
+<div class="just-image-container butterfly-img">
   <img src="./assets/images/Dervos_Butterfly_Valve_Technical_4.jpg" alt="img-pdf" class="img-pdf-section-butterflys">
 </div>
 </div>
